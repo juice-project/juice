@@ -5,7 +5,6 @@ $(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBS.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/WorldCat.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Audiblecouk.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThing.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/OpenLibrary.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
@@ -14,7 +13,6 @@ $(document).ready(function () {
 
 function runExtensions(){
 	duke_edu_metadef();
-	juice.debugMeta();
 	if(juice.hasMeta()){
 		buildSelectionPanel();
 		var procGBS = new GBSJuice(juice,
@@ -23,9 +21,6 @@ function runExtensions(){
 		var procWorldcat = new worldcatJuice(juice,
 			'http://talis-rjw.s3.amazonaws.com/arielx/images/worldcat.jpg',
 			'Search WorldCat');
-		var procAudiblecouk = new audiblecoukJuice(juice,
-			'http://www.audible.co.uk/mercury/logo.jpg',
-			'Search Audible');
 		var procLibraryThing = new librarythingSearchJuice(juice,
 			'http://talis-rjw.s3.amazonaws.com/arielx/images/librarything-logo.gif',
 			'Search LibraryThing');
