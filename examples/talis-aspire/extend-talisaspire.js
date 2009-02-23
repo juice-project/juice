@@ -1,25 +1,30 @@
 $(document).ready(function () {
 	juice.setDebug(true)
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/metadefs/talis_aspire_metadef.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/panels/juiceListPanel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/panels/juiceBasicPanel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/GBSEmbedAreilX.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/GBSAreilX.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/WorldCatAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/AmzcoukAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/AudiblecoukAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/WaterstonesAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/LibraryThingAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/deliciousAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/copacAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/OpenLibraryAriel.js");
-	juice.loadJs("http://talis-rjw.s3.amazonaws.com/juice-project/MTAEmbedAriel.js");
-	juice.loadCss("http://talis-rjw.s3.amazonaws.com/juice-project/juiceDefault.css");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_aspire_metadef.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBSEmbed.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBS.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/WorldCat.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Amzcouk.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Audiblecouk.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Waterstones.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThing.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/delicious.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/copac.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/OpenLibrary.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThingCK.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay.js");
+	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
+	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
 	juice.onJsLoaded(runExtensions);
+//	setTimeout(function(){juice.debugOutln(juice.JsNotLoaded());},5000)
 });
 
 function runExtensions(){
 	talis_aspire_metadef();
+//	juice.debugOutln(juice.debugMeta());
 	if(juice.hasMeta()){
 		buildSelectionPanel();
 		buildSelectionPanel2();

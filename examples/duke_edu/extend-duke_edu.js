@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	juice.setDebug(true)
-	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/vufind_metadef.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/duke_edu_metadef.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBS.js");
@@ -13,7 +13,8 @@ $(document).ready(function () {
 });
 
 function runExtensions(){
-	vufind_metadef();
+	duke_edu_metadef();
+	juice.debugMeta();
 	if(juice.hasMeta()){
 		buildSelectionPanel();
 		var procGBS = new GBSJuice(juice,
@@ -32,26 +33,14 @@ function runExtensions(){
 			'http://talis-rjw.s3.amazonaws.com/arielx/images/OpenLibrary.jpg',
 			'Search Open Library');
 	}
-
 }
 
 function buildSelectionPanel(){
-	var div = '<div id="ExtentionsPanel2" class="box submenu">' +
-		'<h4>Alternative Sources</h4>' +
-		'</div>';
-	var insert = new JuiceInsert(div,"#bd .yui-b .submenu","after");
-	var panel = new JuiceListPanel(insert,"ExtentionsPanel2",'juiceXInactiveText','juiceXActiveText',null);
+	var div = '<div class="detailscontentheader">Alternative Sources</div>' +
+			  '<div id="ExtentionsPanelWindow" class="detailscontentbody"></div>';
+	var insert = new JuiceInsert(div,".recorddetailscontent","append");
+	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
 	juice.addPanel(panel);
-}
-
-
-function buildMTAInsert(){
-	var div = '<div id="MTAPanel" style="display: block"><br/>' +
-		'<h2 class="title">Meet the Author</h2>' + 
-		'<div id="MTAViewer" style="width: 240px; height: 180px"></div>' +
-		'</div>';
-	var insert = new JuiceInsert(div,"#itemSidebar","append");
-	procMTA = new MTAEmbedJuice(juice,insert,"MTAViewer");
 }
 
 
