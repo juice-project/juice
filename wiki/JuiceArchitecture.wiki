@@ -1,5 +1,2 @@
 #summary Simple Architecture Diagram for Juice
-= Introduction =
-
-Add your content here.
-
+http://juice-project.s3.amazonaws.com/images/juice-architecture.jpg
