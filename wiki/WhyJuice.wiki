@@ -1,6 +1,5 @@
+_Richard Wallis, Technology Evangelist, Talis_
 = Project Juice - Raison d'être =
-
-*Why Juice* - _Richard Wallis, Technology Evangelist, Talis_
 
 The Juice Project, like many such endeavours, has grown out of programmer laziness.  
 
