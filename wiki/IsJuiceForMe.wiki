@@ -1,0 +1,22 @@
+= Is Juice for me? =
+
+*Would you like to give your users access to Google Book Search like other libraries do?* - _Juice is for you_
+
+*Love to add extensions to your interface but don't know how, and maybe don't want to?*  - _Juice is for you_
+
+*Want to share your innovative work mashing things in to your OPAC?*  - _Juice is for you_
+
+*Want to take an already existing framework and hack it about for your own purposes?*  - _Juice is_ not _for you_
+
+*Seen a similar service to WorldCat or Amazon for and don't know where to start creating an extension for it?*  - _Juice is for you_
+
+*Want to help develop an environment that will help others add value to their applications?*  - _Juice is for you_
+
+*Have a religious objection to Javascript?*  - _Juice is_ not _for you_
+
+*Want to enable all your peers, managing the same application as you, to use the Juice extensions?*  - _Juice is for you_
+
+*Want to add value to your application for your customers with community created extensions?*  - _Juice is for you_
+
+
+
