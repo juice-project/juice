@@ -1,7 +1,5 @@
+_Richard Wallis, Technology Evangelist, Talis_
 = Project Juice - Raison d'être =
-
-*Why Juice* - _Richard Wallis, Technology Evangelist, Talis_
-
 The Juice Project, like many such endeavours, has grown out of programmer laziness.  
 
 One facet of the Talis, Technology Evangelist, role is to demonstrate how easy it is to extend the web interface of our products with embedded functionally.  With a few years experience in [http://en.wikipedia.org/wiki/Ajax_(programming) Ajax] programming techniques and a moderate understanding of [http://en.wikipedia.org/wiki/JavaScript JavaScript], [http://en.wikipedia.org/wiki/Html html], and [http://en.wikipedia.org/wiki/Css CSS], none of this is exactly rocket science.  Over recent months and years this has been made even easier with the aid of [http://en.wikipedia.org/wiki/Comparison_of_JavaScript_frameworks JavaScript Frameworks] such as  [http://en.wikipedia.org/wiki/Prototype_JavaScript_Framework Prototype], [http://en.wikipedia.org/wiki/Dojo_Toolkit Dojo], and [http://en.wikipedia.org/wiki/JQuery JQuery].  These take much of the hard work out of writing code that will work in several browsers, and easy repeatable ways of identifying components in an html page.
@@ -9,7 +7,6 @@ One facet of the Talis, Technology Evangelist, role is to demonstrate how easy i
 Despite all of that, adding ad-hoc mashup style integration of external services from sources such as [http://books.google.com/ Google Book Search], [http://www.amazon.com Amazon], and [http://www.worldcat.org/ WorldCat], over several months becomes an inefficient task. Taking previously developed code, analysing it to refresh your memory on how you did what you did, re-factoring it to fit it to your new service, and finally debugging the inevitable conflicts with what you did before, is not the most enjoyable task.  Adding to this the possibly of applying the result to more than one application brought me to the conclusion that _I need a framework to take care of all this!_
 
 = Elements of Juice =
-
 Analysing what I had been doing previously drew out the following elements that were common to the vast majority of extensions.
   * Defining locations on a page - for both adding things for users to click on, or to sometimes display results.
   * Identifying data displayed on the page to be used to pass to an extension - Author, Title, ISBN, location, etc.
@@ -23,5 +20,4 @@ Analysing what I had been doing previously drew out the following elements that 
 Encapsulation of these elements became the basis of a Juice framework.  Experience of JQuery demonstrated it's usefulness and power in identifying elements of, and manipulating the shape of, a web page document.  JQuery was then chosen as a Javascript framework to support the Juice extension framework.   
 
 = The Juice Community =
-
 Building on the theme of laziness, and humility, it is clear that there are far more people, with far more ideas for extending these interfaces than just myself. So why not build a framework that could be used by many.  By making the framework an open source project will enable a community to form around it so that the innovation can be shared far and wide.
