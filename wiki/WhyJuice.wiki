@@ -21,3 +21,24 @@ Encapsulation of these elements became the basis of a Juice framework.  Experien
 
 = The Juice Community =
 Building on the theme of laziness, and humility, it is clear that there are far more people, with far more ideas for extending these interfaces than just myself. So why not build a framework that could be used by many.  By making the framework an open source project will enable a community to form around it so that the innovation can be shared far and wide.
+
+= Who will use Juice =
+There are three overlapping groups of web user interface managers/designers/developers who will use Juice.
+
+  *Application managers* - comfortable with making simple html changes to their interface.  Happy to copy and paste a few lines of code, or comment out some, that have been demonstrated as working by their peers who also manage the same type of application.  - _I expect these to be the vast majority of Juice users_
+  *Application Managers/Developers with basic confidence in html/css & Javascript - It is this group who will copy then make enhancement to already available extensions, create new ones, and create definitions for previously unsupported applications.
+
+  *Advanced developers - in addition to all of the above, this group will enhance and develop the Juice framework itself and create new more complex extensions.
+
+If the community grows as I hope, I expect that these groups will constitute approximately 90%, 9% & 1%, respectively, of the Juice users.
+
+= The Juice Philosophy =
+Guiding, but not set in stone, principles:
+
+  * The barrier to understanding and take-up of Juice by the vast majority of users needs to be maintained at a low level as possible.
+
+  * The impact on the application that Juice is extending should be as small as possible.  Ideally no more than the inclusion of three single-line `<script>` elements.
+
+  * When there is more than one option for implementation, the low barrier for entry requirement for non-advanced users will always win out.
+
+  * Whenever possible, hide the code from the copy and paste user. 
