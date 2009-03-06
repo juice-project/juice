@@ -25,10 +25,11 @@ Building on the theme of laziness, and humility, it is clear that there are far 
 = Who will use Juice =
 There are three overlapping groups of web user interface managers/designers/developers who will use Juice.
 
-  *Application managers* - comfortable with making simple html changes to their interface.  Happy to copy and paste a few lines of code, or comment out some, that have been demonstrated as working by their peers who also manage the same type of application.  - _I expect these to be the vast majority of Juice users_
-  *Application Managers/Developers with basic confidence in html/css & Javascript - It is this group who will copy then make enhancement to already available extensions, create new ones, and create definitions for previously unsupported applications.
+  * *Application managers* - comfortable with making simple html changes to their interface.  Happy to copy and paste a few lines of code, or comment out some, that have been demonstrated as working by their peers who also manage the same type of application.  - _I expect these to be the vast majority of Juice users_
 
-  *Advanced developers - in addition to all of the above, this group will enhance and develop the Juice framework itself and create new more complex extensions.
+  * *Application Managers/Developers* with basic confidence in html/css & Javascript - It is this group who will copy then make enhancement to already available extensions, create new ones, and create definitions for previously unsupported applications.
+
+ * *Advanced developers* - in addition to all of the above, this group will enhance and develop the Juice framework itself and create new more complex extensions.
 
 If the community grows as I hope, I expect that these groups will constitute approximately 90%, 9% & 1%, respectively, of the Juice users.
 
