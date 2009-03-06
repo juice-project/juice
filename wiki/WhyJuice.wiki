@@ -13,7 +13,7 @@ Analysing what I had been doing previously drew out the following elements that 
   * Creating and dynamically inserting an element in to the web page to contain either things to click on or, resultant data to display.
   * Adding a debug area to the page to help get things working.
   * Handling a call to a remote service that would optionally enable an extension.
-  * Dynamically changing the CSS attribute of [my] elements in a consistent way.
+  * Dynamically changing the CSS attribute of `[`my`]` elements in a consistent way.
   * Go to another page in a new browser, or iframe, or overlaid window.
   * Other utilities such as loading new script files and delaying actions until they are fully loaded, or parsing ISBN strings to remove things like _(pbk)_.
 
