@@ -1,0 +1,15 @@
+#Project Juice - Raison d'être
+
+= Introduction =
+
+*Why Juice* - _Richard Wallis, Technology Evangelist, Talis_
+
+The Juice Project, like many such endeavours, has grown out of programmer laziness.  One facet of the Talis, Technology Evangelist role is to demonstrate how easy it is to extend the web interface of our products with embeded functionally.  With a few years experience in [http://en.wikipedia.org/wiki/Ajax_(programming) Ajax] programming techniques and a moderate understanding of [http://en.wikipedia.org/wiki/JavaScript JavaScript], [http://en.wikipedia.org/wiki/Html html], and [http://en.wikipedia.org/wiki/Css CSS], none of this is exactly rocket science.  Over recent months and years this has been made even easier with the aid of [http://en.wikipedia.org/wiki/Comparison_of_JavaScript_frameworks JavaScript frameworks] such as  [http://en.wikipedia.org/wiki/Prototype_JavaScript_Framework Prototype], [http://en.wikipedia.org/wiki/Dojo_Toolkit Dojo], and [http://en.wikipedia.org/wiki/JQuery JQuery].  These take much of the hard work out of writing code that will work in several browsers, and easy repeatable ways of identifying components in an html page.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
