@@ -1,5 +1,6 @@
-_Richard Wallis, Technology Evangelist, Talis_
 = Project Juice - Raison d'être =
+
+*Why Juice* - _Richard Wallis, Technology Evangelist, Talis_
 
 The Juice Project, like many such endeavours, has grown out of programmer laziness.  
 
@@ -10,6 +11,17 @@ Despite all of that, adding ad-hoc mashup style integration of external services
 = Elements of Juice =
 
 Analysing what I had been doing previously drew out the following elements that were common to the vast majority of extensions.
-  * Defining locations on a page - for both adding things for users to click on and to sometimes display results.
+  * Defining locations on a page - for both adding things for users to click on, or to sometimes display results.
   * Identifying data displayed on the page to be used to pass to an extension - Author, Title, ISBN, location, etc.
   * Creating and dynamically inserting an element in to the web page to contain either things to click on or, resultant data to display.
+  * Adding a debug area to the page to help get things working.
+  * Handling a call to a remote service that would optionally enable an extension.
+  * Dynamically changing the CSS attribute of [my] elements in a consistent way.
+  * Go to another page in a new browser, or iframe, or overlaid window.
+  * Other utilities such as loading new script files and delaying actions until they are fully loaded, or parsing ISBN strings to remove things like _(pbk)_.
+
+Encapsulation of these elements became the basis of a Juice framework.  Experience of JQuery demonstrated it's usefulness and power in identifying elements of, and manipulating the shape of, a web page document.  JQuery was then chosen as a Javascript framework to support the Juice extension framework.   
+
+= The Juice Community =
+
+Building on the theme of laziness, and humility, it is clear that there are far more people, with far more ideas for extending these interfaces than just myself. So why not build a framework that could be used by many.  By making the framework an open source project will enable a community to form around it so that the innovation can be shared far and wide.
