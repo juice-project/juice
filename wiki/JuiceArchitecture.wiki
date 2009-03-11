@@ -1,2 +1,2 @@
 #summary Simple Architecture Diagram for Juice
-http://juice-project.googlecode.com/svn/wiki/rjwcode4lib2009-thumbnail.jpeg
+http://juice-project.googlecode.com/svn/wiki/juice-architecture.jpg
