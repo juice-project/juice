@@ -34,7 +34,7 @@ function buildSelectionPanel(){
 	var div = '<div class="detailscontentheader">Alternative Sources</div>' +
 			  '<div id="ExtentionsPanelWindow" class="detailscontentbody"></div>';
 	var insert = new JuiceInsert(div,".recorddetailscontent","append");
-	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
+	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon juiceXMediumPaddedIcon','juiceXActiveIcon juiceXMediumPaddedIcon',null);
 	juice.addPanel(panel);
 }
 

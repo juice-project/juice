@@ -1,4 +1,6 @@
 var procEGBS = null;
+
+var whichPrism = document.location.pathname.split('/')[1];
 	
 function startEGBS(){
 	if(juice.hasMeta()){
@@ -30,6 +32,8 @@ $(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/OpenLibrary.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThingCK.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/UCDMaps.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
@@ -37,22 +41,28 @@ $(document).ready(function () {
 });
 
 function runExtensions(){
+	var procGas = new gasJuice(juice);
 	talis_prism_metadef();
 	
 	juice.overlayFunc(juiceOverlayDisplay);
 	
 	if(juice.hasMeta()){
-		buildSelectionPanel();
-		buildSelectionPanel2();
-		buildGBSInsert();
-		buildMTAInsert();
+		switch(whichPrism){
+			case "sandbox-gov":
+				buildSelectionPanel2();
+				buildMTAInsert();
+			break;
+			case "sandbox-ac":
+				buildSelectionPanel();
+				buildGBSInsert();
+				buildMapsInsert();
+			break;
+		}
+
+
 		var procGBS = new GBSJuice(juice,
-			'http://books.google.com/intl/en/googlebooks/images/books_sm2.gif',
-			'View at Google Books');
-/*		var procWorldcat = new worldcatJuice(juice,
-			'http://talis-rjw.s3.amazonaws.com/arielx/images/worldcat.jpg',
-			'Search WorldCat');
-*/
+			'http://books.google.com/intl/en/googlebooks/images/gbs_preview_button1.gif',
+			'Preview at Google Books');
 		buildWorldCatIframe();
 
 		var procAmzcouk = new amzcoukJuice(juice,
@@ -79,10 +89,21 @@ function runExtensions(){
 		var procOpenLib = new openlibraryJuice(juice,
 			'http://talis-rjw.s3.amazonaws.com/arielx/images/OpenLibrary.jpg',
 			'Search Open Library');
-		
 	}
 }
 
+function buildMapsInsert(){
+//	juice.debugOutln("buildMapsInsert");
+	var div = '<div id="MapPanelWindow" style="display: inline; margin-left: 5px;"></div>';
+
+	var insert = new JuiceInsert(div,"#availability > table > tbody > tr > td:nth-child(2)","append");
+	var panel = new JuiceBasicPanel(insert,"MapPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
+	panel.shared(false);
+	juice.addPanel(panel);
+	var procMaps = new UCDMapsJuice(juice,
+		'http://juice-project.s3.amazonaws.com/extensions/local/floormap1.gif',
+		'Locate in Library',"MapPanelWindow");
+}
 
 function buildSelectionPanel(){
 	var div = '<div id="ExtentionsPanel" style="display: block; width: 100%">' +
@@ -90,7 +111,7 @@ function buildSelectionPanel(){
 		'<div id="ExtentionsPanelWindow" style="width: 100%">' +
 		'</div></div>';
 	var insert = new JuiceInsert(div,"#details","append");
-	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
+	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon juiceXMediumPaddedIcon','juiceXActiveIcon juiceXMediumPaddedIcon',null);
 	juice.addPanel(panel);
 }
 function buildSelectionPanel2(){

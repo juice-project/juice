@@ -28,7 +28,8 @@ JuiceListPanel.prototype.add = function(sel){
 	}
 //	var htm = '<li title="'+ sel.selText() + '" id="' + this.getPanelId() + sel.processId() + '" class="' + this.startClass() + '" >';
 //	htm += sel.selText() + '</li>';
-	var htm = '<li title="'+ sel.selText() + '" id="' + this.getPanelId() + sel.processId() +  '" class="' + this.startClass() + '" >';
+	var id = this.makeId(sel);
+	var htm = '<li title="'+ sel.selText() + '" id="' + id +  '" class="' + this.startClass() + '" >';
 	htm += '<a href="javascript:void(0)" title="'+ sel.selText() + '">';
 	htm += sel.selText() + '</a></li>';
 	

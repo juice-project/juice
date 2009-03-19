@@ -86,6 +86,7 @@ _Juice.prototype.getMetaInstance = function(id){
 	return null;
 }
 
+//debugMeta - Ouput via debug all metadefinions and their values if set.
 _Juice.prototype.debugMeta = function(){
 	for(var i=0;i < this._meta.length;i++){
 		var meta = this._meta[i];
@@ -150,7 +151,8 @@ _Juice.prototype.addToPanel = function(sel){
 	for(var i=0;i < this._panels.length;i++){
 		var defPanel = sel.defPanel();
 		var panel = this._panels[i];
-		if(defPanel != null && panel.getPanelId() != defPanel){
+		if((defPanel == null && !panel.shared()) ||
+		  (defPanel != null && panel.getPanelId() != defPanel)){
 			continue;
 		}
 		panel.add(sel);
@@ -161,14 +163,15 @@ _Juice.prototype.addToPanel = function(sel){
 //enableOnPanel - enaple selector on panel(s) 
 //arg: sel - selector to enable - type JuiceSelectProcess
 //See also: JuiceSelectProcess, JucePanel
-_Juice.prototype.enableOnPanel = function(sel){
+_Juice.prototype.enableOnPanel = function(sel,pos){
 	for(var i=0;i < this._panels.length;i++){
 		var defPanel = sel.defPanel();
 		var panel = this._panels[i];
-		if(defPanel != null && panel.getPanelId() != defPanel){
+		if((defPanel == null && !panel.shared()) ||
+		  (defPanel != null && panel.getPanelId() != defPanel)){
 			continue;
 		}
-		panel.enable(sel);
+		panel.enable(sel,pos);
 	}
 	
 }
@@ -269,7 +272,10 @@ var juice = new _Juice();
 
 
 //============== Class JuiceInsert ==============	
-//Definition of insert in to document body	
+//Definition of insert in to document body
+//InsertPoint could result in multiple instances of insert on a single page - this is supported
+//methods such asa show(), getInsertObject(), and remove() default to a zero position in any
+//aray of instances to simplify operation of a single insert instance.
 
 function JuiceInsert(container,insertPoint,insertType){
 	//html/dom to insert in to page
@@ -278,48 +284,88 @@ function JuiceInsert(container,insertPoint,insertType){
 	this.insertPoint = insertPoint;
 	//How to insert at insert point: before | after | append | prepend
 	this.insertType = insertType;
-	//Shown flag
-	this.shown = false;
-	//JQuery/Dom element created on insertion
-	this.insertObject = null;
+	//Shown flags
+	this.shown = [];
+	//JQuery/Dom elements created on insertion
+	this._insertObjects = [];
+	//Number of matching insert points
+	this.inserts = $(this.insertPoint).length;
+
+	for(var i=0;i< this.inserts; i++){
+		this.shown[i] = false;
+		this._insertObjects[i] = null;
+	}
 }
 
-//show - If not show, insert container in document
-JuiceInsert.prototype.show = function(){
-	if(!this.shown){
-		this.insertObject = jQuery(this.container);
-		switch(this.insertType){
-			case "after":
-				$(this.insertPoint).after(this.insertObject);
-				break;
-			case "before":
-				$(this.insertPoint).before(this.insertObject);
-				break;
-			case "prepend":
-				$(this.insertPoint).prepend(this.insertObject);
-				break;
-			case "append":
-			default:
-			$(this.insertPoint).append(this.insertObject);
-				break;
-		}
-		this.shown = true;
-		
+//insertCount - return count of instances of this insert 
+JuiceInsert.prototype.insertCount = function(){
+	return this.inserts;
+}
+
+//insertObjects - return array of inserted copies of the container from each instance
+JuiceInsert.prototype.insertObjects = function(){
+	return this._insertObjects;
+}
+
+//showAll - Call show() for all instances of this insert
+JuiceInsert.prototype.showAll = function(){
+	for(var i=0;i< this.inserts; i++){
+		this.show(i);
 	}
+}
 	
+//show - If not shown, insert container in document
+//arg: pos - which instance of this insert to show - optional - defaults to 0
+
+JuiceInsert.prototype.show = function(pos){
+	if(!pos){
+		pos = 0;
+	}
+	var This = this;
+	$(this.insertPoint).each(function(i){
+		if(i == pos && !This.shown[i]){
+			var ins = jQuery(This.container);
+			var target = jQuery(this);
+			This._insertObjects[i] = ins;
+			switch(This.insertType){
+				case "after":
+					target.after(ins);
+					break;
+				case "before":
+					target.before(ins);
+					break;
+				case "prepend":
+					target.prepend(ins);
+					break;
+				case "append":
+				default:
+					target.append(ins);
+					break;
+			}
+			This.shown[i] = true;
+		}		
+	});
 }
 
 //getInsertObject - return JQuery/Dom element created on insertion
-JuiceInsert.prototype.getInsertObject = function(){
-	return this.insertObject;
+//arg: pos - which instance of this insert - optional - defaults to 0
+JuiceInsert.prototype.getInsertObject = function(pos){
+	if(!pos){
+		pos = 0;
+	}
+	return this._insertObjects[pos];
 }
 
 //remove - remove inserted elements from document - sets shown to false
-JuiceInsert.prototype.remove = function(){
-	if(this.shown){
-		this.insertObject.remove();
-		this.insertObject = null;
-		this.shown = false;
+//arg: pos - which instance of this insert - optional - defaults to 0
+JuiceInsert.prototype.remove = function(pos){
+	if(!pos){
+		pos = 0;
+	}
+	if(this.shown[pos]){
+		this._insertObjects[pos].remove();
+		this._insertObjects[pos] = null;
+		this.shown[pos] = false;
 	}
 }
 
@@ -331,7 +377,7 @@ JuiceInsert.prototype.remove = function(){
 //arg: id - id of extension - should be unique in current document
 //arg: initFunc - function to call when extention ready
 //arg: selectFunc - function to call when extension activated
-//arg: insert - insert definition to contain extention outout embeded in document - optional
+//arg: insert - insert definition to contain extention output embeded in document - optional
 //arg: ju - controlling Juice class
 function JuiceProcess(id,initFunc,selectFunc,insert,ju){
 	this._ready = false;
@@ -344,7 +390,7 @@ function JuiceProcess(id,initFunc,selectFunc,insert,ju){
 //arg: id - id of extension - should be unique in current document
 //arg: initFunc - function to call when extention ready
 //arg: selectFunc - function to call when extension activated
-//arg: insert - insert definition to contain extention outout embeded in document - optional
+//arg: insert - insert definition to contain extention output embeded in document - optional
 //arg: ju - controlling Juice class
 JuiceProcess.prototype.initAndStartup = function(id,initFunc,selectFunc,insert,ju){
 	this.init(id,initFunc,selectFunc,insert,ju);
@@ -365,7 +411,7 @@ JuiceProcess.prototype.init = function(id,initFunc,selectFunc,insert,ju){
 	this._ready = true;
 }
 
-//processId - set/get is of procees
+//processId - set/get of proceesId
 //arg: v - new value - optional
 JuiceProcess.prototype.processId = function(v){
 	if(v != null){
@@ -414,7 +460,7 @@ JuiceProcess.prototype.startupWhenReady = function(){
 }
 
 //startup - call startFunc if defined
-//Defers to '_startup' via a setTimeout of 1ms to take advantage of any browser threading cpability
+//Defers to '_startup' via a setTimeout of 2ms to take advantage of any browser threading cpability
 JuiceProcess.prototype.startup = function(){
 	//Call real func via a timeout to create new thread
 	var This = this;
@@ -422,10 +468,13 @@ JuiceProcess.prototype.startup = function(){
 }
 
 //_startup - call startFunc if defined
-//Called by 'startup' via a setTimeout of 1ms to take advantage of any browser threading cpability
+//If no _startFunc defined calls enable() - normally responsibility of any start function.
+//Called by 'startup' via a setTimeout of 2ms to take advantage of any browser threading cpability
 JuiceProcess.prototype._startup = function(){
 	if(this._startFunc){
 		this._startFunc(this);
+	}else{
+		this.enable();
 	}
 }
 
@@ -466,11 +515,41 @@ JuiceProcess.prototype.getCallBackPos = function(){
 
 //showInsert - calls show on insert
 //See also: JuiceInsert.show()
-JuiceProcess.prototype.showInsert = function(){
+//arg: pos - optional position in insert array
+JuiceProcess.prototype.showInsert = function(pos){
 	if(this._insert){
-		this._insert.show();
+		this._insert.show(pos);
 	}
 }
+
+//getInsertObjects - returns array of insert objects
+//See also: JuiceInsert.insertObjects()
+JuiceProcess.prototype.getInsertObjects = function(){
+	if(this._insert){
+		return this._insert.insertObjects();
+	}
+	return [];
+}
+
+//getInsertObject - returns insert object
+//See also: JuiceInsert.getInsertObject()
+//arg: pos - optional position in insert array
+JuiceProcess.prototype.getInsertObject = function(pos){
+	if(this._insert){
+		return this._insert.getInsertObject(pos);
+	}
+	return null;
+}
+
+//getInsertCount - returns insert object count
+//See also: JuiceInsert.insertCount()
+JuiceProcess.prototype.insertCount = function(){
+	if(this._insert){
+		return this._insert.insertCount();
+	}
+	return 0;
+}
+
 
 //enable - dummy function for override in this base class
 JuiceProcess.prototype.enable = function(){
@@ -491,7 +570,7 @@ JuiceProcess.prototype.enable = function(){
 //arg: selectFunc - function to call when extension activated
 //arg: insert - insert definition to contain extention output embeded in document - optional
 //arg: ju - controlling Juice class
-//arg: defPanel - panel this extention is restrictd to - optional
+//arg: defPanel - panel this extention is restricted to - optional
 function JuiceSelectProcess(id,iconSrc,selText,initFunc,selectFunc,insert,ju,defPanel){
 	this._ready = false;
 	if( arguments.length ){
@@ -512,11 +591,11 @@ JuiceSelectProcess.superclass = JuiceProcess.prototype;
 //arg: insert - insert definition to contain extention output embeded in document - optional
 //arg: ju - controlling Juice class
 //arg: defPanel - panel this extention is restrictd to - optional
-JuiceSelectProcess.prototype.init = function(id,iconSrc,selText,initFunc,selectFunc,insert,aX,defPanel){
+JuiceSelectProcess.prototype.init = function(id,iconSrc,selText,initFunc,selectFunc,insert,ju,defPanel){
 	this._iconSrc = iconSrc;
 	this._selText = selText;
 	this._defPanel = defPanel;
-	JuiceSelectProcess.superclass.init.call(this,id,initFunc,selectFunc,insert,aX);
+	JuiceSelectProcess.superclass.init.call(this,id,initFunc,selectFunc,insert,ju);
 	this.addToIconWin();
 	this.startup();
 }
@@ -551,24 +630,26 @@ JuiceSelectProcess.prototype.defPanel = function(v){
 //addToIconWin - add this extension's selector to panel(s)
 //See also: _Juice.addToPanel()
 JuiceSelectProcess.prototype.addToIconWin = function(){
-	if(!this._juice.hasMeta()){
-			return;
-	}
 	this._juice.addToPanel(this);
 }
 
 
 //enable - set this extension's selector to enabled state on panel(s)
+//arg: pos - Which instance of insert on the panel to enable - defaults to 0 - optional
 //See also: _Juice.enableOnPanel()
-JuiceSelectProcess.prototype.enable = function(){
-	this._juice.enableOnPanel(this);
+JuiceSelectProcess.prototype.enable = function(pos){
+	this._juice.enableOnPanel(this,pos);
 }
 
 //getSelectFunction - return function to call this instance's select function
-//Used by panels to defind click functions on inserted dom elements
-JuiceSelectProcess.prototype.getSelectFunction = function(){
+//Used by panels to define click functions on inserted dom elements
+//Arg: i - position in possible array of panels - defaults to 0 - optional
+JuiceSelectProcess.prototype.getSelectFunction = function(i){
+	if(!i){
+		i = 0
+	}
 	var pos = this.getCallBackPos();
-	return(function(){_JXSPA[pos]._selectFunc();});
+	return(function(){_JXSPA[pos]._selectFunc(i);});
 }
 	
 //============== Class JuicePanel ==============	
@@ -577,8 +658,8 @@ JuiceSelectProcess.prototype.getSelectFunction = function(){
 
 //arg: insertDiv - JuiceInsert defining panel insert in document
 //arg: pannelId - Id of panel
-//arg: startClass - css class to be applied to inserted icons before selector is enabled
-//arg: liveClass - css class to be applied to inserted icons when selector is enabled
+//arg: startClass - css classes to be applied to inserted icons before selector is enabled
+//arg: liveClass - css classes to be applied to inserted icons when selector is enabled
 //arg: showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
 function JuicePanel(insertDiv, panelId, startClass, liveClass, showFunc){
 	this.init(insertDiv, panelId, startClass, liveClass, showFunc);
@@ -586,8 +667,8 @@ function JuicePanel(insertDiv, panelId, startClass, liveClass, showFunc){
 
 //arg: insertDiv - JuiceInsert defining panel insert in document
 //arg: pannelId - Id of panel
-//arg: startClass - css class to be applied to inserted icons before selector is enabled
-//arg: liveClass - css class to be applied to inserted icons when selector is enabled
+//arg: startClass - css classes to be applied to inserted icons before selector is enabled
+//arg: liveClass - css classes to be applied to inserted icons when selector is enabled
 //arg: showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
 JuicePanel.prototype.init = function(insertDiv, panelId, startClass, liveClass, showFunc){
 	this._panelId = panelId;
@@ -597,6 +678,7 @@ JuicePanel.prototype.init = function(insertDiv, panelId, startClass, liveClass, 
 	this._showFunc = showFunc;
 	this.inserted = false;
 	this.shown = false;
+	this._shared = true;
 } 
 
 //getPanelId - return panelId
@@ -631,11 +713,20 @@ JuicePanel.prototype.showFunc = function(v){
 	return this._showFunc;
 }
 
+//shared - Set/get showFunc
+//arg: v - new value - optional
+JuicePanel.prototype.shared = function(v){
+	if(v != null){
+		this._shared = v;	
+	}
+	return this._shared;
+}
+
 //insert - show the panel containing insert
 //See also: JuiceInsert.show()
 JuicePanel.prototype.insert = function(){
 	if(!this.inserted){
-		this._insertDiv.show();
+		this._insertDiv.showAll();
 	}
 }
 
@@ -655,19 +746,39 @@ JuicePanel.prototype.show = function(){
 JuicePanel.prototype.add = function(sel){
 	this.insert();
 	this.show();
-	var htm = '<img title="'+ sel.selText() + '" id="' + this.getPanelId() + sel.processId() + '" class="' + this.startClass() + '" src="' + sel.iconSrc() + '" />';
-	
-	$("#"+this.getPanelId()).append(htm);
+	var objects = this._insertDiv.insertObjects();
+	for(var i = 0;i < objects.length;i++){
+		var id = this.makeId(sel,i);
+		var htm = '<img title="'+ sel.selText() + '" id="' + id + '" class="' + this.startClass() + '" src="' + sel.iconSrc() + '" />';
+		objects[i].append(htm);
+	}
+	sel.insert(this._insertDiv);
 }
 
 //enable - Sets selector icon's css class to liveClass
 //arg: sel - selector
 //See also: JuiceSelectProcess 
-JuicePanel.prototype.enable = function(sel){
-	var func = sel.getSelectFunction();
-		$("#"+this.getPanelId() + sel.processId()).removeClass(this.startClass());
-		$("#"+this.getPanelId() + sel.processId()).addClass(this.liveClass());
-		$("#"+this.getPanelId() + sel.processId()).click(func);
+JuicePanel.prototype.enable = function(sel,pos){
+	var func = sel.getSelectFunction(pos);
+	var id = this.makeId(sel,pos);
+	var classes = this.startClass().split(" ");
+	for(var i=0;i < classes.length;i++){
+		$("#"+id).removeClass(classes[i]);
+	}
+	classes = this.liveClass().split(" ");
+	for(var i=0;i < classes.length;i++){
+		$("#"+id).addClass(classes[i]);
+	}
+	$("#"+id).click(func);
+}
+
+//makeID - construct a uniquie id for selections added to this panel
+//combination of panelID, selectorId and position in array of insert instances for this panel
+JuicePanel.prototype.makeId = function(sel,pos){
+	if(!pos){
+		pos = 0;
+	}
+	return this.getPanelId() + "-" + sel.processId() + "-" + pos;
 }
 
 //============== Class JuiceMeta ==============	
@@ -679,6 +790,7 @@ JuicePanel.prototype.enable = function(sel){
 //arg: id - id of definition
 //arg: selector - JQuery selection string for element within page
 //filterFunc - optional function used to process retrieved data before storage	
+//See: JuiceMetaAttr
 function JuiceMeta(id, selector,filterFunc){
 	JuiceMeta.superclass.init.call(this,id, selector, null, filterFunc);
 }
@@ -789,11 +901,15 @@ function JsLoadFlag(file){
 _Juice.prototype.JsLoadFlags = [];
 
 //Load script file - append to head of of document - ONLY if not previously loaded anywhere in document
-_Juice.prototype.loadJs = function (file){
+//arg: onLoadEvent - function to call when loaded
+_Juice.prototype.loadJs = function (file,onLoadEvent){
 	if(this.findJs(file)){
+		if(onLoadEvent){
+			onLoadEvent();
+		}
 		return;
 	}
-	this._loadFile(file,"js");
+	this._loadFile(file,"js",onLoadEvent);
 }
 		
 //Load css file - append to head of of document
@@ -802,8 +918,11 @@ _Juice.prototype.loadCss = function (file){
 }
 		
 //_loadFile - internl function to append file elements to document header
-_Juice.prototype._loadFile = function (file,type){
+//arg: type - "function to call when loaded "css" | "js"
+//arg: onLoadEvent - function to call when loaded - only relevant for type "js"
+_Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	var This = this;
+	var evnt = onLoadEvent;
 	
     var head = document.getElementsByTagName('head')[0]; 
     var ins = null;
@@ -824,11 +943,17 @@ _Juice.prototype._loadFile = function (file,type){
 		This.JsLoadFlags[this.JsLoadFlags.length] = new JsLoadFlag(file);
 		ins.onreadystatechange = function () {
 	        if (ins.readyState == 'loaded' || ins.readyState == 'complete') {
+				if(evnt){
+					evnt();
+				}
 	            This.jsOnLoadEvent(file);
 	        }
 	    }
 
 	    ins.onload = function () {
+			if(evnt){
+				evnt();
+			}
 	       This.jsOnLoadEvent(file);
 	    }
 	}
