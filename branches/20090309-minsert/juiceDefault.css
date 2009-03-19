@@ -7,14 +7,15 @@
 }
 
 .juiceXInactiveIcon {
-	height: 40px;
-	padding: 10px;
 	opacity:0.4;
 }	
 
 .juiceXActiveIcon {
-	height: 40px;
-	padding: 10px;
 	cursor: pointer;
+}
+
+.juiceXMediumPaddedIcon{
+	height: 40px;
+	padding: 10px;	
 }	
 

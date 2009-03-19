@@ -66,7 +66,7 @@ function buildSelectionPanel(){
 		'<div id="ExtentionsPanelWindow" style="width: 100%">' +
 		'</div></div>';
 	var insert = new JuiceInsert(div,"#itemDetailsProperties","after");
-	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
+	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon juiceXMediumPaddedIcon','juiceXActiveIcon juiceXMediumPaddedIcon',null);
 	juice.addPanel(panel);
 }
 
