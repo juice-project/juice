@@ -58,12 +58,12 @@ function runExtensions(){
 				buildMapsInsert();
 			break;
 		}
+		buildWorldCatIframe();
 
 
 		var procGBS = new GBSJuice(juice,
 			'http://books.google.com/intl/en/googlebooks/images/gbs_preview_button1.gif',
 			'Preview at Google Books');
-		buildWorldCatIframe();
 
 		var procAmzcouk = new amzcoukJuice(juice,
 			'http://library.corporate-ir.net/library/17/176/176060/mediaitems/109/a.co.uk_logo_RGB.jpg',
@@ -73,7 +73,7 @@ function runExtensions(){
 			'Search Audible');
 		var procWaterstones = new waterstonesJuice(juice,
 			'http://www.waterstones.com/waterstonesweb/graphics/global/branding_logo.gif',
-			'Search Waterstones');
+			'Search Waterstones',"current");
 		var procLibraryThing = new librarythingSearchJuice(juice,
 			'http://talis-rjw.s3.amazonaws.com/arielx/images/librarything-logo.gif',
 			'Search LibraryThing');
@@ -132,14 +132,16 @@ function buildGBSInsert(){
 	var insert = new JuiceInsert(div,"#details .table","after");
 	procEGBS = new GBSEmbedJuice(juice,insert,"GBSViewer");
 }
+
 function buildWorldCatIframe(){
-	var div = '<div id="worldcatframe" style="display: block; height: 800px; width: 100%; border: 1px solid #EAEADC; ">' + 
+	var div = '<div id="worldcatframe" style="display: block; height: 600px; width: 100%; border: 1px solid #EAEADC; ">' + 
 		'</div>';
 	var insert = new JuiceInsert(div,"#details .table","after");
 	var procWorldcat = new worldcatJuice(juice,
 		'http://talis-rjw.s3.amazonaws.com/arielx/images/worldcat.jpg',
 		'Search WorldCat',
 		null,
+		"iframe-ovelay",
 		insert);
 }
 function buildMTAInsert(){

@@ -2,8 +2,11 @@
 //Add in Extension specific code
 //Save in file extension-name.js
 
-function xxxJuice(ju,src,text,defPanel){
+function xxxJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "xxxSel";	
+	this.launchType = launchType;
+	this.insert1 = insert1;
+	this.insert2 = insert2;
 	initFunc = this.searchxxx;
 	selectFunc = this.runxxx;
 	if(arguments.length){
@@ -28,6 +31,6 @@ xxxJuice.prototype.searchxxx = function(){
 
 xxxJuice.prototype.runxxx = function(){
 /*	//Add funtionality to launch extension eg:
-	juice.launchWin(this._targetUrl);
+	juice.launchWin(this._targetUrl,this.launchType,this.insert1,this.insert2);
 */
 }	

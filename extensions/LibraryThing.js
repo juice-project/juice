@@ -1,6 +1,8 @@
-function librarythingSearchJuice(ju,src,text,defPanel){
+function librarythingSearchJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "librarythingSearchSel";
-	
+	this.launchType = launchType;
+	this.insert1 = insert1;
+	this.insert2 = insert2;
 	initFunc = this.searchlibrarythingSearch;
 	selectFunc = this.runlibrarythingSearch;
 	if(arguments.length){
@@ -23,5 +25,5 @@ librarythingSearchJuice.prototype.searchlibrarythingSearch = function(){
 
 
 librarythingSearchJuice.prototype.runlibrarythingSearch = function(){
-	juice.launchWin(this._targetUrl);
+	juice.launchWin(this._targetUrl,this.launchType,this.insert1,this.insert2);
 }	

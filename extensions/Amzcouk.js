@@ -1,6 +1,8 @@
-function amzcoukJuice(ju,src,text,defPanel){
+function amzcoukJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "amzcoukSel";
-	
+	this.launchType = launchType;
+	this.insert1 = insert1;
+	this.insert2 = insert2;	
 	initFunc = this.searchamzcouk;
 	selectFunc = this.runamzcouk;
 	if(arguments.length){
@@ -35,5 +37,5 @@ amzcoukJuice.prototype.searchamzcouk = function(){
 
 
 amzcoukJuice.prototype.runamzcouk = function(){
-	juice.launchWin(this._targetUrl);
+	juice.launchWin(this._targetUrl,this.launchType,this.insert1,this.insert2);
 }	
