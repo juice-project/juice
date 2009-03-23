@@ -1,5 +1,5 @@
 /*
- * JuiceOverlay 0.1 - Javascript User Interface Framework for Extension
+ * JuiceOverlay 0.2 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2009 Talis (talis.com)
