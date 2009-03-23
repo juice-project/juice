@@ -217,6 +217,10 @@ _Juice.prototype.launchWin = function(uri,type,arg1,arg2){
 		case "iframe":
 			this.launchIframeWin(uri,arg1);
 			break;
+		case "iframe-ovelay":
+			var target  = this.launchOverlayWin(arg1,arg2);
+			this.launchIframeWin(uri,target);
+			break;
 		case "new":
 		default:
 			this.launchExternalWin(uri);
@@ -234,9 +238,15 @@ _Juice.prototype.launch = function(uri){
 //arg: content - html/dom to append to overlay - arg1 from 'launchWin'
 //arg: hdrContent - html/dom to append to overlay header  - arg from 'launchWin'
 _Juice.prototype.launchOverlayWin = function(content,hdrContent){
+	var target = null;
 	if(this._overlayFunc){
-		this._overlayFunc(content,hdrContent);
+		if(content instanceof JuiceInsert)
+		{
+			content = content.container();
+		}
+		target = this._overlayFunc(content,hdrContent);
 	}
+	return target;
 }
 
 //launchExternalWin - create and launch new browser window  - called by 'launchWin' for type "new"
@@ -256,8 +266,12 @@ _Juice.prototype.launchExternalWin = function(uri){
 //arg: insert - insert to carry iframe
 //See also JiuceInsert
 _Juice.prototype.launchIframeWin = function(uri,insert){
-	insert.show();
-	var target = insert.getInsertObject();
+	var target = insert;
+	if(insert instanceof JuiceInsert){
+		insert.show();
+		target = insert.getInsertObject();
+	}
+	
 	var frame = document.createElement("iframe");
 	frame.id = "juiframe";
 	frame.src = uri;
@@ -279,11 +293,11 @@ var juice = new _Juice();
 
 function JuiceInsert(container,insertPoint,insertType){
 	//html/dom to insert in to page
-	this.container = container;
+	this._container = container;
 	//JQuery selection identifying insert point(s) in document
-	this.insertPoint = insertPoint;
+	this._insertPoint = insertPoint;
 	//How to insert at insert point: before | after | append | prepend
-	this.insertType = insertType;
+	this._insertType = insertType;
 	//Shown flags
 	this.shown = [];
 	//JQuery/Dom elements created on insertion
@@ -295,6 +309,33 @@ function JuiceInsert(container,insertPoint,insertType){
 		this.shown[i] = false;
 		this._insertObjects[i] = null;
 	}
+}
+
+//container - Set/get function used to load container
+//arg: v - new value - optional
+JuiceInsert.prototype.container = function(v){
+	if(v != null){
+		this._container = v;
+	}
+	return this._container;
+}
+
+//insertPoint - Set/get function used to load insertPoint
+//arg: v - new value - optional
+JuiceInsert.prototype.insertPoint = function(v){
+	if(v != null){
+		this._insertPoint = v;
+	}
+	return this._insertPoint;
+}
+
+//insertType - Set/get function used to load insertType
+//arg: v - new value - optional
+JuiceInsert.prototype.insertType = function(v){
+	if(v != null){
+		this._insertType = v;
+	}
+	return this._insertType;
 }
 
 //insertCount - return count of instances of this insert 
@@ -322,12 +363,12 @@ JuiceInsert.prototype.show = function(pos){
 		pos = 0;
 	}
 	var This = this;
-	$(this.insertPoint).each(function(i){
+	$(this._insertPoint).each(function(i){
 		if(i == pos && !This.shown[i]){
-			var ins = jQuery(This.container);
+			var ins = jQuery(This._container);
 			var target = jQuery(this);
 			This._insertObjects[i] = ins;
-			switch(This.insertType){
+			switch(This._insertType){
 				case "after":
 					target.after(ins);
 					break;
@@ -727,6 +768,7 @@ JuicePanel.prototype.shared = function(v){
 JuicePanel.prototype.insert = function(){
 	if(!this.inserted){
 		this._insertDiv.showAll();
+		this.inserted = true;
 	}
 }
 
