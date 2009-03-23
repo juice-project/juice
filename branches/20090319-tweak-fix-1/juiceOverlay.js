@@ -32,8 +32,10 @@ function juiceOverlayDisplay(content,hdrContent){
 	var icon = "<img id='juiceovExitClick' src='http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png' class='juiceovOverlayExitClick'/>";
 	$("#juiceovTitle").append(icon);
 	$("#juiceovExitClick").click(juiceOverlayRemove);
-	target.append(content);
+	var contentObj = jQuery(content);
+	target.append(contentObj);
 	
+	return contentObj;
 }
 
 function juiceOverlayRemove(){
