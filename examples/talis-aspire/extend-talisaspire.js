@@ -15,7 +15,7 @@ $(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/OpenLibrary.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThingCK.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.2.min.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
 	juice.onJsLoaded(runExtensions);
