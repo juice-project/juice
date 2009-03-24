@@ -2,7 +2,6 @@ $(document).ready(function () {
 	juice.setDebug(true)
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/duke_edu_metadef.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBS.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/WorldCat.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThing.js");
