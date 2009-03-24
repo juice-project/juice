@@ -1,13 +1,52 @@
-#summary One-sentence summary of this page.
-
-= Introduction =
-
-Add your content here.
+= Juice - "Hello world" =
 
 
-= Details =
+== Introduction ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Regardless of the extensions you intend to use to extend your interface, the first question that comes to mind is _How do I put Juice in to my interface?_.
+
+This is a step by step guide of how to do that. To keep the guide simple, it stops at the point of having the Juice framework installed and shown to be operational.  This the point at which all Juice implementation will then build from.
+
+== Initial Considerations ==
+
+Before embarking on a Juice installation you need to answer two simple questions:
+ # How to insert calls to Juice in your interface - This will vary from system to system, but either via a configuration interface or by directly editing the web pages that control the interface to your application.  The ideal place to add the simple calls to add Juice is in the `<head>` section of your pages, but anywhere that inserts the elements, I describe below, in to the html code that is sent to your user's browser will be fine.
+ # Where to store the files that Juice uses.  In many cases this will be on the system that is running the application itself. All is required is a suitable web server that can be accessed by your users, even an Internet service such as Amazon's Simple Storage Service is suitable.
+
+== Loading the files ==
+
+There are three steps to this:
+
+ * Browse the [http://code.google.com/p/juice-project/source/browse source pages] of the Project Site and download from the [http://code.google.com/p/juice-project/source/browse/#svn/trunk trunk section] the following two files: [http://juice-project.googlecode.com/svn/trunk/jquery-1.3.2.js jquery-1.3.2.js], [http://juice-project.googlecode.com/svn/trunk/juice-0.2.js juice-0.2.js]. I recommend that you create a directory called `juice` on your web server to hold them so that they will be held separately and are are easy to maintain.
+
+ * In the same directory create a new file with a name similar to `juice-myinterface.js` - the actual name is irrelevant, as long as it ends in `.js`, but you might like to use a name that is meaningful if you share it with the rest of the Juice community at a later date.  In that file insert this single line of JavaScript code:
+
+`juice.debugOutln("Hello world");`
+
+ * Check these files are visible via your web server.  This stage saves all sorts of frustration later on, when a non-working installation is diagnosed to be a web server not having permission to access the files or directory you have created.
+
+== Adding Juice to my interface ==
+
+Add the following three script tags to your application's page. 
+{{{
+<script type="text/javascript" src="http://www.example.com/juice/jquery-1.3.2.js"></script>
+<script type="text/javascript" src="http://www.example.com/juice/juice-0.2.js"></script>
+<script type="text/javascript" src="http://www.example.com/juice/juice-myinterface.js"></script>
+}}}
+
+Obviously the URL's will differ from these examples to reflect the address of your web server and the location of the juice directory you created.
+
+*Where on the page* - as discussed earlier, these calls can go anywhere in the html of the page.  The ideal place is in the `<head>` element,  Another good place, if your pages are constructed from several sections, is in a header part that appears on every page. 
+
+== Have I broken it ? ==
+
+If your application behaves as it did before - you haven't.
+
+== Does it work ? ==
+
+Scroll down to the bottom of the page and you should see `Hello world` displayed at the bottom.  If it is displayed, Juice is now working in your interface.
+
+== Next steps ==
+To hide the _Hello world_ message either remove it or comment it out (insert `//` at the start of the line) in your file.
+
+Building on this you can now start to add more extensions to your interface.  As the Juice framework is controlled from the file you created, you should have no need to edit the pages of your application.
