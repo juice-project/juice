@@ -1,0 +1,23 @@
+= Juice - "Hello world" =
+
+
+== Introduction ==
+
+Regardless of the extensions you intend to use to extend your interface, the first question that comes to mind is _How do I put Juice in to my interface?_.
+
+This is a step by step guide of how to do that. To keep the guide simple, it stops at the point of having the Juice framework installed and shown to be operational.  This the point at which all Juice implementation will then build from.
+
+== Initial Considerations ==
+
+Before embarking on a Juice installation you need to answer two simple questions:
+ # How to insert calls to Juice in your interface - This will vary from system to system, but either via a configuration interface or by directly editing the web pages that control the interface to your application.  The ideal place to add the simple calls to add Juice is in the `<head>` section of your pages, but anywhere that inserts the elements, I describe below, in to the html code that is sent to your user's browser will be fine.
+# Where to store the files that Juice uses.  In many cases this will be on the system that is running the application itself. All is required is a suitable web server that can be accessed by your users, even an Internet service such as Amazon's Simple Storage Service is suitable.
+
+== Loading the files ==
+
+Browse the [http://code.google.com/p/juice-project/source/browse source pages] of the Project Site and download from the [http://code.google.com/p/juice-project/source/browse/#svn/trunk trunk section] the following two files: [http://juice-project.googlecode.com/svn/trunk/jquery-1.3.2.js jquery-1.3.2.js], [http://juice-project.googlecode.com/svn/trunk/juice-0.2.js juice-0.2.js] 
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
