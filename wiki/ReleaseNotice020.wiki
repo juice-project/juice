@@ -1,0 +1,16 @@
+= Revision 0.2 - Release Notice =
+24th March 2009
+
+Revision 0.2 is the first post launch revision.  The purpose of this revision is to clean up some coding anomalies in the launch release, and to add in some missing basic functionality.  Also introduced is the revision numbering of the `.js` files to enable backwards compatibility for installations as future revisions emerge.
+
+= Details =
+
+ * *File revision numbering* - `juice.js` and `juiceOverlay.js` have been renamed `juice-0.2.js` and `juiceOverlay-0.2.js`
+
+ * *Multiple insert panels* - The jQuery selector used to identify an insert point in to a page can return multiple selections.  `JuicePanel` & `JuiceInsert` have been re-factored to access to these.  This now enables the same panel to be inserted several times in to a single page, for example on every row of a list of items.  
+
+ * *Google Analytics Extension* - Enables simple insertion of Google Analytics tracking in to a page.  Example of extension that does not require meta or insertion panels to operate.
+
+ * *Overlay/Iframe Launch Window* - Added a iFrame launch window that sits in the light-box overlay.
+
+ * *Extensions taking launch window options* - Re-factored example extensions and `Template_Select_process.js` to take launch window options as optional constructor arguments.  Launch window type will default to new browser window.
