@@ -2,7 +2,6 @@ $(document).ready(function () {
 	juice.setDebug(true)
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/duke_edu_metadef.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBS.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/WorldCat.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThing.js");
@@ -31,8 +30,8 @@ function runExtensions(){
 }
 
 function buildSelectionPanel(){
-	var div = '<div class="detailscontentheader">Alternative Sources</div>' +
-			  '<div id="ExtentionsPanelWindow" class="detailscontentbody"></div>';
+	var div = '<div><div id="ExtentionsPanelHdr" class="detailscontentheader">Alternative Sources</div>' +
+			  '<div id="ExtentionsPanelWindow" class="detailscontentbody"></div></div>';
 	var insert = new JuiceInsert(div,".recorddetailscontent","append");
 	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon juiceXMediumPaddedIcon','juiceXActiveIcon juiceXMediumPaddedIcon',null);
 	juice.addPanel(panel);

@@ -16,7 +16,7 @@ function myloadjs(file){
 	juhead.appendChild(juins); 
 }
 
-myloadjs("http://juice-project.s3.amazonaws.com/jquery-1.3.1.js");
-myloadjs("http://juice-project.s3.amazonaws.com/juice.js");
+myloadjs("http://juice-project.s3.amazonaws.com/jquery-1.3.2.min.js");
+myloadjs("http://juice-project.s3.amazonaws.com/juice-min.js");
 myloadjs("http://juice-project.s3.amazonaws.com/examples/talis-aspire/extend-talisaspire.js")
 

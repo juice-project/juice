@@ -1,6 +1,8 @@
-function copacJuice(ju,src,text,defPanel){
+function copacJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "copacSel";
-	
+	this.launchType = launchType;
+	this.insert1 = insert1;
+	this.insert2 = insert2;
 	initFunc = this.searchcopac;
 	selectFunc = this.runcopac;
 	if(arguments.length){
@@ -23,5 +25,5 @@ copacJuice.prototype.searchcopac = function(){
 
 
 copacJuice.prototype.runcopac = function(){
-juice.launchWin(this._targetUrl);
+	juice.launchWin(this._targetUrl,this.launchType,this.insert1,this.insert2);
 }	

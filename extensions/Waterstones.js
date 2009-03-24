@@ -1,6 +1,8 @@
-function waterstonesJuice(ju,src,text,defPanel){
+function waterstonesJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	var id = "waterstonesSel";
-	
+	this.launchType = launchType;
+	this.insert1 = insert1;
+	this.insert2 = insert2;
 	var startFunc = this.searchwaterstones;
 	var selectFunc = this.runwaterstones;
 	if(arguments.length){
@@ -24,5 +26,5 @@ waterstonesJuice.prototype.searchwaterstones = function(){
 
 
 waterstonesJuice.prototype.runwaterstones = function(){
-	juice.launchWin(this._targetUrl,"current");
+	juice.launchWin(this._targetUrl,this.launchType,this.insert1,this.insert2);
 }	

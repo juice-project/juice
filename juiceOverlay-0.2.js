@@ -1,14 +1,14 @@
 /*
- * JuiceOverlay 0.1 - Javascript User Interface Framework for Extension
+ * JuiceOverlay 0.2 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2009 Talis (talis.com)
  * Originator: Richard Wallis
  * Under GPL (gpl-2.0.txt) license.
  *
- * $Author$
- * $Date$
- * $Rev$
+ * $Author: richard.wallis@talis.com $
+ * $Date: 2009-03-23 18:15:18 +0000 (Mon, 23 Mar 2009) $
+ * $Rev: 39 $
  */
 
 var juiceOverlayMask = null;
@@ -32,8 +32,10 @@ function juiceOverlayDisplay(content,hdrContent){
 	var icon = "<img id='juiceovExitClick' src='http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png' class='juiceovOverlayExitClick'/>";
 	$("#juiceovTitle").append(icon);
 	$("#juiceovExitClick").click(juiceOverlayRemove);
-	target.append(content);
+	var contentObj = jQuery(content);
+	target.append(contentObj);
 	
+	return contentObj;
 }
 
 function juiceOverlayRemove(){

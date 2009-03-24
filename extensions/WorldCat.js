@@ -1,6 +1,8 @@
-function worldcatJuice(ju,src,text,defPanel,iframeInsert){
+function worldcatJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "worldcatSel";
-	this.iframe = iframeInsert;
+	this.launchType = launchType;
+	this.insert1 = insert1;
+	this.insert2 = insert2;
 	initFunc = this.searchworldcat;
 	selectFunc = this.runworldcat;
 	if(arguments.length){
@@ -38,9 +40,5 @@ worldcatJuice.prototype.searchworldcat = function(){
 
 
 worldcatJuice.prototype.runworldcat = function(){
-	var type = "current";
-	if(this.iframe){
-		type = "iframe";		
-	}
-	juice.launchWin(this._targetUrl,type,this.iframe);
+	juice.launchWin(this._targetUrl,this.launchType,this.insert1,this.insert2);
 }	

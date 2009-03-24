@@ -15,12 +15,12 @@
 	background-color:#ffffff;
 	display:block;
 	visibility:visible;
-	height:350px;
-	width: 430px;
-	top: 150px;
+	height:622px;
+	width: 802px;
+	top: 50px;
 	left: 50%;
-    margin-left: -215px;
-	position: fixed;
+    margin-left: -400px;
+	position: absolute;
 	border: 1px solid #222222;
 	z-index:5002;
 }
