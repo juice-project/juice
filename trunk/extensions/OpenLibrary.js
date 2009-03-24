@@ -1,6 +1,8 @@
-function openlibraryJuice(ju,src,text,defPanel){
+function openlibraryJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "openlibrarySel";
-	
+	this.launchType = launchType;
+	this.insert1 = insert1;
+	this.insert2 = insert2;
 	initFunc = this.searchopenlibrary;
 	selectFunc = this.runopenlibrary;
 	if(arguments.length){
@@ -31,5 +33,5 @@ openlibraryJuice.prototype.searchopenlibrary = function(){
 
 
 openlibraryJuice.prototype.runopenlibrary = function(){
-juice.launchWin(this._targetUrl);
+	juice.launchWin(this._targetUrl,this.launchType,this.insert1,this.insert2);
 }	
