@@ -2,6 +2,6 @@
 
 == Screencast #1 - "Hello world" ==
 <a title="sc1">
-Richard Wallis takes you through the steps of inserting Juice in to your interface.</a>
+Richard Wallis takes you through the basic steps of inserting Juice in to your interface.</a>  He follows the steps laid out in the associated How-to document.
 
 <wiki:video url="http://www.youtube.com/watch?v=EG2dWlDjcuw"/>
