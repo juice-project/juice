@@ -1,7 +1,7 @@
 = Project Screencasts =
 
 == Screencast #1 - "Hello world" ==
-
+[[Anchor sc1]]
 Richard Wallis takes you through the steps of inserting Juice in to your interface.
 
 <wiki:video url="http://www.youtube.com/watch?v=EG2dWlDjcuw"/>
