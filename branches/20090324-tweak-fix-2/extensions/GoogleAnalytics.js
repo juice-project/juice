@@ -33,7 +33,6 @@ gasJuice.prototype.rungas = function(){
 	var script = document.createElement("script"); 
 	script.setAttribute('type','text/javascript'); 
 	script.text = insert; 
-
-	document.getElementsByTagName('body').item(0).appendChild(script);
+	$("body").append(script);
 
 }
