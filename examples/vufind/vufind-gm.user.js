@@ -15,6 +15,6 @@ function myloadjs(file){
 }
 
 myloadjs("http://juice-project.s3.amazonaws.com/jquery-1.3.2.js");
-myloadjs("http://juice-project.s3.amazonaws.com/juice-min.js");
+myloadjs("http://juice-project.s3.amazonaws.com/juice-0.2.1js");
 myloadjs("http://juice-project.s3.amazonaws.com/examples/vufind/extend-vufind.js")
 
