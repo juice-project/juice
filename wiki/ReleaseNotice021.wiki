@@ -1,0 +1,12 @@
+= Revision 0.2.1 - Release Notice =
+1st April 2009
+
+Revision 0.2.1 is mostly a defect fix release
+
+= Details =
+
+ * *New Juice* - Added  `juice-0.2.1.js` 
+
+ * *Multiple insert panels* - Fix to non-opperation ofmultiple insert panels - typo in JuiceInsert Class
+
+ * *simpleInsertJuice Extension* - Enables simple insertion of a supplied div at a supplied insert point.  Example of extension that does not require meta to operate.
