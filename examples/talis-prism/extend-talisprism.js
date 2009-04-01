@@ -17,6 +17,7 @@ google.setOnLoadCallback(startEGBS);
 
 $(document).ready(function () {
 	juice.setDebug(true);
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/JuiceSimpleInsert.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_prism_metadef.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
@@ -41,6 +42,7 @@ $(document).ready(function () {
 });
 
 function runExtensions(){
+	buildExtendedBy();
 	var procGas = new gasJuice(juice);
 	talis_prism_metadef();
 	
@@ -96,7 +98,6 @@ function runExtensions(){
 function buildMapsInsert(){
 //	juice.debugOutln("buildMapsInsert");
 	var div = '<div id="MapPanelWindow" style="display: inline; margin-left: 5px;"></div>';
-
 	var insert = new JuiceInsert(div,"#availability > table > tbody > tr > td:nth-child(2)","append");
 	var panel = new JuiceBasicPanel(insert,"MapPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
 	panel.shared(false);
@@ -149,6 +150,13 @@ function buildMTAInsert(){
 	var div = '<div id="MTAPanel" style="display: block; width: 240px; height: 310px"><br/><h2 class="title">Meet the Author</h2><div id="MTAViewer" style="width: 240px; height: 200px"></div></div>';
 	var insert = new JuiceInsert(div,"#itemActions > ul:last","after");
 	procMTA = new MTAEmbedJuice(juice,insert,"MTAViewer");
+}
+
+function buildExtendedBy(){
+	var div = '<div id="extendedBy" style="display: block; width: 100%; text-align: center;">' +
+	'Extended by <a href="http://juice-project.googlecode.com">The Juice Project</a></div>';
+	var insert = new JuiceInsert(div,"body","append");
+	var procExtendedBy = new simpleInsertJuice(juice,insert);	
 }
 
 
