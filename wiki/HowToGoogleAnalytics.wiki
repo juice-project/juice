@@ -4,7 +4,7 @@
 
 [http://www.google.com/analytics/ Google Analytics] is a free web-site usage tracking and analysis service that can provide lots of wonderful statistics about how people are using your site.
 
-This How-to shows you how to use the Juice !GoogleAnalytics extension to insert the Google sopecific code you need to enable it for your site.
+This How-to shows you how to use the Juice !GoogleAnalytics extension to insert the Google specific code you need to enable it for your site.
 
  
 == Prerequisites ==
@@ -47,4 +47,3 @@ function doCreatedBy(){
      new simpleInsertJuice(juice,insert);
 }	
 }}}
-
