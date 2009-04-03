@@ -2,7 +2,7 @@
 
 == Introduction ==
 
-The simplest form of extension to an interface is to add some simple text and possibly a link on to the page. By the end of this how-to you will have _Extended by [http://juice-project.googlecode.com The Juice Project]_ appearing at the foot of your pages. something we encorage you all to do to help spread the word.
+The simplest form of extension to an interface is to add some simple text and possibly a link on to the page. By the end of this how-to you will have _'Extended by [http://juice-project.googlecode.com The Juice Project]'_ appearing at the foot of your pages. something we encorage you all to do to help spread the word.
 
 This How-to is the second in the series of Juice How-to guides.  It assumes that you have stepped your way through the first one - [HowToHelloWorld How-to - "hello world"] - so you will have succesfully added Juice to your interface.
 
