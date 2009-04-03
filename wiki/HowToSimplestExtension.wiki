@@ -73,9 +73,9 @@ We are now ready to call the !SimpleInsert extension by creating an instance of 
  * juice - a reference to juice itself
  * insert - an instance of  `JuiceInsert`
 
-In anticipation of adding other extensions to your site, now would be a good time to separate elements of the code to make it clearer and simpler to identify what is happening.
+In anticipation of adding other extensions to your site, now would be a good time to start separating out elements of the code to make it clearer and simpler to identify what is happening.
 
-I recommend that you group code associated with each extension in to it's own function and then call those functions from the `runExtensions` functions.
+I recommend that you group code associated with each extension in to it's own function and then call those functions from the `runExtensions` function.
 
 Putting it all that together our code will look like this:
 {{{
