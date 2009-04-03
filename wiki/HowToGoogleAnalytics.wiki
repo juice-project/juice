@@ -47,3 +47,5 @@ function doCreatedBy(){
      new simpleInsertJuice(juice,insert);
 }	
 }}}
+
+*Note:* Google only update their statistics every 24 hours, so don't expect any statistics until the day after you add this extension. 
