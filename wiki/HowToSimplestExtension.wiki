@@ -23,3 +23,8 @@ jQuery(document).ready(function () {
      juice.debugOutln("Hello world");
 });
 }}}
+
+== Step Two - load the extension file ==
+
+Each extension comes in it's own !JavaScript file.  The !SimpleInsert extension is stored in a file named `JuiceSimpleInsert.js` which you find along with several others in the `extensions` directory in the source.  Upload this file to your web server in the same way you have already uploaded others as described in the first How-to.  I suggest you maintain the directory structure that is used for the project by creating an `extensions` sub-directory.  
+Remember to check that this file is readable.
