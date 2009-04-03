@@ -2,20 +2,20 @@
 
 == Introduction ==
 
-The simplest form of extension to an interface is to add some simple text and possibly a link on to the page. By the end of this how-to you will have _'Extended by [http://juice-project.googlecode.com The Juice Project]'_ appearing at the foot of your pages. Something I encorage you all to do to help spread the word.
+The simplest form of extension to an interface is to add some simple text and possibly a link on to the page. By the end of this how-to you will have _'Extended by [http://juice-project.googlecode.com The Juice Project]'_ appearing at the foot of your pages. Something I encourage you all to do to help spread the word.
 
-This How-to is the second in the series of Juice How-to guides.  It assumes that you have stepped your way through the first one - [HowToHelloWorld How-to - "hello world"] - so you will have succesfully added Juice to your interface.
+This How-to is the second in the series of Juice How-to guides.  It assumes that you have stepped your way through the first one - [HowToHelloWorld How-to - "hello world"] - so you will have successfully added Juice to your interface.
 
 In this guide we will build on those previous steps we will make use of the !SimpleInsert extension.
 
 
 == Step One - Waiting for the page to load ==
 
-To ensure that Juce extensions do not impact on the loading of the web page you are trying to extend, we don't want it to start doing it's work untill the page is loaded and ready.  To do this we use a feature of the jQuery JavaScript library, which we installed aling with the Juice library, to do this.
+To ensure that Juice extensions do not impact on the loading of the web page you are trying to extend, we don't want it to start doing it's work until the page is loaded and ready.  To do this we use a feature of the jQuery JavaScript library, which we installed along with the Juice library, to do this.
 
 To use any extension we first have to ensure that the associated !JavaScript file has been loaded in to the user's browser.   
 
-By wrapping our first couple of lines of code in a jQuery function call, this is easilly achieved:
+By wrapping our first couple of lines of code in a jQuery function call, this is easily achieved:
 
 {{{
 jQuery(document).ready(function () {
@@ -37,3 +37,59 @@ jQuery(document).ready(function () {
      juice.loadJs("http://www.example.com/juice/extensions/JuiceSimpleInsert.js");
 });
 }}}
+
+Because of the way browsers load scripts we can not be certain when the extension code will loaded and be ready to use.   By adding a call to `juice.onJsLoaded()` we can ensure that all is ready before proceeding.   `juice.onJsLoaded()` takes as a single argument a function to call when all `.js` files have been loaded using 'juice.loadJs().   Our `juice-myinterface.js` file, with a debug call to show it worked  will now look like this:
+
+{{{
+jQuery(document).ready(function () {
+     juice.setDebug(true);
+     juice.loadJs("http://www.example.com/juice/extensions/JuiceSimpleInsert.js");
+     juice.onJsLoaded(runExtensions);
+});
+
+function runExtensions(){
+     juice.debugOutln("Running extensions!");
+}
+}}}
+
+== Step Three - using the extension ==
+
+There are several ways in !JavaSript to define some html text to add to a page.  The simplest is to create it as a string thus:
+
+{{{
+var div = '<div id="extendedBy" style="display: block; width: 100%; text-align: center; clear: both;">' +
+	'Extended by <a href="http://juice-project.googlecode.com">The Juice Project</a></div>';
+}}}
+
+For this example I have added some style attributes in to the html, so that our text will appear in the centre of a html `div` element that is full page width.
+
+Having defined the html element we want to appear, we now need to create a `JuiceInsert` instance to control how and where it is to be inserted on to the page.   The constructor of `JuiceInsert` takes three arguments:
+ * container - the html component to insert on to the page
+ * insertPoint - the jQurey selection defining where on the page to insert
+ * insertType - how to insert at that point (append, prepend, before, after)
+
+
+We are now ready to call the !SimpleInsert extension by creating an instance of `simpleInsertJuice`.  This takes two arguments:
+ * juice - a reference to juice itself
+ * insert - an instance of  `JuiceInsert`
+
+Putting it all together our code will look like this:
+{{{
+jQuery(document).ready(function () {
+     juice.setDebug(true);
+     juice.loadJs("http://www.example.com/juice/extensions/JuiceSimpleInsert.js");
+     juice.onJsLoaded(runExtensions);
+});
+
+function runExtensions(){
+     var div = '<div id="extendedBy" style="display: block; width: 100%; text-align: center; clear: both;">' +
+	'Extended by <a href="http://juice-project.googlecode.com">The Juice Project</a></div>';
+
+     var insert = new JuiceInsert(div,"body","append");
+     new simpleInsertJuice(juice,insert);
+}	
+}}}
+
+In this example the arguments to !JuiceInsert will cause our text to appear appended to the body element of the page. i.e. At the bottom.
+
+
