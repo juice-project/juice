@@ -2,15 +2,18 @@
 
 == Introduction ==
 
-The simplest form of extension to an interface is to add some simple text and possibly a link on to the page.
+The simplest form of extension to an interface is to add some simple text and possibly a link on to the page. By the end of this how-to you will have _Extended by [http://juice-project.googlecode.com The Juice Project]_ appearing at the foot of your pages. something we encorage you all to do to help spread the word.
 
 This How-to is the second in the series of Juice How-to guides.  It assumes that you have stepped your way through the first one - [HowToHelloWorld How-to - "hello world"] - so you will have succesfully added Juice to your interface.
 
 In this guide we will build on those previous steps we will make use of the !SimpleInsert extension.
 
-== Step One - Loading required extension ==
 
-To use any extension we first have to ensure that the associated !JavaScript file has been loaded in to the user's browser.   To ensure that Juce extemsions do not impact on the loading of the web page you are trying to extend, we don't want it to start doing it's work untill the page is loaded and ready.  To do this we use a feature of the jQuery JavaScript library, which we installed aling with the Juice library, to do this.
+== Step One - Waiting for the page to load ==
+
+To ensure that Juce extensions do not impact on the loading of the web page you are trying to extend, we don't want it to start doing it's work untill the page is loaded and ready.  To do this we use a feature of the jQuery JavaScript library, which we installed aling with the Juice library, to do this.
+
+To use any extension we first have to ensure that the associated !JavaScript file has been loaded in to the user's browser.   
 
 By wrapping our first couple of lines of code in a jQuery function call, this is easilly achieved:
 
