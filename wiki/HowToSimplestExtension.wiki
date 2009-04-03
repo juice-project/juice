@@ -65,7 +65,7 @@ For this example I have added some style attributes in to the html, so that our 
 
 Having defined the html element we want to appear, we now need to create a `JuiceInsert` instance to control how and where it is to be inserted on to the page.   The constructor of `JuiceInsert` takes three arguments:
  * container - the html component to insert on to the page
- * insertPoint - the jQurey selection defining where on the page to insert
+ * insertPoint - a [http://docs.jquery.com/Selectors jQurey selection] defining where on the page to insert
  * insertType - how to insert at that point (append, prepend, before, after)
 
 
