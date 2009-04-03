@@ -1,4 +1,4 @@
-= Juice - "Hello world" =
+= Juice How-to - "Hello world" =
 
 
 == Introduction ==
