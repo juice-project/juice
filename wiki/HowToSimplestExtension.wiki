@@ -1,0 +1,15 @@
+= Juice - "The simplest extension" =
+
+== Introduction ==
+
+The simplest form of extension to an interface is to add some simple text and possibly a link on to the page.
+
+This How-to is the second in the series of Juice How-to guides.  It assumes that you have stepped your way through the first one - [HowToHelloWorld How-to - "hello world"] - so you will have succesfully added Juice to your interface.
+
+In this guide we will build on those previous steps we will make use of the !SimpleInsert extension.
+
+== Step One - Loading required extension ==
+
+To use any extension we first have to ensure that the associated !JavaScript file has been loaded in to the user's browser.   To ensure that Juce extemsions do not impact 
+
+
