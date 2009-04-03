@@ -16,8 +16,7 @@ By wrapping our first couple of lines of code in a jQuery function call, this is
 
 {{{
 jQuery(document).ready(function () {
- juice.setDebug(true);
- juice.debugOutln("Hello world");
+     juice.setDebug(true);
+     juice.debugOutln("Hello world");
 });
 }}}
-
