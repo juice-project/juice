@@ -11,11 +11,11 @@ In this guide we will build on those previous steps we will make use of the !Sim
 
 == Step One - Waiting for the page to load ==
 
-To ensure that Juice extensions do not impact on the loading of the web page you are trying to extend, we don't want it to start doing it's work until the page is loaded and ready.  To do this we use a feature of the jQuery JavaScript library, which we installed along with the Juice library, to do this.
+To ensure that Juice extensions do not impact on the loading of the web page you are trying to extend, we don't want it to start doing it's work until the page is loaded and ready.  To do this we use a feature of the jQuery !JavaScript library, which we installed along with the Juice library, to do this.
 
 To use any extension we first have to ensure that the associated !JavaScript file has been loaded in to the user's browser.   
 
-By wrapping our first couple of lines of code in a jQuery function call, this is easily achieved:
+By wrapping our first couple of lines of code in the jQuery function call, this is easily achieved:
 
 {{{
 jQuery(document).ready(function () {
@@ -38,7 +38,7 @@ jQuery(document).ready(function () {
 });
 }}}
 
-Because of the way browsers load scripts we can not be certain when the extension code will loaded and be ready to use.   By adding a call to `juice.onJsLoaded()` we can ensure that all is ready before proceeding.   `juice.onJsLoaded()` takes as a single argument a function to call when all `.js` files have been loaded using 'juice.loadJs().   Our `juice-myinterface.js` file, with a debug call to show it worked  will now look like this:
+Because of the way browsers load scripts we can not be certain when the extension code will loaded and be ready to use.   By adding a call to `juice.onJsLoaded()` we can ensure that all is ready before proceeding.   `juice.onJsLoaded()` takes as a single argument a function to call when all `.js` files have been loaded using `juice.loadJs()`.   Our `juice-myinterface.js` file, with a debug call to show it worked, will now look like this:
 
 {{{
 jQuery(document).ready(function () {
@@ -91,5 +91,3 @@ function runExtensions(){
 }}}
 
 In this example the arguments to !JuiceInsert will cause our text to appear appended to the body element of the page. i.e. At the bottom.
-
-
