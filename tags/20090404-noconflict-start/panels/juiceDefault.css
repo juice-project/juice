@@ -1,0 +1,20 @@
+.juiceXInactiveText {
+	opacity:0.4;
+}	
+
+.juiceXActiveText { 
+	cursor: pointer;
+}
+
+.juiceXInactiveIcon {
+	height: 40px;
+	padding: 10px;
+	opacity:0.4;
+}	
+
+.juiceXActiveIcon {
+	height: 40px;
+	padding: 10px;
+	cursor: pointer;
+}	
+
