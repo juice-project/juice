@@ -1,7 +1,7 @@
 = Revision 0.3 - Release Notice =
 7th April 2009
 
-Revision 0.3 has the main objective of addressing conflicts between !JavaScript Libraries.  The !jQuery library that underpins Juice uses a noconflict mode to reduce the possibilities of problems.  Juice has been re-factored to work with this,
+Revision 0.3 has the main objective of addressing conflicts between !JavaScript Libraries.  The jQuery library that underpins Juice uses a noconflict mode to reduce the possibilities of problems.  Juice has been re-factored to work with this,
 
 = Details =
 
