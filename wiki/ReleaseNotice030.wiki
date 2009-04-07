@@ -1,0 +1,16 @@
+= Revision 0.3 - Release Notice =
+7th April 2009
+
+Revision 0.3 has the main objective of addressing conflicts between !JavaScript Libraries.  The !jQuery library that underpins Juice uses a noconflict mode to reduce the possibilities of problems.  Juice has been re-factored to work with this,
+
+= Details =
+
+ * *File revision numbering* - Version 0.3 is in `juice-0.3.js` an updated version of !JuiceOverlay is in juiceOverlay-0.3.js`.
+
+ * *juice.js* - From this version onwards the file `juice.js` will be maintained as a copy of the latest revision.   This is to facilitate easy upgrade of systems that always use the latest revision. 
+
+ * *jQuery no conflict mode* - All core juice code and examples have been re-factored to either use the jQuery function `jQuery()` directly or to use a short cut of `$jq() ` instead of the default convention of `$()`.
+
+ * *Juice version* - New variable `juice.version` set to the version of Juice - so in this release it will be set to `"0.3"` .
+
+ * *Default Overlay* - If not overridden by a call to `juice.overlayFunc()` the overlay function will default to `juiceOverlayDisplay` if the !JavaScript file containing it `juiceOverlay-0.3.js` has been loaded.
