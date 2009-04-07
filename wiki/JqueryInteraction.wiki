@@ -37,5 +37,5 @@ jQuery(document).ready(function () {
 
 Yes, but allow for the possibility that others may use your extension in an interface where they have called `jQuery.noConflict()`.  Do not use `$()` to invoke jQuery functionality.  You have two options:
  # Use `jquery()`, or
- # Use `$jq` - this is defined in the Juice library. It is what is used internally within Juice.
+ # Use `$jq()` - this is defined in the Juice library. It is what is used internally within Juice.
 Both of these are functionally identical to using `$()`
