@@ -12,7 +12,7 @@ This is the simplest case.  When including the script tags for Juice and its dep
 
 There are several other !JavaScript libraries, such as Prototype, !MooTools, or YUI, used by interface designers.  As the [http://docs.jquery.com/Using_jQuery_with_Other_Libraries jQuery documentation] indicates, the library is designed to avoid conflicts with others, except for one particular case.  Several libraries, including jQuery, make use of a convention of using '$' to include their functionality.
 
-Using the ` jQuery.noConflict()` call as soon as possible after jQuery is loaded in the interface will disable jQuery's use of '$', leaving it to be used by other included libraries.  You can either do this in a script element in your interface:
+Using the ` jQuery.noConflict()` call as soon as possible after jQuery is loaded in the interface will disable jQuery's use of '$', leaving it to be used by other included libraries.  You can either do this in a script element in your interface thus:
 
 {{{
 <script type="text/javascript" src="http://www.example.com/juice/jquery-1.3.2.js"></script>
@@ -37,5 +37,5 @@ jQuery(document).ready(function () {
 
 Yes, but allow for the possibility that others may use your extension in an interface where they have called `jQuery.noConflict()`.  Do not use `$()` to invoke jQuery functionality.  You have two options:
  # Use `jquery()`, or
- # Use `$jq` - this is defined in the Juice library.
+ # Use `$jq` - this is defined in the Juice library. It is what is used internally within Juice.
 Both of these are functionally identical to using `$()`
