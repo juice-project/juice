@@ -10,7 +10,7 @@ This is the simplest case.  When including the script tags for Juice and its dep
 
 === Interface includes another conflicting !JavaScript library ===
 
-There are several other !JavaScript libraries, such as Prototype, MooTools, or YUI, used by interface designers.  As the [http://docs.jquery.com/Using_jQuery_with_Other_Libraries jQuery documentation] indicates, the library is designed to avoid conflicts with others, except for one particular case.  Several libraries, including jQuery, make use of a convention of using '$' to include their functionality.
+There are several other !JavaScript libraries, such as Prototype, !MooTools, or YUI, used by interface designers.  As the [http://docs.jquery.com/Using_jQuery_with_Other_Libraries jQuery documentation] indicates, the library is designed to avoid conflicts with others, except for one particular case.  Several libraries, including jQuery, make use of a convention of using '$' to include their functionality.
 
 Using the ` jQuery.noConflict()` call as soon as possible after jQuery is loaded in the interface will disable jQuery's use of '$', leaving it to be used by other included libraries.  You can either do this in a script element in your interface:
 
