@@ -1,0 +1,43 @@
+
+
+=  jQuery conflict considerations =
+
+Juice depends on the popular [http://jquery.com/ jQuery] !JavaScript library to enable much of it's functionality.  By including the jQuery library it can be used to help build extensions to insert in to an interface using the Juice framework.  Unfortunately there is always the possibility of conflicts problems when you introduce something like jQuery in to an interface that was not designed with it in mind.
+
+Fortunately jQuery and Juice, from [ReleaseNotice030 version 0.3] onwards, are designed cope with these situations as detailed below.
+
+== Interface already includes jQuery ==
+
+This is the simplest case.  When including the script tags for Juice and its dependant !JavaScript files, omit the one for jquery, and ensure that the script tags for juice and you interface specific files are included after the one for jquery.
+
+== Interface includes another conflicting !JavaScript library ==
+
+There are several other !JavaScript libraries, such as Prototype, MooTools, or YUI, used by interface designers.  As the [http://docs.jquery.com/Using_jQuery_with_Other_Libraries jQuery documentation] indicates, the library is designed to avoid conflicts with others, except for one particular case.  Several libraries, including jQuery, make use of a convention of using '$' to include their functionality.
+
+Using the ` jQuery.noConflict()` call as soon as possible after jQuery is loaded in the interface will disable jQuery's use of '$', leaving it to be used by other included libraries.  You can either do this in a script element in your interface:
+
+{{{
+<script type="text/javascript" src="http://www.example.com/juice/jquery-1.3.2.js"></script>
+<script type="text/javascript">
+ jQuery.noConflict();
+</script>
+<script type="text/javascript" src="http://www.example.com/juice/juice-0.2.js"></script>
+<script type="text/javascript" src="http://www.example.com/juice/juice-myinterface.js"></script>
+}}}  
+
+Or in your interface file, thus:
+
+{{{
+jQuery.noConflict();
+jQuery(document).ready(function () {
+     juice.setDebug(true);
+     juice.debugOutln("Hello world");
+});
+}}}
+
+== Can I use jQuery in my extensions? ==
+
+Yes, but allow for the possibility that others may use your extension in an interface where they have called `jQuery.noConflict()`.  Do not use `$()` to invoke jQuery functionality.  You have two options:
+ # Use `jquery()`, or
+ # Use `$jq` - this is defined in the Juice library.
+Both of these are functionally identical to using `$()`
