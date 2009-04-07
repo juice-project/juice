@@ -1,4 +1,4 @@
-=  jQuery conflict considerations =
+=  jQuery - script conflict considerations =
 
 Juice depends on the popular [http://jquery.com/ jQuery] !JavaScript library to enable much of it's functionality.  By including the jQuery library it can be used to help build extensions to insert in to an interface using the Juice framework.  Unfortunately there is always the possibility of conflict problems when you introduce something like jQuery in to an interface that was not designed with it in mind.
 
