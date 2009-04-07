@@ -34,10 +34,10 @@ JuiceListPanel.prototype.add = function(sel){
 	htm += sel.selText() + '</a></li>';
 	
 	
-	$("#"+this.getPanelId()+" ul").append(htm);
+	$jq("#"+this.getPanelId()+" ul").append(htm);
 }
 
 JuiceListPanel.prototype.buildlist = function(){
 	var htm = '<ul class="JuiceList"></ul>';
-	$("#"+this.getPanelId()).append(htm);
+	$jq("#"+this.getPanelId()).append(htm);
 }

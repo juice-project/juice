@@ -24,7 +24,7 @@ xxxJuice.prototype.startxxx = function(){
 	//    eg:
 /*	this.showInsert();
 	var htm = "<div> my display</div>"
-	$("#"+this.targetDiv).append(htm));
+	$jq("#"+this.targetDiv).append(htm));
 */
 
 }
