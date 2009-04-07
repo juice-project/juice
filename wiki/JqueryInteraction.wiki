@@ -6,7 +6,7 @@ Fortunately jQuery and Juice, from [ReleaseNotice030 version 0.3] onwards, are d
 
 === Interface already includes jQuery ===
 
-This is the simplest case.  When including the script tags for Juice and its dependant !JavaScript files, omit the one for jquery, and ensure that the script tags for juice and you interface specific files are included after the one for jquery.
+This is the simplest case.  When including the script tags for Juice and its dependant !JavaScript files, omit the one for jquery, and ensure that the script tags for juice and your interface specific files are included after the one for jquery.
 
 === Interface includes another conflicting !JavaScript library ===
 
