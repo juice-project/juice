@@ -50,12 +50,12 @@ MTAEmbedJuice.prototype.loadViewer = function(info) {
 	var stream = this.mtaGetReal(info);
 	if(stream != null){
 		this.showInsert();
-		var h = $("#"+this.targetDiv).height();
-		var w = $("#"+this.targetDiv).width();
+		var h = $jq("#"+this.targetDiv).height();
+		var w = $jq("#"+this.targetDiv).width();
 		var title = info.authorfirstname + " " + info.authorlastname;
 		var tDiv = '<div style="display: block">'+title+'</div>';
-		$("#"+this.targetDiv).before(tDiv);
-		$("#"+this.targetDiv).append(this.buildPlayer(stream, h, w));
+		$jq("#"+this.targetDiv).before(tDiv);
+		$jq("#"+this.targetDiv).append(this.buildPlayer(stream, h, w));
 	}
 }
 

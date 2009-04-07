@@ -15,7 +15,7 @@ google.load("books", "0");
 google.setOnLoadCallback(startEGBS);
 
 
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	juice.setDebug(true);
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/JuiceSimpleInsert.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_prism_metadef.js");
@@ -35,7 +35,7 @@ $(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/UCDMaps.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.2.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
 	juice.onJsLoaded(runExtensions);
@@ -46,7 +46,7 @@ function runExtensions(){
 	var procGas = new gasJuice(juice);
 	talis_prism_metadef();
 	
-	juice.overlayFunc(juiceOverlayDisplay);
+//	juice.overlayFunc(juiceOverlayDisplay);
 	
 	if(juice.hasMeta()){
 		switch(whichPrism){
