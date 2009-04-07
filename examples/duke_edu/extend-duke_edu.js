@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	juice.setDebug(true)
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/duke_edu_metadef.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");

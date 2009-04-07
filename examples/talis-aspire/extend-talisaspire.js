@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	juice.setDebug(true)
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_aspire_metadef.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
@@ -15,7 +15,7 @@ $(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/OpenLibrary.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThingCK.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.2.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
 	juice.onJsLoaded(runExtensions);
