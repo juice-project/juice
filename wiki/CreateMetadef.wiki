@@ -1,0 +1,43 @@
+= Creating a Metadef =
+
+A Juice Metadef is a collection of descriptions, associated with a particular User Interface type, of where information to be used by Juice extensions can be identified on a html page.  The description also identifies a name that can then be used within an extension to access the data displayed on the page.
+
+
+= The Metadef file =
+
+Following the theme of all Juice components, the Metadef for a particular interface type is contained in a separate !JavaScript file.  The convention being that the file will be of the format `xxx_metadef.js`.
+
+The first step in creating a Metadef is to first check if one has already been created.  As the layout of interfaces for a particular product all tend to share the same format, it is possible that someone else has already created one that you can use.
+
+== The anatomy of a Metadef ==
+
+Lets take a look at an example Metadef - in this case the one for the [http://www.talis.com/aspire/ Talis Aspire] Resource List system.
+
+{{{
+function talis_aspire_metadef(){
+        juice.addMeta(new JuiceMeta("isbns","#isbn10 > .fieldValue, #isbn13 > .fieldValue ",juice.stringToAlphnumAray));
+        juice.addMeta(new JuiceMeta("author","#authors > .fieldValue "));
+        juice.addMeta(new JuiceMeta("title","#itemDetailsContainer > h1 "));
+}
+}}}
+
+The Metadef is contained in a single, appropriately named, function `talis_aspire_metadef()`.
+
+In this example we create three definitions - 'isbns', 'author', and 'title'.  For each one we create an instance of the `JuiceMeta` class. The constructor of which has three arguments:
+ * *id* - the id to reference the value by.
+ * *selector* - jQuery selector string for element within page
+ * *filterFunc* - optional function used to process retrieved data before storage
+
+For information on jQuery selectors check out the [http://docs.jquery.com/Selectors jQuery documentation] on selectors, but for example the title definition in our example is selecting the contents of the `<h1>` element contained within an element with an id attribute of `itemDetailsContainer`.
+
+Remember that a jQuery selector can return multiple values, a feature used in the `isbns` meta in our example.  This also highlights the optional `filterFunc` - a !JavaScript function used to filter or change the values of the returned before storing them.  `juice.stringToAlphnumAray` is a utility which removes words which contain non alphanumeric characters from a string and then returns the remaining words as an array which is stored in the instance of !JuiceMeta.
+
+=== What about attributes? ===
+
+!JuiceMeta will retrieve and store the contents of a document element from the html page.  If you need to retrieve a value held in an element attribute you should use the associated class - !JuiceMetaAttr. It's constructor takes one extra argument defining the name of the attribute: `JuiceMetaAttr(id, selector, attName, filterFunc)`
+
+== Making the value available ==
+
+In our example the constructed instances of !JuiceMeta are passed to the Juice function `juice.addMeta`.  This makes them available to other components of the Juice framework.
+
+ 
