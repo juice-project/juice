@@ -1,0 +1,122 @@
+= How-to - Adding Extensions to my site =
+
+This How-to steps you through adding some extensions to your system.  It assumes you have read through [HowToHelloWorld How-to - "hello world"] and [HowToSimplestExtension How-to - The Simplest Extension] and you have Juice embedded in your interface.
+
+I also assume that the interface you are using has already been encountered by others in the Juice community, so that a Metadef file is already available for it.  (If this is not the case, check out the [CreateMetadef Creating a Metadef] document to see how to build your own.)
+
+In this example we will add the extensions for calling out to !WorldCat.org and del.icio.us, displaying their links in a !JuiceListPanel.
+
+== Step 1 - loading the required files ==
+In your Juice interface file, add in the calls to load the required files:
+
+{{{
+jQuery(document).ready(function () {
+     juice.setDebug(true);
+     juice.loadJs("http://www.example.com/juice/metadefs/example_metadef.js");
+     juice.loadJs("http://www.example.com/juice/panels/juiceListPanel.js");
+     juice.loadJs("http://www.example.com/juice/extensions/WorldCat.js");
+     juice.loadJs("http://www.example.com/juice/extensions/delicious.js");
+     juice.loadJs("http://www.example.com/juice/extensions/JuiceSimpleInsert.js");
+     juice.loadCss("http://www.example.com/juice/panels/juiceDefault.css");
+     juice.onJsLoaded(runExtensions);
+});
+}}}
+
+*Note:* We have also loaded the `juiceDefault.css` file which contains the default css classes used by the panel we are using.
+
+== Step 2 - Creating the panel ==
+
+This is best carried out in a seperate function called from our `runExtensions` function.
+
+{{{
+function buildSelectionPanel(){
+	var div = '<div id="ExtentionsPanel" class="itemFulfillmentPanel">' +
+		'<div class="itemFulfillmentPanelHeading">Alternative Sources</div>' +
+		'<div id="ExtentionsPanelWindow" class="itemFulfillmentPanelDetail">' +
+		'</div></div>';
+
+	var insert = new JuiceInsert(div,"#itemSidebar","append");
+
+	var panel = new JuiceListPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveText','juiceXActiveText',null);
+	juice.addPanel(panel);
+}
+}}}
+
+As you can see, we define the html element we want inserted in to the page, which in turn includes an element in to which we want our list of extensions to appear - in this case the `<div>` with an id of `ExtentionsPanelWindow`.  The classes added to the elements, reflect the classes used by the interface we are extending, thus reflecting the look of it in to the panel.
+
+Next we create a !JuceInsert describing where and how the element is to be inserted on the page.
+
+Next, we pass it to the !JuiceListPanel along with the id of the element in which it is to display ans the inactive and active CSS classes to use.
+
+Finally, we register the panel with the Juice framework with a call to `juice.addPanel()` so that our extensions can use it.
+
+== Invoking the extensions ==
+
+We now need to add the extensions themselves thus:
+
+{{{
+     new worldcatJuice(juice,
+     'http://www.example.com/juice/images/worldcat.jpg',
+     'Search WorldCat');
+
+     new deliciousJuice(juice,
+     'http://www.example.com/juice/images/Delicious.jpg',
+     'Bookmark with Delicious');
+}}}
+
+Most extensions share the same constructor arguments - a reference to 'juice' ,then the URL of an image to display, and the text to display.
+
+== Only doing it if you have to ==
+
+It is pointless invoking all this code if the page you are on does not contain data for your extensions to use.  Having called the metadef function are calls are then wrapped in an if statement that is only invoked if we have identified some values on the page.
+
+== Bringing it all together ==
+
+Bringing it all together our full interface file will look like this:
+{{{
+jQuery(document).ready(function () {
+     juice.setDebug(true);
+     juice.loadJs("http://www.example.com/juice/metadefs/example_metadef.js");
+     juice.loadJs("http://www.example.com/juice/panels/juiceListPanel.js");
+     juice.loadJs("http://www.example.com/juice/extensions/WorldCat.js");
+     juice.loadJs("http://www.example.com/juice/extensions/delicious.js");
+     juice.loadJs("http://www.example.com/juice/extensions/JuiceSimpleInsert.js");
+     juice.loadCss("http://www.example.com/juice/panels/juiceDefault.css");
+     juice.onJsLoaded(runExtensions);
+});
+
+function runExtensions(){
+     doCreatedBy();
+     example_metadef();
+     if(juice.hasMeta()){
+	buildSelectionPanel();
+        new worldcatJuice(juice,
+        'http://www.example.com/juice/images/worldcat.jpg',
+        'Search WorldCat');
+
+        new deliciousJuice(juice,
+        'http://www.example.com/juice/images/Delicious.jpg',
+        'Bookmark with Delicious');
+}
+
+
+function doCreatedBy(){
+     var div = '<div id="extendedBy" style="display: block; width: 100%; text-align: center; clear: both;">' +
+        'Extended by <a href="http://juice-project.googlecode.com">The Juice Project</a></div>';
+
+     var insert = new JuiceInsert(div,"body","append");
+     new simpleInsertJuice(juice,insert);
+}       
+
+function buildSelectionPanel(){
+	var div = '<div id="ExtentionsPanel" class="itemFulfillmentPanel">' +
+		'<div class="itemFulfillmentPanelHeading">Alternative Sources</div>' +
+		'<div id="ExtentionsPanelWindow" class="itemFulfillmentPanelDetail">' +
+		'</div></div>';
+
+	var insert = new JuiceInsert(div,"#itemSidebar","append");
+
+	var panel = new JuiceListPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveText','juiceXActiveText',null);
+	juice.addPanel(panel);
+}
+}}}
