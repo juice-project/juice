@@ -1,0 +1,52 @@
+= Inserts and Panels =
+
+The !JuiceInsert and !JuicePanel are two closely associated elements of the Juice framework.
+
+Hopefully this document will help clarify how they are both different and connected.
+
+
+= The Insert =
+
+The Insert is one of the core Juice components.  It is used to provide a container for Juice Extensions to output their content in to.  It is also used as a container to hold clickable elements on a page.  When complete a Juice extended page could contain several inserts.
+
+A !JuiceInsert is a definition of a piece of html that is to be inserted in to a web page, and a definition of where on the page it is to be inserted.  Examining the example from the [HowToSimplestExtension "The simplest extension" How-to]:
+{{{
+     var div = '<div id="extendedBy" style="display: block; width: 100%; text-align: center; clear: both;">' +
+        'Extended by <a href="http://juice-project.googlecode.com">The Juice Project</a></div>';
+
+     var insert = new JuiceInsert(div,"body","append");
+     new simpleInsertJuice(juice,insert);
+}}}
+
+In this example the first step was to create the html that is to be inserted in to the page. This html can be as simple or complex as required.  The only requirement being that it is all contained within a single element such as a `<div>` or `<span>` or `<ul>`, etc.
+
+You can create it as either a string representing the html, as in this example, or as !JavaScript document elements.
+
+Your created html is then passed as the first argument to the constructor of the !JuiceInsert class.  The remaining two arguments are used to define where and how that html is to be inserted in to the page.  The first of these two is a jQuery selector string. For information on jQuery selectors check out the [http://docs.jquery.com/Selectors jQuery documentation on] selectors, but for example this example is identifying the `<body>` element.  The final argument defines how to insert the html at the point identified by the selector.  It has four possible values:
+ * append - insert to the end of the contents of the selected element
+ * prepend - insert to the start of the contents of the selected element
+ * before - insert immediately before the selected element
+ * prepend - insert immediately after the selected element
+
+
+= The Panel =
+
+The !JuicePanel is an area inserted in to the web page, defined using a !JuiceInsert, where extensions can place clickable links to invoke their functionality without having to be concerned about the look of the links.  Currently there are two panel types !JuiceBasicPanel and !JuiceListPanel.
+
+!JuiceBasicPanel assumes a simple `<div>` element in which extensions can place clickable images.
+
+!JuiceListPanel creates an unordered list which extensions populate with clickable text.
+
+Both types of panel share the the same constructor arguments:
+ * insertDiv - JuiceInsert defining panel insert in document
+ * pannelId - Id of panel
+ * startClass - css classes to be applied to inserted links before selector is enabled by it's extension
+ * liveClass - css classes to be applied to inserted links when selector is enabled it's extension
+ * showFunc - function to be called as panel is first shown - optional 
+
+A Panel does not cause it's associated Insert to be shown on the page until the first request from an extension is invoked.
+
+
+
+
+
