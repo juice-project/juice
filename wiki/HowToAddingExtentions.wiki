@@ -68,7 +68,7 @@ Most extensions share the same constructor arguments - a reference to 'juice' ,t
 
 == Only doing it if you have to ==
 
-It is pointless invoking all this code if the page you are on does not contain data for your extensions to use.  Having called the metadef function are calls are then wrapped in an if statement that is only invoked if we have identified some values on the page.
+It is pointless invoking all this code if the page you are on does not contain data for your extensions to use.  Having called the metadef function our calls are then wrapped in an if statement that is only invoked if we have identified some values on the page.
 
 == Bringing it all together ==
 
