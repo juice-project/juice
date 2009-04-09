@@ -1,18 +1,43 @@
 = Screenshots =
 
-Here are a few screenshots showing intefaces that have been extended using the Juice framework
+Here are a few screenshots showing interfaces that have been extended using the Juice framework
 
 
 === Juice inserted clickable icons in a Talis Prism OPAC interface ===
 
-Visible at the bottom of the page is an Extensions panel containing clickable icons from several Juice extentions.  This was created using the !JuiceBasicPanel.
+Visible at the bottom of the page is an Extensions panel containing clickable icons from several Juice extensions.  This was created using the !JuiceBasicPanel.
 
-Note the Google Preview icon is greyed out (and is not clickable).  This is because the Google Book Search extention has identified that there is no preview for this book at Google, so it has not enabled the extension.
+Note the Google Preview icon is greyed out (and is not clickable).  This is because the Google Book Search extension has identified that there is no preview for this book at Google, so it has not enabled the extension.
 
 http://juice-project.googlecode.com/svn/wiki/prism_icons_screenshot.jpg
 
-=== VuFind extended with a list panel ===
+=== !VuFind extended with a list panel ===
 
-This screenshot shows part of the [http://vufind.org/demo/Record/453665 VuFind demonstration interface] that has been extended with an 'Alternative Sources' section created using !JuiceListPanel.
+This screenshot shows the [http://vufind.org/demo/Record/453665 VuFind demonstration interface] that has been extended with an 'Alternative Sources' section created using !JuiceListPanel.
 
 http://juice-project.googlecode.com/svn/wiki/VuFind_screenshot.jpg
+
+=== Talis Aspire extended with a list panel ===
+
+This screenshot shows part of a [http://www.talis.com/aspire/ Talis Aspire] Resource List system extended by Juice.  Again this uses the !JuiceListPanel.  Note how the style of the list differs from the previous example because the underlying product CSS classes have been used when defining the html for the panel insert.
+
+http://juice-project.googlecode.com/svn/wiki/Aspire_sussex_screenshot.jpg
+
+=== Talis Prism extended with a multiple inserts ===
+
+This one shows an icon, repeated several times, inserted in to the library holdings part of a [http://www.talis.com/prism Talis Prism] OPAC interface.
+
+http://juice-project.googlecode.com/svn/wiki/prism_floormapicon_screenshot.jpg
+
+=== Book preview embedded in page ===
+
+This screenshot shows the embedding of the Google Book Search preview in to a page.
+
+http://juice-project.googlecode.com/svn/wiki/prism_embed_GBS_screenshot.jpg
+
+=== Video player embedded in page ===
+
+This screenshot shows a video, from the Meet the Author service, embedded along with a list panel.
+
+http://juice-project.googlecode.com/svn/wiki/prism_mta_screenshot.jpg
+
