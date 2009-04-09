@@ -1,0 +1,18 @@
+= Screenshots =
+
+Here are a few screenshots showing intefaces that have been extended using the Juice framework
+
+
+=== Juice inserted clickable icons in a Talis Prism OPAC interface ===
+
+Visible at the bottom of the page is an Extensions panel containing clickable icons from several Juice extentions.  This was created using the !JuiceBasicPanel.
+
+Note the Google Preview icon is greyed out (and is not clickable).  This is because the Google Book Search extention has identified that there is no preview for this book at Google, so it has not enabled the extension.
+
+http://juice-project.googlecode.com/svn/wiki/prism_icons_screenshot.jpg
+
+=== VuFind extended with a list panel ===
+
+This screenshot shows part of the [http://vufind.org/demo/Record/453665 VuFind demonstration interface] that has been extended with an 'Alternative Sources' section created using !JuiceListPanel.
+
+http://juice-project.googlecode.com/svn/wiki/VuFind_screenshot.jpg
