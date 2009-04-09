@@ -37,7 +37,6 @@ http://juice-project.googlecode.com/svn/wiki/prism_embed_GBS_screenshot.jpg
 
 === Video player embedded in page ===
 
-This screenshot shows a video, from the Meet the Author service, embedded along with a list panel.
+This screenshot shows a video, from the [http://www.meettheauthor.co.uk/ Meet the Author] service, embedded along with a list panel.
 
 http://juice-project.googlecode.com/svn/wiki/prism_mta_screenshot.jpg
-
