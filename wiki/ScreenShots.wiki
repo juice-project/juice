@@ -23,6 +23,12 @@ This screenshot shows part of a [http://www.talis.com/aspire/ Talis Aspire] Reso
 
 http://juice-project.googlecode.com/svn/wiki/Aspire_sussex_screenshot.jpg
 
+=== Another insert panel example ===
+
+Another example of an extensions panel containing clickable icons from several Juice extensions.  This was also created using the !JuiceBasicPanel. Note again how the style of the insert has been created to use the style of the page.
+
+http://juice-project.googlecode.com/svn/wiki/Duke_icons_screenshot.jpg
+
 === Talis Prism extended with a multiple inserts ===
 
 This one shows an icon, repeated several times, inserted in to the library holdings part of a [http://www.talis.com/prism Talis Prism] OPAC interface.
