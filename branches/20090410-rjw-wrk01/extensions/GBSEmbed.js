@@ -4,6 +4,7 @@ function GBSEmbedJuice(ju,insert,targetDiv){
 	initFunc = this.searchGBS;
 	selectFunc = this.runGBS;
 	if(arguments.length){
+		juice.loadGoogleApi("books", "0");
 		GBSEmbedJuice.superclass.init.call(this,id,initFunc,selectFunc,insert,ju);
 		GBSEmbedJuice.superclass.startup.call(this);
 	}
@@ -17,14 +18,14 @@ GBSEmbedJuice.superclass = JuiceProcess.prototype;
 
 GBSEmbedJuice.prototype.searchGBS = function(){
 	if(juice.hasMeta("isbns")){
-		var isbns = juice.getMeta("isbns");
+		this.isbns = juice.getMeta("isbns");
 		var selString = "";
 		var index = 0;
-		for(;index < isbns.length;index++){
+		for(;index < this.isbns.length;index++){
 			if(index>0){
 				selString += ",";
 			}
-			selString += "ISBN:"+isbns[index];		
+			selString += "ISBN:"+this.isbns[index];		
 		}
 	
 		var cmd = "http://books.google.com/books?bibkeys=" + escape(selString) + "&jscmd=viewapi&callback=";
@@ -35,64 +36,44 @@ GBSEmbedJuice.prototype.searchGBS = function(){
 
 GBSEmbedJuice.prototype.loadGBS = function(booksInfo){
 	gbsJuicepointer = null;
-	var gbsInfo = null;
-	var targetBook = null;
-	var targetView = "";
-	var targetUrl = "";
+	var embedable = false;
+	var isbn = "";
 	for (i in booksInfo) {
-		var view = "Information";
 		    var book = booksInfo[i];
-
-		if(book.preview == "noview"){
-				//continue;		
-		}
-		if(book.preview == "partial"){
-				view = "Preview";		
-				targetView = "Preview";		
-			targetBook = book.bib_key;
-			targetUrl = book.info_url;
-		}else if(book.preview == "full"){
-				view = "View";		
-				targetView = "Full";
-			targetBook = book.bib_key;
-			targetUrl = book.info_url;
-			break;
-		}
+			if(book.embeddable){
+				isbn = book.bib_key;
+				embedable = true;
+				break;
+			}
 	}
 	
-	if(targetBook != null){
-		this._isbn = targetBook;
-		this._targetUrl = targetUrl;
-		this.loadViewer();
+	if(embedable){
+		var This = this;
+	    juice.onAllLoaded(function(){This.loadViewer(isbn);});
 	}
 }
 
-GBSEmbedJuice.prototype.loadViewer = function() {
+GBSEmbedJuice.prototype.loadViewer = function(isbn) {
 	this.showInsert();
 	try{
 		this.viewer = new google.books.DefaultViewer(document.getElementById(this.targetDiv));
 	}catch	(e){
 		juice.debugOutln("caught1 - "+e.name+" - "+e.message);
 	}
-	this.loadBook();
+	this.loadBook(isbn);
 }
 
-GBSEmbedJuice.prototype.loadBook = function(){
+GBSEmbedJuice.prototype.loadBook = function(isbn){
 	var sel = this._isbn;
 	var This = this;
 	try{
-		this.viewer.load(this._isbn, function() { This.noLoad(); }, null);
+		this.viewer.load(isbn, function() { This.noLoad(); }, null);
 	}catch(e){
 		juice.debugOutln("caught2 - "+e.name+" - "+e.message);
 	}
 }	
 
 GBSEmbedJuice.prototype.noLoad = function(){
-	if(this.isbnCount < this.isbns.length){
-		this._isbn = this.isbns[this.isbnCount++];
-		this.loadBook();
-	}else{
 		juice.debugOut("No MATCH");		
-	}
 }	
 

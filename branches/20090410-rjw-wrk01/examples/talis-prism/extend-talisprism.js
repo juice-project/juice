@@ -1,21 +1,16 @@
 var procEGBS = null;
-
-var whichPrism = document.location.pathname.split('/')[1];
-	
-function startEGBS(){
-	if(juice.hasMeta()){
-		if(procEGBS != null){
-			procEGBS.startupWhenReady();
-		}else{
-			setTimeout(startEGBS,5);
-		}
-	}
+var locationBits = document.location.pathname.split('/');
+var whichPrism = locationBits[1];
+var demo = false;
+if(whichPrism == "demo"){
+	demo = true;
+	whichPrism = locationBits[2];
 }
-google.load("books", "0");
-google.setOnLoadCallback(startEGBS);
+var whichPage = locationBits[locationBits.length - 1];
 
-
-jQuery(document).ready(function () {
+juice.googleApiKey("ABQIAAAAKi1cC767naAPtNw6ExDJHBSr1cLuvfmD_hPnfKXXZtPgfYowlRRaiVfGUqzawVB9RWLIPD4MTDzgdw");
+	
+jQuery(document).ready(function () { 
 	juice.setDebug(true);
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/JuiceSimpleInsert.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_prism_metadef.js");
@@ -33,8 +28,11 @@ jQuery(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/OpenLibrary.js");
 //	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThingCK.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleMap.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleRssfeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/UCDMaps.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/textic.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
@@ -45,9 +43,19 @@ function runExtensions(){
 	buildExtendedBy();
 	var procGas = new gasJuice(juice);
 	talis_prism_metadef();
+//	juice.debugMeta();
+	if(whichPage == "index.php" || whichPage == "" ){
+		frontPage();
+	}
 	
 //	juice.overlayFunc(juiceOverlayDisplay);
-	
+	switch(whichPrism){
+		case "sandbox-gov":
+	//	buildTextic();
+		break;
+		case "sandbox-ac":
+		break;
+	}	
 	if(juice.hasMeta()){
 		switch(whichPrism){
 			case "sandbox-gov":
@@ -60,6 +68,7 @@ function runExtensions(){
 				buildMapsInsert();
 			break;
 		}
+		
 		buildWorldCatIframe();
 
 
@@ -158,6 +167,90 @@ function buildExtendedBy(){
 	var insert = new JuiceInsert(div,"body","append");
 	var procExtendedBy = new simpleInsertJuice(juice,insert);	
 }
+
+function buildTextic(){
+	var div = '<div id="textic"></div>';
+	var insert = new JuiceInsert(div,"#pageFooter","prepend");
+	new texticJuice(juice,insert,"textic");
+}
+
+function frontPage(){
+	var html = '<div id="hpContainer" style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;">' +
+				'<div id="hpLeft" style="width: 30%; float: left; border-right: 5px;"/>' +
+				'<div id="hpCenter" style="width: 40%; float: left; text-align: center;">' +
+//				'<div id="hpCenterHead" style="display: block; width: 100%; text-align: center; hight: 20px">Your Libraries</div>'+
+				'<div id="hpCenterHead" class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px">Library Locations</div>'+
+				'<div id="hpCenterBody" style="display: block; width: 100%;"/>' +
+				'</div>' +
+				'<div id="hpRight" style="width: 30%; float: right; border-left: 5px"/>' +
+				'</div>';
+	var insert = new JuiceInsert(html,"#pageContent","append");
+	insert.show();
+	var googleOptions = {
+	   numResults : 10
+	 }
+
+	 new GoogleRSSFeedJuice(juice,insert,"hpRight", "http://blogs.talis.com/panlibus/feed", googleOptions);
+	 new GoogleRSSFeedJuice(juice,insert,"hpLeft", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml", googleOptions);
+	if(whichPrism == "sandbox-ac"){
+		insertHours();
+	}else{
+		var mapOps = {
+			height : "280px",
+			width : "350px",
+			zoom : 13,
+			center : {lt: 52.00, lg: 0.00},
+			points : [
+			{ point : {lt: 52.00, lg: 0.00}, title : "Test point", body : "This is some display text"},
+//			{ point : {lt: 52.01, lg: 0.01}, title : "Test point2", body : "This is some display text"}
+			]
+		};
+	 	new GoogleMapJuice(juice,insert,"hpCenterBody",mapOps);
+	}
+
+}
+
+function insertHours(){
+var hours = '<div style="text-align: left; margin-left: 40px; " id="branch_hours">' +
+    '<div id="branch_hours_inner">' +
+        '<h2 style="text-align: center;">Opening Hours</h2>' +
+        '<table id="branch_hours_table">' +
+            '<tr>' +
+                '<td style="text-align: left;">Sunday</td>' +
+                '<td style="text-align: center;">10:00AM - 4:00PM</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td style="text-align: left;">Monday</td>' +
+                '<td style="text-align: center;">9:30AM - 9:00PM</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td style="text-align: left;">Tuesday</td>' +
+                '<td style="text-align: center;">9:30AM - 9:00PM</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td style="text-align: left;">Wednesday</td>' +
+                '<td style="text-align: center;">9:30AM - 9:00PM</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td style="text-align: left;">Thursday</td>' +
+                '<td style="text-align: center;">9:30AM - 9:00PM</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td style="text-align: left;">Friday</td>' +
+                '<td style="text-align: center;">9:30AM - 9:00PM</td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td style="text-align: left;">Saturday</td>' +
+                '<td style="text-align: center;">9:30AM - 9:00PM</td>' +
+            '</tr>' +
+        '</table>' +
+    '</div>' +
+'</div>';
+var insert = new JuiceInsert(hours,"#hpCenterBody","append");
+insert.show();
+}
+
+
 
 
 
