@@ -24,3 +24,7 @@ none.
 {{{gasJuice(ju,code)}}}<br/>
 arg: ju - instance of juice <br/>
 arg: code - Google Analytics code<br/>
+
+== Notes ==
+
+The code used needs to be a valid one for the site in which the extension is inserted.  Google only updates its statistics once a day, so results will not appear for up to 24 hours after extension is applied.  
