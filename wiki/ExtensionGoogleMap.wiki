@@ -17,6 +17,7 @@ Note: In the example below, all locations for a site are passed to the extension
 
 When a map point is clicked, an info window is opened contain the `title` and `body` html for that point using css classes `juiceMapInfoTitle` and `juiceMapInfoBody` respectively.
 
+http://juice-project.googlecode.com/svn/wiki/prism_map.jpg
 == Example code ==
 {{{
 var div = '<div id="LocMapPanel" style="display: block; width: 240px; height: 310px"><br/><h2 class="title">Library Location</h2><div id="LocMap" style="width: 240px; height: 250px"></div></div>';
