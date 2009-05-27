@@ -1010,7 +1010,6 @@ _Juice.prototype.loadCss = function (file){
 _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	var This = this;
 	var evnt = onLoadEvent;
-	
     var head = document.getElementsByTagName('head')[0]; 
     var ins = null;
 	if(type == "js"){
@@ -1024,10 +1023,9 @@ _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	    ins.href = file; 		
 	}
 
-    head.appendChild(ins); 
-
 	if(type == "js"){
 		This.JsLoadFlags[this.JsLoadFlags.length] = new JsLoadFlag(file);
+		
 		ins.onreadystatechange = function () {
 	        if (ins.readyState == 'loaded' || ins.readyState == 'complete') {
 				if(evnt){
@@ -1036,7 +1034,6 @@ _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	            This.jsOnLoadEvent(file);
 	        }
 	    }
-
 	    ins.onload = function () {
 			if(evnt){
 				evnt();
@@ -1044,7 +1041,8 @@ _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	       This.jsOnLoadEvent(file);
 	    }
 	}
-   
+
+    head.appendChild(ins);    
 }
 
 //findJs - return true if script element already loaded in document
@@ -1091,7 +1089,7 @@ _Juice.prototype.onJsLoaded = function(func){
 	if(this.isJsLoaded()){
 		func();
 	}else{
-		setTimeout(function(){This.onJsLoaded(func);},5);
+		setTimeout(function(){This.onJsLoaded(func);},10);
 	}
 }
 
