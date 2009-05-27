@@ -1,0 +1,36 @@
+= Waterstones Juice Extension =
+
+Extension to launch a search window on waterstones.com based on ISBN data held on page. Can be launched from either text or image based selection panels.
+
+Note: Copac search only accepts single ISBNs, so only the first identified on page is used.
+
+Author: *Richard Wallis*<br/>
+Juice Version: > 0.1 
+
+== Operation == 
+
+Upon construction this extension inserts the passed icon & text in to the relevant selection panels with css classes set to 'juiceXInactiveIcon' and 'juiceXInactiveText'.  Once initialized thes are changed to 'juiceXActiveIcon' and 'juiceXActiveText', and they become clickable. Once clicked, a window of the passed type is launched to display the site. 
+
+== Example code ==
+{{{
+new waterstonesJuice(juice,
+'http://www.waterstones.com/waterstonesweb/graphics/global/branding_logo.gif',
+'Search Waterstones',"current");
+}}}
+
+== Prerequisites ==
+=== Loaded modules ==
+{{{juice.loadJs("http://{MyServer}/extensions/Waterstones.js");}}}
+
+=== Data requirements ===
+
+Extension is dependent on one ISBN value being stored in a Juice Meta definition named "isbns".  This extension will not display in a selection panel if this value is not present. Note: Waterstones search only accepts single ISBNs, so only the first identified on page is used.
+
+== Constructor arguments ==
+{{{waterstonesJuice(ju,src,text,defPanel,launchType,insert1,insert2)}}}<br/>
+arg: ju - instance of juice <br/>
+arg: src - url to logo to display in selection panel<br/>
+arg: text - text to display in selection panel<br/>
+arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
+arg: insert1 - option for launch window - optional<br/>
+arg: insert2 - option for launch window - optional<br/>
