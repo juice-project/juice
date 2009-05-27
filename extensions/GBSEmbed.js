@@ -1,3 +1,13 @@
+//GBSEmbed.js
+//Extension to embed a Google Book Search Viewer in to the page based on meta value of 'isbns'.  
+//This extension does a pre-search of Google Book Search, and only is enabled if Google has a full or 
+//partial preview available.
+
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: insert - JuiceInsert for page
+//arg: targetDiv - id of element within insert to contain viewer
+
 function GBSEmbedJuice(ju,insert,targetDiv){
 	id = "GBSSel";
 	this.targetDiv = targetDiv;

@@ -170,6 +170,8 @@ function buildLocationsMapsInsert(){
 				var mapOps = {
 					height : "250px",
 					width : "240px",
+					defaultZoom : 12,
+					defaultCenter : {lt: 51.481436,lg: -0.085402},
 					points : libraryLocations,
 					select: locs
 				};
@@ -193,16 +195,16 @@ function buildTextic(){
 var libraryLocations = [
 { point : {lt: 51.500087,lg: -0.059738}, id : "Blue Anchor", title : "Blue Anchor Library", body : "Market Place<br/>Southwark Park Road<br/>SE16 3UQ<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 9am to 7pm, Friday 10am to 6pm, Saturday 9am to 5pm"},
 { point : {lt: 51.490095,lg: -0.098791}, id : "Brandon", title : "Brandon Library", body : "Maddock Way<br/>Cooks Road<br/>SE17 3NH<br/><br/><i>Opening hours</i>: Monday 10am to 6pm, Tuesday and Thursday 10am to 7pm, Saturday 10am to 5pm"},
-{ point : {lt: 51.481436,lg: -0.085402}, id : "Camberwel", title : "Camberwel Library", body : "17-21 Camberwell Church Street<br/>SE5 8TR<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 9am to 8pm, Friday 10am to 6pm, Saturday 9am to 5pm"},
+{ point : {lt: 51.481436,lg: -0.085402}, id : "Camberwell", title : "Camberwell Library", body : "17-21 Camberwell Church Street<br/>SE5 8TR<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 9am to 8pm, Friday 10am to 6pm, Saturday 9am to 5pm"},
 { point : {lt: 51.4562, lg: -0.070381}, id : "Dulwich", title : "Dulwich Library", body : "368 Lordship Lane<br/>SE22 8NB<br/><br/><i>Opening hours</i>: Monday, Wednesday, Thursday and Friday 9am to 8pm, Tuesday 10am to 8pm, Saturday 9am to 5pm, Sun 12pm to 4pm"},
-{ point : {lt: 51.497736, lg: -0.076904}, id : "East Street", title : "East Street Library", body : "168-170 Old Kent Road<br>SE1 5TY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday 10am to 6pm, Sat 10am to 5pm"},
+{ point : {lt: 51.497736, lg: -0.076904}, id : "East St.", title : "East Street Library", body : "168-170 Old Kent Road<br>SE1 5TY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday 10am to 6pm, Sat 10am to 5pm"},
 { point : {lt: 51.469034, lg: -0.074415}, id : "Grove Vale", title : "Grove Vale Library", body : "25-27 Grove Vale<br/>SE22 8EQ<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday 10am to 6pm, Saturday 10am to 5pm"},
 { point : {lt: 51.436835, lg: -0.076132}, id : "Kingswood", title : "Kingswood Library", body : "Seeley Drive<br/>SE21 8QR<br/><br/><i>Opening hour</i>s: Monday and Thursday 10am to 2pm, Tuesday and Friday 2pm to 6pm, Sat 1pm to 5pm"},
 { point : {lt: 51.480688, lg: -0.065145}, id : "Local History Library", title : "Local History Library", body : "122 Peckham Hill Street<br/>SE15 5JR<br/><br/><i>Opening hours</i>: Monday and Thursday, 10am to 8pm, Tuesday and Friday, 10am to 5pm, Saturday 10am to 1pm"},
 { point : {lt: 51.498271, lg: -0.092525}, id : "Newington", title : "Newington Library", body : "155-157 Walworth Road<br/>SE17 1RS<br/><br/><i>Opening hours</i>: Monday, Tuesday and Friday 9am to 8pm, Wednesday and Thursday 10am to 8pm, Saturday 9am to 5pm, Sunday 12pm to 4pm"},
 { point : {lt: 51.47315, lg: -0.055532}, id : "Nunhead", title : "Nunhead Library", body : "Gordon Road<br/>SE15 3RW<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 10am to 7pm, Friday 10am to 6pm, Saturday 10am to 5pm"},
 { point : {lt: 51.481757, lg: -0.065145}, id : "Peckham", title : "Peckham Library", body : "122 Peckham Hill Street<br/>SE15 5JR<br/><br/><i>Opening hours</i>: Monday, Tuesday, Thursday and Friday 9am to 8pm, Wednesday 10am to 8pm, Saturday 10am to 5pm, Sunday 12pm to 4pm"},
-{ point : {lt: 51.507247, lg: -0.048838}, id : "Rotherhithe", title : "Rotherhithe Library", body : "Albion Street<br/>SE16 7HY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday and Wednesday 10am to 6pm, Saturday 10am to 5pm"},
+{ point : {lt: 51.507247, lg: -0.048838}, id : "Rotherhithe", title : "Rotherhithe Library", body : "Albion Street<br/>SE16 7HY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday and Wednesday 10am to 6pm, Saturday 10am to 5pm"}
 ];
 
 function frontPage(){
@@ -230,8 +232,9 @@ function frontPage(){
 		var mapOps = {
 			height : "280px",
 			width : "350px",
-			points : libraryLocations,
-//			select: ["Blue Anchor", "Dulwich", "Nunhead"]
+			defaultZoom : 12,
+			defaultCenter : {lt: 51.481436,lg: -0.085402},
+			points : libraryLocations
 		};
 	 	new GoogleMapJuice(juice,insert,"hpCenterBody",mapOps);
 	}

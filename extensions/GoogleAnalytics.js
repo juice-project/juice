@@ -1,6 +1,9 @@
-//Replaace all 'gas' with extention name
-//Add in Extension specific code
-//Save in file extension-name.js
+//GoogleAnalytics.js
+//Extension to simply add the code for Google Analytics to a page.
+
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: code - Google Analytics code
 
 function gasJuice(ju,code){
 	id = "gasSel";
