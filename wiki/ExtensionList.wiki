@@ -14,3 +14,4 @@ List of published extensions, with links to individual documentation pages
  * [ExtensionSimpleInsert Simple Insert] Simple Juice insert in to a page.
  * [ExtensionLibraryThing LibraryThing] Launch search of librarything.com using title data.
  * [ExtensionOpenLibrary OpenLibrary] Launch search of openlibrary.org using ISBN data.
+ * [ExtensionWaterstones Waterstones] Launch search of waterstones.com using ISBN data.
