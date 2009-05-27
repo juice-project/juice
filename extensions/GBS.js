@@ -1,3 +1,17 @@
+//GBS.js
+//Extension to launch a display of books from Google Book Search based on meta value of 'isbns'.  
+//This extension does a pre-search of Google Book Search, and only is enabled if Google has a full or 
+//partial preview available.
+
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: src - url to logo to display in selection panel
+//arg: text - text to display in selection panel
+//arg: launchType - type of widow to launch new"(default) | "overlay" | "iframe" | "current" - optional
+//arg: insert1 - option for launch window - optional
+//arg: insert2 - option for launch window - optional
+
+
 function GBSJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "GBSSel";
 	this.launchType = launchType;

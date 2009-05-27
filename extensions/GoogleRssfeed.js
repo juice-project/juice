@@ -1,3 +1,13 @@
+//GoogleRssFeed.js
+//Extension to embed a Google in to the page and display points passed on the map.
+
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: insert - JuiceInsert for page
+//arg: targetDiv - id of element within insert to contain control<br/>
+//arg: feeds - RSS feed(s) URLs to display within control
+//arg: googleOptions - options passed to control (http://www.google.com/uds/solutions/dynamicfeed/reference.html)
+//arg: css - css file to override Google css
 
 function GoogleRSSFeedJuice(ju,insert,targetDiv,feeds,googleOptions,css){
 	id = "GoogleRSSFeed";

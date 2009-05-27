@@ -1,3 +1,15 @@
+//copac.js
+//Extension to launch search of copac.ac.uk based on meta value of 'ISBN'.
+//Note: copac search only accepts a single ISBNS
+
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: src - url to logo to display in selection panel
+//arg: text - text to display in selection panel
+//arg: launchType - type of widow to launch new"(default) | "overlay" | "iframe" | "current" - optional
+//arg: insert1 - option for launch window - optional
+//arg: insert2 - option for launch window - optional
+
 function copacJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	id = "copacSel";
 	this.launchType = launchType;
