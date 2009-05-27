@@ -1,5 +1,3 @@
-#summary One-sentence summary of this page.
-
 = Amazoncouk Juice Extension =
 
 Extension to launch a search window on Amazon.co.uk based on ISBN data held on page. Can be launched from either text or image based selection panels. 
