@@ -31,7 +31,7 @@ juice.loadJs("http://{MyServer}/extensions/GoogleRssFeed.js");
 }}}
 
 === Data requirements ===
-None - unless to identify elements for the select array.
+None
 
 == Constructor arguments ==
 {{{GoogleRSSFeedJuice(ju,insert,targetDiv,feeds,googleOptions,css)}}}<br/>
