@@ -14,6 +14,6 @@ Google provides [http://code.google.com/apis/ajax/playground/ many examples] of 
   * `juice.loadGoogle_jsapi()` - Loads core Google API !JavaScript framework, ensures it is only loaded once.  Called by `juice.loadGoogleApi()`, provided separately to enable early loading of the core framework.
   * `juice.loadGoogleApi()` - load individual Google APIs, such as maps, books, feeds, etc. Ensures each API is only loaded once.
   * `juice.onGoogleApiLoaded()` - Call a passed function when all requested Google APIs have been loaded.
-  * `juice.onAllLoaded()` - Call a passed function when all requested !JavaScript and Google API files have been loaded.  Supersedes `juice.onJsLoaded()` which only waits for files loaded via `juice.loadJs(). 
+  * `juice.onAllLoaded()` - Call a passed function when all requested !JavaScript and Google API files have been loaded.  Supersedes `juice.onJsLoaded()` which only waits for files loaded via `juice.loadJs()`. 
 
  
