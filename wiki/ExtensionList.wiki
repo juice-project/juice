@@ -7,3 +7,4 @@ List of published extensions, with links to individual documentation pages
  * [ExtensionCopac Copac] Launch search of copac.ac.uk using ISBN data.
  * [ExtensionDelicious del.icio.us] Launch a window to the del.cio.us bookmaking service.
  * [ExtensionGBS Google Book Search] Launch a window to Google Book Search book display service.
+ * [ExtensionGBSEmbed Google Book Search Embedded Viewer] Embed Google Book Search Viewer in page.
