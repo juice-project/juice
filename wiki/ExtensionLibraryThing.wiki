@@ -13,7 +13,8 @@ Upon construction this extension inserts the passed icon & text in to the releva
 {{{
 new librarythingSearchJuice(juice,
 'http://{myserver}/images/librarything-logo.gif',
-'Search LibraryThing');}}}
+'Search LibraryThing');
+}}}
 
 == Prerequisites ==
 === Loaded modules ==
