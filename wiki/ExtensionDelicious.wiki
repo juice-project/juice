@@ -1,0 +1,30 @@
+= Audiblecouk Juice Extension =
+
+Extension to launch a window to the del.cio.us bookmaking service passing on on meta values of author and/or title held on page. Can be launched from either text or image based selection panels.
+
+Author: *Richard Wallis*
+Juice Version: > 0.1 
+
+== Example code ==
+{{{
+new deliciousJuice(juice,
+'http://talis-rjw.s3.amazonaws.com/arielx/images/Delicious.jpg',
+'Bookmark with Delicious');
+}}}
+
+== Prerequisites ==
+=== Loaded modules ==
+{{{juice.loadJs("http://{MyServer}/extensions/delicious.js");}}}
+
+=== Data requirements ===
+
+Extension is dependent on a Juice Meta definition named "author" and one named "title".  This extension will not display in a selection panel if both of these values are not present.
+
+== Constructor arguments ==
+{{{deliciousJuice(ju,src,text,defPanel,launchType,insert1,insert2)}}}<br/>
+arg: ju - instance of juice <br/>
+arg: src - url to logo to display in selection panel<br/>
+arg: text - text to display in selection panel<br/>
+arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
+arg: insert1 - option for launch window - optional<br/>
+arg: insert2 - option for launch window - optional<br/>
