@@ -11,3 +11,4 @@ List of published extensions, with links to individual documentation pages
  * [ExtensionGas Google Analytics] Simply add the code for Google Analytics to a page.
  * [ExtensionGoogleMap Google Map] Insert a Google Map in to a page.
  * [ExtensionGoogleRssFeed Google RSS Feed] Insert a Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] in to a page.
+ * [ExtensionSimpleInsert Simple Insert] Simple Juice insert in to a page.
