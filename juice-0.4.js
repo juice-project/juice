@@ -1041,8 +1041,8 @@ _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	       This.jsOnLoadEvent(file);
 	    }
 	}
-
-    head.appendChild(ins);    
+	//Copy of jQuery fix for IE6 - insert at top of head 
+	head.insertBefore( ins, head.firstChild );
 }
 
 //findJs - return true if script element already loaded in document
