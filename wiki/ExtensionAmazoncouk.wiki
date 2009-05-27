@@ -11,14 +11,14 @@ new amzcoukJuice(juice,
 }}}
 
 == Constructor arguments ==
-{{{
-arg: ju - instance of juice
-arg: src - url to logo to display in selection panel
-arg: text - text to display in selection panel
-arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional
-arg: insert1 - option for launch window - optional
-arg: insert2 - option for launch window - optional
-}}}
+
+arg: ju - instance of juice <br/>
+arg: src - url to logo to display in selection panel<br/>
+arg: text - text to display in selection panel<br/>
+arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
+arg: insert1 - option for launch window - optional<br/>
+arg: insert2 - option for launch window - optional<br/>
+
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
