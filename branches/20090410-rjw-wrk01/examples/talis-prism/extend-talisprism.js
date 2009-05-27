@@ -61,11 +61,12 @@ function runExtensions(){
 			case "sandbox-gov":
 				buildSelectionPanel2();
 				buildMTAInsert();
+				buildLocationsMapsInsert();
 			break;
 			case "sandbox-ac":
 				buildSelectionPanel();
-				buildGBSInsert();
 				buildMapsInsert();
+				buildGBSInsert();
 			break;
 		}
 		
@@ -161,6 +162,21 @@ function buildMTAInsert(){
 	procMTA = new MTAEmbedJuice(juice,insert,"MTAViewer");
 }
 
+function buildLocationsMapsInsert(){
+	if(juice.hasMeta("location")){
+		var locs = juice.getMetaArray("location");
+		var div = '<div id="LocMapPanel" style="display: block; width: 240px; height: 310px"><br/><h2 class="title">Library Location</h2><div id="LocMap" style="width: 240px; height: 250px"></div></div>';
+		var insert = new JuiceInsert(div,"#itemActions > ul:last","after");
+				var mapOps = {
+					height : "250px",
+					width : "240px",
+					points : libraryLocations,
+					select: locs
+				};
+			 	new GoogleMapJuice(juice,insert,"LocMap",mapOps);
+	}
+}
+
 function buildExtendedBy(){
 	var div = '<div id="extendedBy" style="display: block; width: 100%; text-align: center;">' +
 	'Extended by <a href="http://juice-project.googlecode.com">The Juice Project</a></div>';
@@ -174,15 +190,29 @@ function buildTextic(){
 	new texticJuice(juice,insert,"textic");
 }
 
+var libraryLocations = [
+{ point : {lt: 51.500087,lg: -0.059738}, id : "Blue Anchor", title : "Blue Anchor Library", body : "Market Place<br/>Southwark Park Road<br/>SE16 3UQ<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 9am to 7pm, Friday 10am to 6pm, Saturday 9am to 5pm"},
+{ point : {lt: 51.490095,lg: -0.098791}, id : "Brandon", title : "Brandon Library", body : "Maddock Way<br/>Cooks Road<br/>SE17 3NH<br/><br/><i>Opening hours</i>: Monday 10am to 6pm, Tuesday and Thursday 10am to 7pm, Saturday 10am to 5pm"},
+{ point : {lt: 51.481436,lg: -0.085402}, id : "Camberwel", title : "Camberwel Library", body : "17-21 Camberwell Church Street<br/>SE5 8TR<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 9am to 8pm, Friday 10am to 6pm, Saturday 9am to 5pm"},
+{ point : {lt: 51.4562, lg: -0.070381}, id : "Dulwich", title : "Dulwich Library", body : "368 Lordship Lane<br/>SE22 8NB<br/><br/><i>Opening hours</i>: Monday, Wednesday, Thursday and Friday 9am to 8pm, Tuesday 10am to 8pm, Saturday 9am to 5pm, Sun 12pm to 4pm"},
+{ point : {lt: 51.497736, lg: -0.076904}, id : "East Street", title : "East Street Library", body : "168-170 Old Kent Road<br>SE1 5TY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday 10am to 6pm, Sat 10am to 5pm"},
+{ point : {lt: 51.469034, lg: -0.074415}, id : "Grove Vale", title : "Grove Vale Library", body : "25-27 Grove Vale<br/>SE22 8EQ<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday 10am to 6pm, Saturday 10am to 5pm"},
+{ point : {lt: 51.436835, lg: -0.076132}, id : "Kingswood", title : "Kingswood Library", body : "Seeley Drive<br/>SE21 8QR<br/><br/><i>Opening hour</i>s: Monday and Thursday 10am to 2pm, Tuesday and Friday 2pm to 6pm, Sat 1pm to 5pm"},
+{ point : {lt: 51.480688, lg: -0.065145}, id : "Local History Library", title : "Local History Library", body : "122 Peckham Hill Street<br/>SE15 5JR<br/><br/><i>Opening hours</i>: Monday and Thursday, 10am to 8pm, Tuesday and Friday, 10am to 5pm, Saturday 10am to 1pm"},
+{ point : {lt: 51.498271, lg: -0.092525}, id : "Newington", title : "Newington Library", body : "155-157 Walworth Road<br/>SE17 1RS<br/><br/><i>Opening hours</i>: Monday, Tuesday and Friday 9am to 8pm, Wednesday and Thursday 10am to 8pm, Saturday 9am to 5pm, Sunday 12pm to 4pm"},
+{ point : {lt: 51.47315, lg: -0.055532}, id : "Nunhead", title : "Nunhead Library", body : "Gordon Road<br/>SE15 3RW<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 10am to 7pm, Friday 10am to 6pm, Saturday 10am to 5pm"},
+{ point : {lt: 51.481757, lg: -0.065145}, id : "Peckham", title : "Peckham Library", body : "122 Peckham Hill Street<br/>SE15 5JR<br/><br/><i>Opening hours</i>: Monday, Tuesday, Thursday and Friday 9am to 8pm, Wednesday 10am to 8pm, Saturday 10am to 5pm, Sunday 12pm to 4pm"},
+{ point : {lt: 51.507247, lg: -0.048838}, id : "Rotherhithe", title : "Rotherhithe Library", body : "Albion Street<br/>SE16 7HY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday and Wednesday 10am to 6pm, Saturday 10am to 5pm"},
+];
+
 function frontPage(){
 	var html = '<div id="hpContainer" style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;">' +
 				'<div id="hpLeft" style="width: 30%; float: left; border-right: 5px;"/>' +
 				'<div id="hpCenter" style="width: 40%; float: left; text-align: center;">' +
-//				'<div id="hpCenterHead" style="display: block; width: 100%; text-align: center; hight: 20px">Your Libraries</div>'+
 				'<div id="hpCenterHead" class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px">Library Locations</div>'+
 				'<div id="hpCenterBody" style="display: block; width: 100%;"/>' +
 				'</div>' +
-				'<div id="hpRight" style="width: 30%; float: right; border-left: 5px"/>' +
+				'<div id="hpRight" style="width: 30%; float: right; border-left: 5px;"/>' +
 				'</div>';
 	var insert = new JuiceInsert(html,"#pageContent","append");
 	insert.show();
@@ -198,12 +228,8 @@ function frontPage(){
 		var mapOps = {
 			height : "280px",
 			width : "350px",
-			zoom : 13,
-			center : {lt: 52.00, lg: 0.00},
-			points : [
-			{ point : {lt: 52.00, lg: 0.00}, title : "Test point", body : "This is some display text"},
-//			{ point : {lt: 52.01, lg: 0.01}, title : "Test point2", body : "This is some display text"}
-			]
+			points : libraryLocations,
+//			select: ["Blue Anchor", "Dulwich", "Nunhead"]
 		};
 	 	new GoogleMapJuice(juice,insert,"hpCenterBody",mapOps);
 	}
