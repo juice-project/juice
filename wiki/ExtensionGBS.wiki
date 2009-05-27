@@ -3,7 +3,7 @@
 Extension to launch a display of books from Google Book Search based on meta value of 'isbns'.  This extension does a pre-search of Google Book Search, and only is enabled if Google has a full or partial preview available.  Can be launched from either text or image based selection panels.
 
 Author: *Richard Wallis*<br/>
-Juice Version: > 0.4 
+Juice Version: > 0.1 
 
 == Operation ==
 
