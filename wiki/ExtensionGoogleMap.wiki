@@ -43,12 +43,13 @@ new GoogleMapJuice(juice,insert,"LocMap",mapOps);
 
 == Prerequisites ==
 === Loaded modules ==
-{{{juice.loadJs("http://{MyServer}/extensions/GoogleMap.js");
+{{{
+juice.loadJs("http://{MyServer}/extensions/GoogleMap.js");
 juice.loadCss("http://{MyServer}/juiceDefault.css");
 }}}
 
 === Data requirements ===
-
+None - unless to identify elements for the select array.
 
 == Constructor arguments ==
 {{{GoogleMapJuice(ju,insert,targetDiv,opts)}}}<br/>
