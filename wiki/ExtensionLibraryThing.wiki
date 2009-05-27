@@ -2,7 +2,7 @@
 
 Extension to launch a search window on librarything based on meta value of title data held on page. Can be launched from either text or image based selection panels.
 
-Author: *Richard Wallis*
+Author: *Richard Wallis*<br/>
 Juice Version: > 0.1 
 
 == Operation == 
