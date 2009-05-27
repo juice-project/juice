@@ -1,0 +1,26 @@
+= Google Analytics Juice Extension =
+
+Extension to simply add the code for Google Analytics to a page.
+
+Author: *Richard Wallis*<br/>
+Juice Version: > 0.3
+
+== Operation ==
+
+Upon construction this extension inserts the required code to invoke Google Analytics tracking in to the page.
+
+== Example code ==
+{{{new gasJuice(juice,"UA-xxxxxxx-xx");}}}
+
+== Prerequisites ==
+=== Loaded modules ==
+{{{juice.loadJs("http://{MyServer}/extensions/GoogleAnalytics.js");}}}
+
+=== Data requirements ===
+
+none.
+
+== Constructor arguments ==
+{{{gasJuice(ju,code)}}}<br/>
+arg: ju - instance of juice <br/>
+arg: code - Google Analytics code<br/>
