@@ -1,0 +1,31 @@
+= Audiblecouk Juice Extension =
+
+Extension to launch a search window on audible.co.uk based on meta value of author and/or title data held on page. Can be launched from either text or image based selection panels.
+
+Author: *Richard Wallis*
+Juice Version: > 0.1 
+
+== Example code ==
+{{{
+new audiblecoukJuice(juice,
+'http://www.audible.co.uk/mercury/logo.jpg',
+'Search Audible');
+}}}
+
+== Prerequisites ==
+=== Loaded modules ==
+{{{juice.loadJs("http://{MyServer}/extensions/Audiblecouk.js");}}}
+
+=== Data requirements ===
+
+Extension is dependent on a Juice Meta definition named "author" and/or one named "title".  This extension will not display in a selection panel if this value is not present.
+
+== Constructor arguments ==
+{{{audiblecoukJuice(ju,src,text,defPanel,launchType,insert1,insert2)}}}<br/>
+arg: ju - instance of juice <br/>
+arg: src - url to logo to display in selection panel<br/>
+arg: text - text to display in selection panel<br/>
+arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
+arg: insert1 - option for launch window - optional<br/>
+arg: insert2 - option for launch window - optional<br/>
+
