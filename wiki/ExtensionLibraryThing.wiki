@@ -1,0 +1,33 @@
+= LibraryThing Juice Extension =
+
+Extension to launch a search window on librarything based on meta value of title data held on page. Can be launched from either text or image based selection panels.
+
+Author: *Richard Wallis*
+Juice Version: > 0.1 
+
+== Operation == 
+
+Upon construction this extension inserts the passed icon & text in to the relevant selection panels with css classes set to 'juiceXInactiveIcon' and 'juiceXInactiveText'.  Once initialized thes are changed to 'juiceXActiveIcon' and 'juiceXActiveText', and they become clickable. Once clicked, a window of the passed type is launched to display the site. 
+
+== Example code ==
+{{{
+new librarythingSearchJuice(juice,
+'http://{myserver}/images/librarything-logo.gif',
+'Search LibraryThing');}}}
+
+== Prerequisites ==
+=== Loaded modules ==
+{{{juice.loadJs("http://{MyServer}/extensions/LibraryThing.js");}}}
+
+=== Data requirements ===
+
+Extension is dependent on a Juice Meta definition named "title". This extension will not display in a selection panel if this value is not present.
+
+== Constructor arguments ==
+{{{librarythingSearchJuice(ju,src,text,defPanel,launchType,insert1,insert2)}}}<br/>
+arg: ju - instance of juice <br/>
+arg: src - url to logo to display in selection panel<br/>
+arg: text - text to display in selection panel<br/>
+arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
+arg: insert1 - option for launch window - optional<br/>
+arg: insert2 - option for launch window - optional<br/>
