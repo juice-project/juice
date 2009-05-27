@@ -1,0 +1,48 @@
+= Google Map Juice Extension =
+
+Extension to embed a Google in to the page and display points passed on the map.
+
+Author: *Richard Wallis*<br/>
+Juice Version: > 0.4
+
+== Operation ==
+
+Based upon options passed, displays a Google Map.  The center of the map and the zoom level are automatically set to provide best view of all map points passed.  Optionally a sub-set of the passed points will be displayed based upon a selection set of points apssed.
+
+== Example code ==
+{{{
+var div = '<div id="LocMapPanel" style="display: block; width: 240px; height: 310px"><br/><h2 class="title">Library Location</h2><div id="LocMap" style="width: 240px; height: 250px"></div></div>';
+var insert = new JuiceInsert(div,"#itemActions","after");
+var libraryLocations = [
+   { point : {lt: 51.500087,lg: -0.059738}, id : "Blue Anchor", title : "Blue Anchor Library", body : "Market Place<br/>Southwark Park Road<br/>SE16 3UQ"},
+   { point : {lt: 51.490095,lg: -0.098791}, id : "Brandon", title : "Brandon Library", body : "Maddock Way<br/>Cooks Road<br/>SE17 3NH<br/>"},
+   { point : {lt: 51.481436,lg: -0.085402}, id : "Camberwell", title : "Camberwell Library", body : "17-21 Camberwell Church Street<br/>SE5 8TR<br/>"}
+];
+
+var locs = juice.getMetaArray("location");
+
+var mapOps = {
+	height : "250px",
+	width : "240px",
+	defaultZoom : 12,
+	defaultCenter : {lt: 51.481436,lg: -0.085402},
+	points : libraryLocations,
+	select: locs
+};
+new GoogleMapJuice(juice,insert,"LocMap",mapOps);
+
+}}}
+
+== Prerequisites ==
+=== Loaded modules ==
+{{{juice.loadJs("http://{MyServer}/extensions/GoogleMap.js");}}}
+
+=== Data requirements ===
+
+Extension is dependent on one or more ISBN values being stored in a Juice Meta definition named "isbns".  This extension will not operate if this value is not present.
+
+== Constructor arguments ==
+{{{GBSEmbedJuice(ju,insert,targetDiv)}}}<br/>
+arg: ju - instance of juice <br/>
+arg: insert - JuiceInsert for page<br/>
+arg: targetDiv - id of element within insert to contain viewer<br/>
