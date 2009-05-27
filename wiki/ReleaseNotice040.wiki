@@ -1,7 +1,7 @@
 = Revision 0.4 - Release Notice =
 27th May 2009
 
-Revision 0.4 is a significant release that introduces support for the set of [http://code.google.com/apis/ajax/ Google !JavaScript APIs] which can be used to create many powerful extensions for Google Book Search, Google Maps, and RSS Feeds.
+Revision 0.4 is a significant release that introduces support for the set of [http://code.google.com/apis/ajax/ Google JavaScript APIs] which can be used to create many powerful extensions for Google Book Search, Google Maps, and RSS Feeds.
 
 Google provides [http://code.google.com/apis/ajax/playground/ many examples] of these API tools, but they all assume that they are being introduced in to the source html page. Juice 0.4 introduces a framework that hides the complexity of optionally loading Google APIs and waiting for the scripts to load before calling the functionality they contain. 
 
