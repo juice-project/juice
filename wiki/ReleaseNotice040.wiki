@@ -1,0 +1,19 @@
+= Revision 0.4 - Release Notice =
+27th May 2009
+
+Revision 0.4 is a significant release that introduces support for the set of Google !JavaScript APIs which can be used to create many powerful extensions for Google Book Search, Google Maps, and RSS Feeds.
+
+Google provides many examples of these API tools, but they all assume that they are being introduced in to the source html page. Juice 0.4 introduces a framework that hides the complexity of optionally loading Google APIs and waiting for the scripts to load before calling the functionality they contain. 
+
+= Details =
+
+ * *File revision numbering* - Version 0.4 is in `juice-0.4.js` - `juice.js` has been  updated to version 0.4.
+
+ * *Google functions* - Introduction of Juice calls:
+  * `juice.googleApiKey()` to set/get the API Key for Google functions (required for Google Maps API). To be set before loading any Google APIs
+  * `juice.loadGoogle_jsapi()` - Loads core Google API !JavaScript framework, ensures it is only loaded once.  Called by `juice.loadGoogleApi()`, provided separately to enable early loading of the core framework.
+  * `juice.loadGoogleApi()` - load individual Google APIs, such as maps, books, feeds, etc. Ensures each API is only loaded once.
+  * `juice.onGoogleApiLoaded()` - Call a passed function when all requested Google APIs have been loaded.
+  * `juice.onAllLoaded()` - Call a passed function when all requested !JavaScript and Google API files have been loaded.  Supersedes `juice.onJsLoaded()` which only waits for files loaded via `juice.loadJs(). 
+
+ 
