@@ -7,6 +7,10 @@ Note: Copac search only accepts single ISBNs, so only the first identified on pa
 Author: *Richard Wallis*<br/>
 Juice Version: > 0.1 
 
+== Operation == 
+
+Upon construction this extension inserts the passed icon & text in to the relevant selection panels with css classes set to 'juiceXInactiveIcon' and 'juiceXInactiveText'.  Once initialized thes are changed to 'juiceXActiveIcon' and 'juiceXActiveText', and they become clickable. Once clicked, a window of the passed type is launched to display the site. 
+
 == Example code ==
 {{{
 new copacJuice(juice,
