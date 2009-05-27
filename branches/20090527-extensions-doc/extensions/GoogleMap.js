@@ -1,3 +1,13 @@
+//GoogleMap.js
+//Extension to embed a Google in to the page and display points passed on the map.
+
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: insert - JuiceInsert for page
+//arg: targetDiv - id of element within insert to contain map
+//arg: opts - Controlling options for extension in JSON format
+
+
 var GoogleMapJuice_count = 0;
 function GoogleMapJuice(ju,insert,targetDiv,opts){
 	this.id = "GoogleMap"+GoogleMapJuice_count++;
@@ -36,9 +46,18 @@ GoogleMapJuice.prototype.buildContainer = function(){
 }
 
 GoogleMapJuice.prototype.displayMap = function(){
+	var zoom = 10;
+	var center = new google.maps.LatLng(0, 0);
+	if(this.opts.defaultZoom){
+		zoom = this.opts.defaultZoom;
+	}
+	if(this.opts.defaultCenter){
+		center = new google.maps.LatLng(this.opts.defaultCenter.lt, this.opts.defaultCenter.lg);
+	}
+	
 	if(GBrowserIsCompatible()){
 	    this.map = new google.maps.Map2(document.getElementById(this.id));
-	    this.map.setCenter(new google.maps.LatLng(0, 0),10 );
+	    this.map.setCenter(center,zoom);
 	    this.map.setUIToDefault();
 		this.bounds = new GLatLngBounds();
 		this.displayPoints();
@@ -48,18 +67,23 @@ GoogleMapJuice.prototype.displayMap = function(){
 GoogleMapJuice.prototype.displayPoints = function(){
 	var points = this.opts.points;
 	var sel = null;
+
 	if(this.opts.select){
 		sel = this.opts.select;
 	}
 
+	var pointsCount = 0;
 	if(points){
 		for(var i = 0; i < points.length; i++){
 			if(sel == null || jQuery.inArray(points[i].id,sel) != -1){
 				this.displayPoint(points[i]);
+				pointsCount++;
 			}
 		}
-     	this.map.setZoom(this.map.getBoundsZoomLevel(this.bounds));
-      	this.map.setCenter(this.bounds.getCenter());
+	}
+	if(pointsCount > 0){
+		this.map.setZoom(this.map.getBoundsZoomLevel(this.bounds));
+		this.map.setCenter(this.bounds.getCenter());
 	}
 }
 

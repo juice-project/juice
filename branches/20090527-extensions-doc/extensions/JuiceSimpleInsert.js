@@ -1,10 +1,12 @@
-//Replaace all 'simpleInsert' with extention name
-//Add in Extension specific code
-//Save in file extension-name.js
+//JuiceSimpleInsert.js
+//Insert an element in to a page
 
-function simpleInsertJuice(ju,insert,targetDiv){
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: insert - JuiceInsert for page
+
+function simpleInsertJuice(ju,insert){
 	id = "simpleInsertSel";
-	this.targetDiv = targetDiv;
 	initFunc = this.startsimpleInsert;
 	if(arguments.length){
 		simpleInsertJuice.superclass.init.call(this,id,initFunc,null,insert,ju);
