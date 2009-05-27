@@ -1,13 +1,21 @@
 = Google Map Juice Extension =
 
-Extension to embed a Google in to the page and display points passed on the map.
+Extension to embed a Google Map in to the page and display points passed on the map.
 
 Author: *Richard Wallis*<br/>
 Juice Version: > 0.4
 
 == Operation ==
 
-Based upon options passed, displays a Google Map.  The center of the map and the zoom level are automatically set to provide best view of all map points passed.  Optionally a sub-set of the passed points will be displayed based upon a selection set of points apssed.
+Based upon options passed, displays a Google Map.  The center of the map and the zoom level are automatically set to provide best view of all map points passed.  Optionally a sub-set of the passed points will be displayed based upon a selection set of points passed.
+
+If no points are passed, map displays centered at the `defaultCenter` at the `defaultZoom` level.
+
+If no selection array is passed, all points will be displayed.  If a selection array is passed, only points with an `id` value that is contained in the array will be passed.
+
+Note: In the example below, all locations for a site are passed to the extension, and an array of 'locations' displayed on the page are used to filter points that are required.
+
+When a map point is clicked, an info window is opened contain the `title` and `body` html for that point using css classes `juiceMapInfoTitle` and `juiceMapInfoBody` respectively.
 
 == Example code ==
 {{{
@@ -35,14 +43,16 @@ new GoogleMapJuice(juice,insert,"LocMap",mapOps);
 
 == Prerequisites ==
 === Loaded modules ==
-{{{juice.loadJs("http://{MyServer}/extensions/GoogleMap.js");}}}
+{{{juice.loadJs("http://{MyServer}/extensions/GoogleMap.js");
+juice.loadCss("http://{MyServer}/juiceDefault.css");
+}}}
 
 === Data requirements ===
 
-Extension is dependent on one or more ISBN values being stored in a Juice Meta definition named "isbns".  This extension will not operate if this value is not present.
 
 == Constructor arguments ==
-{{{GBSEmbedJuice(ju,insert,targetDiv)}}}<br/>
+{{{GoogleMapJuice(ju,insert,targetDiv,opts)}}}<br/>
 arg: ju - instance of juice <br/>
 arg: insert - JuiceInsert for page<br/>
-arg: targetDiv - id of element within insert to contain viewer<br/>
+arg: targetDiv - id of element within insert to contain map<br/>
+arg: opts - Controlling options for extension in JSON format
