@@ -10,7 +10,11 @@ new amzcoukJuice(juice,
 'new');
 }}}
 
-== Data requirements ==
+== Prerequisites ==
+=== Loaded modules ==
+'juice.loadJs("http://{MyServer}/extensions/Amzcouk.js");`
+
+=== Data requirements ===
 
 Extension is dependent on one or more ISBN values being stored in a Juice Meta definition named "isbns".  This extension will not display in a selection panel if this value is not present.
 
