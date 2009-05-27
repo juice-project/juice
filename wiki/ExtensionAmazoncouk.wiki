@@ -12,7 +12,7 @@ new amzcoukJuice(juice,
 
 == Prerequisites ==
 === Loaded modules ==
-'juice.loadJs("http://{MyServer}/extensions/Amzcouk.js");`
+{{{juice.loadJs("http://{MyServer}/extensions/Amzcouk.js");}}}
 
 === Data requirements ===
 
