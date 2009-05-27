@@ -3,4 +3,4 @@
 List of published extensions, with links to individual documentation pages
 
  * [ExtensionAmazoncouk Amazoncouk] Launch search of Amazon.co.uk using ISBN data.
-
+ * [ExtensionAudiblecouk Audiblecouk] Launch search of audible.co.uk using author and title data.
