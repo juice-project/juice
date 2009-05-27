@@ -204,7 +204,7 @@ var libraryLocations = [
 { point : {lt: 51.498271, lg: -0.092525}, id : "Newington", title : "Newington Library", body : "155-157 Walworth Road<br/>SE17 1RS<br/><br/><i>Opening hours</i>: Monday, Tuesday and Friday 9am to 8pm, Wednesday and Thursday 10am to 8pm, Saturday 9am to 5pm, Sunday 12pm to 4pm"},
 { point : {lt: 51.47315, lg: -0.055532}, id : "Nunhead", title : "Nunhead Library", body : "Gordon Road<br/>SE15 3RW<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 10am to 7pm, Friday 10am to 6pm, Saturday 10am to 5pm"},
 { point : {lt: 51.481757, lg: -0.065145}, id : "Peckham", title : "Peckham Library", body : "122 Peckham Hill Street<br/>SE15 5JR<br/><br/><i>Opening hours</i>: Monday, Tuesday, Thursday and Friday 9am to 8pm, Wednesday 10am to 8pm, Saturday 10am to 5pm, Sunday 12pm to 4pm"},
-{ point : {lt: 51.507247, lg: -0.048838}, id : "Rotherhithe", title : "Rotherhithe Library", body : "Albion Street<br/>SE16 7HY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday and Wednesday 10am to 6pm, Saturday 10am to 5pm"},
+{ point : {lt: 51.507247, lg: -0.048838}, id : "Rotherhithe", title : "Rotherhithe Library", body : "Albion Street<br/>SE16 7HY<br/><br/><i>Opening hours</i>: Monday and Thursday 10am to 7pm, Tuesday and Wednesday 10am to 6pm, Saturday 10am to 5pm"}
 ];
 
 function frontPage(){
@@ -234,7 +234,7 @@ function frontPage(){
 			width : "350px",
 			defaultZoom : 12,
 			defaultCenter : {lt: 51.481436,lg: -0.085402},
-			points : libraryLocations,
+			points : libraryLocations
 		};
 	 	new GoogleMapJuice(juice,insert,"hpCenterBody",mapOps);
 	}
