@@ -16,4 +16,8 @@ Google provides [http://code.google.com/apis/ajax/playground/ many examples] of 
   * `juice.onGoogleApiLoaded()` - Call a passed function when all requested Google APIs have been loaded.
   * `juice.onAllLoaded()` - Call a passed function when all requested !JavaScript and Google API files have been loaded.  Supersedes `juice.onJsLoaded()` which only waits for files loaded via `juice.loadJs()`. 
 
+ * *New Extensions*  The Embedded Google Book Search extension [http://code.google.com/p/juice-project/source/browse/trunk/extensions/GBSEmbed.js !GBSEmbed.js] has been re-factored for this new functionality.  Two new extensions have been created:
+  * [http://code.google.com/p/juice-project/source/browse/trunk/extensions/GoogleRssfeed.js GoogleRssfeed.js] - Builds on the Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] to add an RSS Feed extension.
+  * [http://code.google.com/p/juice-project/source/browse/trunk/extensions/GoogleMap.js GoogleMap.js] provides a powerful Google Map extension for placing a map in to a page which self-centres and automatically sets the zoom level based on the position of the map points passed to it. 
+
  
