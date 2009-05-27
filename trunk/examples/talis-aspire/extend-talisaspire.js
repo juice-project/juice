@@ -1,3 +1,5 @@
+jQuery.noConflict();
+
 jQuery(document).ready(function () {
 	juice.setDebug(true)
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_aspire_metadef.js");

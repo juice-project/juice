@@ -17,5 +17,18 @@
 .juiceXMediumPaddedIcon{
 	height: 40px;
 	padding: 10px;	
+}
+
+.juiceMapInfoTitle {
+	text-align: center;
+	font-weight: bold;
+	line-height: 1;
+}
+
+.juiceMapInfoBody {
+	text-align: left;
+	font-style: normal;
+	width: 210px;
+	line-height: 1;
 }	
 
