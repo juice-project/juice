@@ -1,0 +1,48 @@
+= Google RSS Feed Juice Extension =
+
+Extension to embed a a Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] in to a page.
+
+Author: *Richard Wallis*<br/>
+Juice Version: > 0.4
+
+== Operation ==
+
+Based upon options passed, displays a Google Dynamic Feed Control in the page.  This control then displays the dynamically updated feed(s) within the control.  Options for the control are passed on to it.  The style of the display is by default controlled by the control's [http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.csssupplied css file]. This can be overridden by passing in your own css file. 
+
+== Example code ==
+{{{
+var html = '<div id="hpContainer" style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;">' +
+	'<div id="hpRight" style="width: 30%; float: right; border-left: 5px;"/>' +
+	'</div>';
+var insert = new JuiceInsert(html,"#pageContent","append");
+insert.show();
+
+var googleOptions = {
+   numResults : 10
+}
+
+new GoogleRSSFeedJuice(juice,insert,"hpRight", "http://blogs.talis.com/panlibus/feed", googleOptions);
+}}}
+
+== Prerequisites ==
+=== Loaded modules ==
+{{{
+juice.loadJs("http://{MyServer}/extensions/GoogleRssFeed.js");
+}}}
+
+=== Data requirements ===
+None - unless to identify elements for the select array.
+
+== Constructor arguments ==
+{{{GoogleRSSFeedJuice(ju,insert,targetDiv,feeds,googleOptions,css)}}}<br/>
+arg: ju - instance of juice <br/>
+arg: insert - JuiceInsert for page<br/>
+arg: targetDiv - id of element within insert to contain control<br/>
+arg: feeds - RSS feed(s) URLs to display within control<br/>
+arg: googleOptions - options passed to control ([http://www.google.com/uds/solutions/dynamicfeed/reference.html info)<br/>
+arg: css - css file to override Google css - optional<br/>
+
+== Note ==
+
+Google Maps require an API Key to be passed to the call of their !JavaScript Library.  [http://code.google.com/apis/maps/signup.html Obtain one from Google] and set it in Juice *before* calling any extensions that use Google APIs thus:<br/>
+`juice.googleApiKey("ABQIAAAAKi1c1234naAPtNw6ExDJHBSr1cLuvfmD_hPnfKXXZtPgfYowlRRaiVfGUqzawVB9RWLIPD4MTDzgdw");`
