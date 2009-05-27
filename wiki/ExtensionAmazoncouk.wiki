@@ -29,9 +29,3 @@ arg: text - text to display in selection panel<br/>
 arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
 arg: insert1 - option for launch window - optional<br/>
 arg: insert2 - option for launch window - optional<br/>
-
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
