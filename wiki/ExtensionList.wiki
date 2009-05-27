@@ -15,3 +15,4 @@ List of published extensions, with links to individual documentation pages
  * [ExtensionLibraryThing LibraryThing] Launch search of librarything.com using title data.
  * [ExtensionOpenLibrary OpenLibrary] Launch search of openlibrary.org using ISBN data.
  * [ExtensionWaterstones Waterstones] Launch search of waterstones.com using ISBN data.
+ * [ExtensionWorldCat WorldCat] Launch search of worldcat.org using ISBN data.
