@@ -88,6 +88,17 @@ _Juice.prototype.getMeta = function(id,index){
 	return null;
 }
 
+//getMeta - return array of stored value(s)
+//arg: id - Description id to use
+//See also: JuiceMetaAttr.getArray
+_Juice.prototype.getMetaArray = function(id){
+	var meta = this.getMetaInstance(id);
+	if(meta != null){
+		return meta.getArray();
+	}
+	return null;
+}
+
 //getMetaInstance - Get stored Meta description
 //arg: id - Description id of description o return
 _Juice.prototype.getMetaInstance = function(id){
@@ -897,6 +908,11 @@ JuiceMetaAttr.prototype.get = function(index){
 	return this._values[index];
 }
 
+//get - return array of stored value(s)
+JuiceMetaAttr.prototype.getArray = function(){
+	return this._values;
+}
+
 //getLength - return length of values array
 JuiceMetaAttr.prototype.getLength = function(){
 	return this._values.length;
@@ -1132,24 +1148,31 @@ _Juice.prototype._googleLoaded = function(){
 }
 
 _Juice.prototype.loadGoogleApi = function(api,ver,args){
-	var This = this;
-	this.loadGoogle_jsapi();	//Check we have loaded the master api
-	
-	if(this._googleLoadFlag == "loaded"){
+	if(!this.googleApiLoaded(api)){
+		this.gapLoadFlags[this.gapLoadFlags.length] = new JsLoadFlag(api);
 		this._loadGoogleApi(api,ver,args);
-	}else{
-		setTimeout(function(){This.loadGoogleApi(api,ver,args);},5);
 	}
+}	
+
+_Juice.prototype._loadGoogleApi = function(api,ver,args){
+	var This = this;
 	
+	this.loadGoogle_jsapi();	//Check we have loaded the master api
+
+	if(this._googleLoadFlag == "loaded"){
+		this.startLoadGoogleApi(api,ver,args);
+	}else{
+		setTimeout(function(){This._loadGoogleApi(api,ver,args);},20);
+	}
 }
 
 _Juice.prototype.gapLoadFlags = [];
 
-_Juice.prototype._loadGoogleApi = function(api,ver,args){
-	if(!this.googleApiLoaded(api)){
-		this.gapLoadFlags[this.gapLoadFlags.length] = new JsLoadFlag(api);
+_Juice.prototype.startLoadGoogleApi = function(api,ver,args){
+//	if(!this.googleApiLoaded(api)){
+//		this.gapLoadFlags[this.gapLoadFlags.length] = new JsLoadFlag(api);
 		google.load(api, ver,{callback:function(){juice.gapOnLoadEvent(api);}})		
-	}
+//	}
 }
 
 //gapOnLoadEvent - called by browser Google API load - flags api as loaded
