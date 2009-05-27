@@ -1,0 +1,11 @@
+= Revision 0.4.1 - Release Notice =
+28th May 2009
+
+Revision 0.4.1 is a minor update for Extensions documentation and minor fixes
+
+= Details =
+
+ * *File revision numbering* - Version 0.4.1 is contained in `juice-0.4.js` and `juice.js`.
+ * *Extensions Documentation* - Simple usage documentation added to published extension files.
+ * *Safari JSLoad Defect fix* - Fix to occasional problem in Safari, where Juice failed to identify script file loadings and hence stalled at start up. 
+ 
