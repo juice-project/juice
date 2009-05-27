@@ -7,7 +7,7 @@ Juice Version: > 0.4
 
 == Operation ==
 
-Upon construction this extension performs a search via the Google Book Search API. If a full or partial preview is available, the viewr is inserted in to the page.
+Upon construction this extension performs a search via the Google Book Search API. If a full or partial preview is available, the viewer is inserted in to the page.
 
 == Example code ==
 {{{
