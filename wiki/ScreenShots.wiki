@@ -2,6 +2,17 @@
 
 Here are a few screenshots showing interfaces that have been extended using the Juice framework
 
+=== Juice RSS & Google Map extensions on a Prism home page ===
+
+Two instances of the !GoogleRssFeed extension (displaying the feed from BBC News and Panlibus Blog) plus the !GoogleMap extension used to display library locations.
+
+http://juice-project.googlecode.com/svn/wiki/prism_rss+map.jpg
+
+=== Juice Google Map extension mapping book locations ===
+
+This instance of the !GoogleMap extension utilities its ability to filter out map points to only display locations that have copies of the book.
+
+http://juice-project.googlecode.com/svn/wiki/prism_map.jpg 
 
 === Juice inserted clickable icons in a Talis Prism OPAC interface ===
 
