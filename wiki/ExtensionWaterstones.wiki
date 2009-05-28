@@ -36,4 +36,4 @@ arg: insert1 - option for launch window - optional<br/>
 arg: insert2 - option for launch window - optional<br/>
 
 === Source ===
-http://code.google.com/p/juice-project/source/browse/trunk/extensions/OpenLibrary.js
+http://code.google.com/p/juice-project/source/browse/trunk/extensions/Waterstones.js
