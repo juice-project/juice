@@ -33,7 +33,7 @@ juice.debugOutln("Hello world");
 Add the following three script tags to your application's page. 
 {{{
 <script type="text/javascript" src="http://www.example.com/juice/jquery-1.3.2.js"></script>
-<script type="text/javascript" src="http://www.example.com/juice/juice-0.2.js"></script>
+<script type="text/javascript" src="http://www.example.com/juice/juice-0.4.js"></script>
 <script type="text/javascript" src="http://www.example.com/juice/juice-myinterface.js"></script>
 }}}
 
