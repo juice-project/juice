@@ -32,3 +32,6 @@ Extension is dependent on one or more ISBN values being stored in a Juice Meta d
 arg: ju - instance of juice <br/>
 arg: insert - JuiceInsert for page<br/>
 arg: targetDiv - id of element within insert to contain viewer<br/>
+
+=== Source ===
+http://code.google.com/p/juice-project/source/browse/trunk/extensions/GBSEmbed.js
