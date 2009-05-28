@@ -1,6 +1,6 @@
 = Open Library Juice Extension =
 
-Extension to launch a search window on openlibrary.org based on ISBN data held on page. Can be launched from either text or image based selection panels.
+[ExtensionList Extension] to launch a search window on [http://openlibrary.org openlibrary.org] based on ISBN data held on page. Can be launched from either text or image based selection [InsertsAndPanels panels].
 
 Author: *Richard Wallis*<br/>
 Juice Version: > 0.1 
@@ -11,9 +11,10 @@ Upon construction this extension inserts the passed icon & text in to the releva
   
 == Example code ==
 {{{
-new openlibraryJuice(juice,
-'http://{myserver}/images/OpenLibrary.jpg',
-'Search Open Library');
+new openlibraryJuice( juice,
+  'http://{myserver}/images/OpenLibrary.jpg',
+  'Search Open Library'
+);
 }}}
 
 == Prerequisites ==
@@ -25,13 +26,13 @@ new openlibraryJuice(juice,
 Extension is dependent on one or more ISBN values being stored in a Juice Meta definition named "isbns".  This extension will not display in a selection panel if this value is not present.
 
 == Constructor arguments ==
-{{{openlibraryJuice(ju,src,text,defPanel,launchType,insert1,insert2)}}}<br/>
-arg: ju - instance of juice <br/>
-arg: src - url to logo to display in selection panel<br/>
-arg: text - text to display in selection panel<br/>
-arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
-arg: insert1 - option for launch window - optional<br/>
-arg: insert2 - option for launch window - optional<br/>
+{{{openlibraryJuice(ju,src,text,defPanel,launchType,insert1,insert2)}}}
+  * ju - instance of juice
+  * src - url to logo to display in selection panel
+  * text - text to display in selection panel
+  * launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional
+  * insert1 - option for launch window - optional
+  * insert2 - option for launch window - optional
 
 === Source ===
 http://code.google.com/p/juice-project/source/browse/trunk/extensions/OpenLibrary.js
