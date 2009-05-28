@@ -28,3 +28,6 @@ None
 {{{simpleInsertJuice(ju,insert)}}}<br/>
 arg: ju - instance of juice <br/>
 arg: insert - JuiceInsert for page<br/>
+
+=== Source ===
+http://code.google.com/p/juice-project/source/browse/trunk/extensions/JuiceSimpleInsert.js
