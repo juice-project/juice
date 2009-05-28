@@ -1,5 +1,3 @@
-#summary Simple Architecture Diagram for Juice
-
-Juice is a javascript framework based on the [http://jquery.com/ jQuery] javascript library. Its core concepts are [ExtensionList Extensions], [InsertsAndPanels Inserts and Panels], and [CreateMetadef Metadefs]. A Juice Extensions provides additional content for embedding on a html page (links, images, maps, widgets etc.). Inserts and Panels are containers for Juice extensions to output their content in to a specific part of the page. A Metadef is a named selector for specific information within a page to be used by Juice extensions.
+Juice is a javascript framework based on the [http://jquery.com/ jQuery] javascript library. Its core concepts are [ExtensionList Extensions], [InsertsAndPanels Inserts and Panels], and [CreateMetadef Metadefs]. A Juice Extension provides additional content for embedding on a html page (links, images, maps, widgets etc.). Inserts and Panels are containers for Juice extensions to output their content in to a specific part of the page. A Metadef is a named selector for specific information within a page to be used by Juice extensions.
 
 http://juice-project.googlecode.com/svn/wiki/juice-architecture.jpg
