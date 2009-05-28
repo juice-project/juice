@@ -1,6 +1,6 @@
 = Google RSS Feed Juice Extension =
 
-Extension to embed a a Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] in to a page.
+[ExtensionList Extension] to embed a a Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] in to a page.
 
 Author: *Richard Wallis*<br/>
 Juice Version: > 0.4
@@ -34,13 +34,14 @@ juice.loadJs("http://{MyServer}/extensions/GoogleRssFeed.js");
 None
 
 == Constructor arguments ==
-{{{GoogleRSSFeedJuice(ju,insert,targetDiv,feeds,googleOptions,css)}}}<br/>
-arg: ju - instance of juice <br/>
-arg: insert - JuiceInsert for page<br/>
-arg: targetDiv - id of element within insert to contain control<br/>
-arg: feeds - RSS feed(s) URLs to display within control<br/>
-arg: googleOptions - options passed to control ([http://www.google.com/uds/solutions/dynamicfeed/reference.html info])<br/>
-arg: css - URL of css file to override Google css - optional<br/>
+{{{GoogleRSSFeedJuice(ju,insert,targetDiv,feeds,googleOptions,css)}}}
+
+  * ju - instance of juice
+  * insert - JuiceInsert for page
+  * targetDiv - id of element within insert to contain control
+  * feeds - RSS feed(s) URLs to display within control
+  * googleOptions - options passed to control ([http://www.google.com/uds/solutions/dynamicfeed/reference.html info])
+  * css - URL of css file to override Google css - optional
 
 === Source ===
 http://code.google.com/p/juice-project/source/browse/trunk/extensions/GoogleRssfeed.js
