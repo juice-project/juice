@@ -41,3 +41,6 @@ arg: targetDiv - id of element within insert to contain control<br/>
 arg: feeds - RSS feed(s) URLs to display within control<br/>
 arg: googleOptions - options passed to control ([http://www.google.com/uds/solutions/dynamicfeed/reference.html info])<br/>
 arg: css - URL of css file to override Google css - optional<br/>
+
+=== Source ===
+http://code.google.com/p/juice-project/source/browse/trunk/extensions/GoogleRssfeed.js
