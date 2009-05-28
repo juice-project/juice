@@ -1,6 +1,6 @@
 = Audiblecouk Juice Extension =
 
-Extension to launch a search window on audible.co.uk based on meta value of author and/or title data held on page. Can be launched from either text or image based selection panels.
+[ExtensionList Extension] to launch a search window on audible.co.uk based on meta value of author and/or title data held on page. Can be launched from either text or image based selection panels.
 
 Author: *Richard Wallis*
 Juice Version: > 0.1 
