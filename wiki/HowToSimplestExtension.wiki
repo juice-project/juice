@@ -6,7 +6,7 @@ The simplest form of extension to an interface is to add some simple text and po
 
 This How-to is the second in the series of Juice How-to guides.  It assumes that you have stepped your way through the first one - [HowToHelloWorld How-to - "hello world"] - so you will have successfully added Juice to your interface.
 
-In this guide we will build on those previous steps we will make use of the !SimpleInsert extension.
+In this guide we will build on those previous steps we will make use of the [ExtensionSimpleInsert SimpleInsert] extension.
 
 
 == Step One - Waiting for the page to load ==
