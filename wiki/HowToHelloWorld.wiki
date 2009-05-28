@@ -22,8 +22,10 @@ There are three steps to this:
  * In the same directory create a new file with a name similar to `juice-myinterface.js` - the actual name is irrelevant, as long as it ends in `.js`, but you might like to use a name that is meaningful if you share it with the rest of the Juice community at a later date.  In that file insert these two lines of !JavaScript code:
 
 {{{
-juice.setDebug(true);
-juice.debugOutln("Hello world");
+jQuery(document).ready(function () {
+  juice.setDebug(true);
+  juice.debugOutln("Hello world");
+});
 }}}
 
  * Check these files are visible via your web server.  This stage saves all sorts of frustration later on, when a non-working installation is diagnosed to be a web server not having permission to access the files or directory you have created.
