@@ -1,6 +1,6 @@
 = Copac Juice Extension =
 
-[ExtensionList Extension] to launch a search window on copac.ac.uk based on ISBN data held on page. Can be launched from either text or image based selection panels.
+[ExtensionList Extension] to launch a search window on copac.ac.uk based on ISBN data held on page. Can be launched from either text or image based selection [InsertsAndPanels panels].
 
 Note: Copac search only accepts single ISBNs, so only the first identified on page is used.
 
