@@ -38,11 +38,23 @@ The !JuicePanel is an area inserted in to the web page, defined using a !JuiceIn
 !JuiceListPanel creates an unordered list which extensions populate with clickable text.
 
 Both types of panel share the the same constructor arguments:
- * insertDiv - JuiceInsert defining panel insert in document
+ * insert - !JuiceInsert defining html, containing panel, to insert in to document
  * pannelId - Id of panel
  * startClass - css classes to be applied to inserted links before selector is enabled by it's extension
  * liveClass - css classes to be applied to inserted links when selector is enabled it's extension
  * showFunc - function to be called as panel is first shown - optional 
 
-A Panel does not cause it's associated Insert to be shown on the page until the first request from an extension is invoked.
+A Panel does not cause it's associated Insert to be shown on the page until the first request from an extension is invoked.  So that extensions can automatically add themselves to a panel, the panel needs to be registered with juice using the `juice.addPanel()' call.
 
+Example code:
+{{{
+function buildSelectionPanel(){
+	var div = '<div id="ExtentionsPanel" style="display: block; width: 100%">' +
+		'<br/><h2 class="title">Extensions</h2>' +
+		'<div id="ExtentionsPanelWindow" style="width: 100%">' +
+		'</div></div>';
+	var insert = new JuiceInsert(div,"#details","append");
+	var panel = new JuiceBasicPanel(insert,"ExtentionsPanelWindow",'juiceXInactiveIcon juiceXMediumPaddedIcon','juiceXActiveIcon juiceXMediumPaddedIcon',null);
+	juice.addPanel(panel);
+}
+}}}
