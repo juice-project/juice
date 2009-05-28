@@ -34,3 +34,6 @@ arg: text - text to display in selection panel<br/>
 arg: launchType - type of widow to launch "new"(default) | "overlay" | "iframe" | "current" - optional<br/>
 arg: insert1 - option for launch window - optional<br/>
 arg: insert2 - option for launch window - optional<br/>
+
+=== Source ===
+http://code.google.com/p/juice-project/source/browse/trunk/extensions/OpenLibrary.js
