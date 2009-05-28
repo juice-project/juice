@@ -23,8 +23,8 @@ In this example the first step was to create the html that is to be inserted in 
 You can create it as either a string representing the html, as in this example, or as !JavaScript document elements.
 
 Your created html is then passed as the first argument to the constructor of the !JuiceInsert class.  The remaining two arguments are used to define where and how that html is to be inserted in to the page.  The first of these two is a jQuery selector string. For information on jQuery selectors check out the [http://docs.jquery.com/Selectors jQuery documentation on selectors], but for example this example is identifying the `<body>` element.  The final argument defines how to insert the html at the point identified by the selector.  It has four possible values:
- * append - insert to the end of the contents of the selected element
- * prepend - insert to the start of the contents of the selected element
+ * append - insert at the end of the contents of the selected element
+ * prepend - insert at the start of the contents of the selected element
  * before - insert immediately before the selected element
  * prepend - insert immediately after the selected element
 
@@ -45,6 +45,4 @@ Both types of panel share the the same constructor arguments:
  * showFunc - function to be called as panel is first shown - optional 
 
 A Panel does not cause it's associated Insert to be shown on the page until the first request from an extension is invoked.
-
-
 
