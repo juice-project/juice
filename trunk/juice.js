@@ -322,7 +322,7 @@ function JuiceInsert(container,insertPoint,insertType){
 	this._container = container;
 	//JQuery selection identifying insert point(s) in document
 	this._insertPoint = insertPoint;
-	//How to insert at insert point: before | after | append | prepend
+	//How to insert at insert point: before | after | append | prepend | replace
 	this._insertType = insertType;
 	//Shown flags
 	this.shown = [];
@@ -403,6 +403,9 @@ JuiceInsert.prototype.show = function(pos){
 					break;
 				case "prepend":
 					target.prepend(ins);
+					break;
+				case "replace":
+					target.replaceWith(ins);
 					break;
 				case "append":
 				default:
