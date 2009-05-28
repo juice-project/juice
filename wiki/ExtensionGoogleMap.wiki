@@ -60,7 +60,10 @@ arg: insert - JuiceInsert for page<br/>
 arg: targetDiv - id of element within insert to contain map<br/>
 arg: opts - Controlling options for extension in JSON format
 
-== Note ==
+=== Source ===
+http://code.google.com/p/juice-project/source/browse/trunk/extensions/GoogleMap.js
+
+== Notes ==
 
 Google Maps require an API Key to be passed to the call of their !JavaScript Library.  [http://code.google.com/apis/maps/signup.html Obtain one from Google] and set it in Juice *before* calling any extensions that use Google APIs thus:<br/>
 `juice.googleApiKey("ABQIAAAAKi1c1234naAPtNw6ExDJHBSr1cLuvfmD_hPnfKXXZtPgfYowlRRaiVfGUqzawVB9RWLIPD4MTDzgdw");`
