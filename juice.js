@@ -1,5 +1,5 @@
 /*
- * Juice 0.4.1 - Javascript User Interface Framework for Extension
+ * Juice 0.4.2 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2009 Talis (talis.com)
@@ -30,7 +30,7 @@ function _Juice(){
 }
 
 //Version of Juice
-_Juice.prototype.version = "0.4";
+_Juice.prototype.version = "0.4.2";
 
 _Juice.prototype._setReady = function(){
 	this._ready = true;
