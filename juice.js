@@ -853,16 +853,20 @@ JuicePanel.prototype.makeId = function(sel,pos){
 }
 
 //============== Class JuiceMeta ==============	
-
-//Meta definition class
+//Meta definition class for data from elements or element attributes
 //Extends JuiceMetaAttr
 //Can store single value or an array of values
 
 //arg: id - id of definition
 //arg: selector - JQuery selection string for element within page
-//filterFunc - optional function used to process retrieved data before storage	
+//arg: attribute - attribute name if attributes are wanted - optional
+//arg: filterFunc - function used to process retrieved data before storage - optional
 //See: JuiceMetaAttr
-function JuiceMeta(id, selector,filterFunc){
+function JuiceMeta(id, selector, attName, filterFunc){
+	if (typeof attName=="function") {
+		filterFunc = attName;
+		attName = null;
+    }
 	JuiceMeta.superclass.init.call(this,id, selector, null, filterFunc);
 }
 
