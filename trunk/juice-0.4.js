@@ -1,5 +1,5 @@
 /*
- * Juice 0.4.1 - Javascript User Interface Framework for Extension
+ * Juice 0.4.2 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2009 Talis (talis.com)
@@ -30,7 +30,7 @@ function _Juice(){
 }
 
 //Version of Juice
-_Juice.prototype.version = "0.4";
+_Juice.prototype.version = "0.4.2";
 
 _Juice.prototype._setReady = function(){
 	this._ready = true;
@@ -116,7 +116,12 @@ _Juice.prototype.debugMeta = function(){
 	for(var i=0;i < this._meta.length;i++){
 		var meta = this._meta[i];
 		if(meta.hasMeta()){
-			juice.debugOutln("Meta: "+meta.getId()+" - "+meta.get());			
+			if (meta.getLength()>1) {
+				juice.debugOutln("Meta: "+meta.getId()+" ["+meta.getArray().join(",")+"]");
+			} else { 
+				// TODO: value may be undefined - is this purpose?
+				juice.debugOutln("Meta: "+meta.getId()+" - "+meta.get());
+			}
 		}else{
 			juice.debugOutln("Meta: "+meta.getId()+" not set");
 		}
@@ -322,7 +327,7 @@ function JuiceInsert(container,insertPoint,insertType){
 	this._container = container;
 	//JQuery selection identifying insert point(s) in document
 	this._insertPoint = insertPoint;
-	//How to insert at insert point: before | after | append | prepend
+	//How to insert at insert point: before | after | append | prepend | replace
 	this._insertType = insertType;
 	//Shown flags
 	this.shown = [];
@@ -403,6 +408,9 @@ JuiceInsert.prototype.show = function(pos){
 					break;
 				case "prepend":
 					target.prepend(ins);
+					break;
+				case "replace":
+					target.replaceWith(ins);
 					break;
 				case "append":
 				default:
@@ -850,16 +858,20 @@ JuicePanel.prototype.makeId = function(sel,pos){
 }
 
 //============== Class JuiceMeta ==============	
-
-//Meta definition class
+//Meta definition class for data from elements or element attributes
 //Extends JuiceMetaAttr
 //Can store single value or an array of values
 
 //arg: id - id of definition
 //arg: selector - JQuery selection string for element within page
-//filterFunc - optional function used to process retrieved data before storage	
+//arg: attribute - attribute name if attributes are wanted - optional
+//arg: filterFunc - function used to process retrieved data before storage - optional
 //See: JuiceMetaAttr
-function JuiceMeta(id, selector,filterFunc){
+function JuiceMeta(id, selector, attName, filterFunc){
+	if (typeof attName=="function") {
+		filterFunc = attName;
+		attName = null;
+    }
 	JuiceMeta.superclass.init.call(this,id, selector, null, filterFunc);
 }
 
