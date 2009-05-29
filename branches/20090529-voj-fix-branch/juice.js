@@ -88,13 +88,13 @@ _Juice.prototype.getMeta = function(id,index){
 	return null;
 }
 
-//getMeta - return array of stored value(s)
+//getMetaArray - return array of stored value(s) or null
 //arg: id - Description id to use
-//See also: JuiceMetaAttr.getArray
+//See also: JuiceMetaAttr.getValues
 _Juice.prototype.getMetaArray = function(id){
 	var meta = this.getMetaInstance(id);
 	if(meta != null){
-		return meta.getArray();
+		return meta.getValues();
 	}
 	return null;
 }
@@ -111,20 +111,26 @@ _Juice.prototype.getMetaInstance = function(id){
 	return null;
 }
 
-//debugMeta - Ouput via debug all metadefinions and their values if set.
+/**
+ * Ouput via debug all metadefinions and their values nicely formatted.
+ */
 _Juice.prototype.debugMeta = function(){
 	for(var i=0;i < this._meta.length;i++){
 		var meta = this._meta[i];
-		if(meta.hasMeta()){
-			if (meta.getLength()>1) {
-				juice.debugOutln("Meta: "+meta.getId()+" ["+meta.getArray().join(",")+"]");
-			} else { 
-				// TODO: value may be undefined - is this purpose?
-				juice.debugOutln("Meta: "+meta.getId()+" - "+meta.get());
-			}
+		var div = $jq("<div class='juice-debug-meta'>");
+		$jq("<span class='juice-debug-meta-id'>")
+		  .appendTo(div).text(meta.getId());
+		if (meta.hasMeta()) {
+			var values = $jq("<ul>");
+			jQuery.each( meta.getValues(), function(i,s){
+				$jq("<li class='juice-debug-meta-value'>")
+				  .appendTo( values ).text(s);
+			});
+			div.append(values);
 		}else{
-			juice.debugOutln("Meta: "+meta.getId()+" not set");
+			div.append(" not set");
 		}
+		juice.debugOut(div);
 	}	
 }
 
@@ -857,110 +863,92 @@ JuicePanel.prototype.makeId = function(sel,pos){
 	return this.getPanelId() + "-" + sel.processId() + "-" + pos;
 }
 
-//============== Class JuiceMeta ==============	
-//Meta definition class for data from elements or element attributes
-//Extends JuiceMetaAttr
-//Can store single value or an array of values
-
-//arg: id - id of definition
-//arg: selector - JQuery selection string for element within page
-//arg: attribute - attribute name if attributes are wanted - optional
-//arg: filterFunc - function used to process retrieved data before storage - optional
-//See: JuiceMetaAttr
-function JuiceMeta(id, selector, attName, filterFunc){
-	if (typeof attName=="function") {
-		filterFunc = attName;
-		attName = null;
+/**
+ * Meta definition class for data from elements or element attributes.
+ * Can store single value or an array of values. A value is always a string.
+ * You can optionally add a filter function to process and/or filter retrieved 
+ * data before storage.
+ * @constructor
+ * @param {String} id The id of meta definition
+ * @param {String} selector JQuery selection string for element within page
+ * @param {String} [attribute] Attribute name if attribute values are wanted
+ * @param {Function} [filter] Function used to process retrieved data before storage
+ */
+function JuiceMeta(id, selector, attribute, filter){
+	if ( jQuery.isFunction(attribute) ) {
+		filter = attribute;
+		attribute = null;
     }
-	JuiceMeta.superclass.init.call(this,id, selector, null, filterFunc);
-}
-
-JuiceMeta.prototype = new JuiceMetaAttr();
-JuiceMeta.prototype.constructor = JuiceMeta;
-JuiceMeta.superclass = JuiceMetaAttr.prototype;
-
-
-//============== Class JuiceMetaAttr ==============	
-	
-//Meta definition class for data from elements or element attributes
-//Can store single value or an array of values
-
-//arg: id - id of definition
-//arg: selector - JQuery selection string for element within page
-//arg: attName - optional name of element attribute 
-//filterFunc - optional function used to process retrieved data before storage	
-function JuiceMetaAttr(id, selector, attName, filterFunc){
-	if( arguments.length ){
-		this.init(id, selector, attName, filterFunc);
-	}
-}
-
-//init
-//arg: id - id of definition
-//arg: selector - JQuery selection string for element within page
-//arg: attName - optional name of element attribute 
-//filterFunc - optional function used to process retrieved data before storage	
-
-JuiceMetaAttr.prototype.init = function(id, selector, attName, filterFunc){
-	this.id = id;
+	this.id = id; // TODO: should better be store in Juice instead of JuiceMeta
 	this._selector = selector;
-	this._attName = attName;
-	this._filterFunc = filterFunc;
+	this._attName = attribute;
+	this._filterFunc = filter;
 	this._values = [];
-	this._found = false;
-	this._find();
+	this._find(); // TODO: maybe this should better be called later
 }
 
-//get - return stored value
-//arg: index - index of value in array of values - optional, defaults to 0
-JuiceMetaAttr.prototype.get = function(index){
-	if(index == null){
-		index = 0;
-	}
-	return this._values[index];
+/**
+ * Return a value that have been identified and stored. By default the first
+ * value is returned (index 0) but you can select any other value by index.
+ * @param {Number} [index] The index of a value, starting with 0
+  */
+JuiceMeta.prototype.get = function(index){
+	return this._values[ index == null ? 0 : index ];
 }
 
-//get - return array of stored value(s)
-JuiceMetaAttr.prototype.getArray = function(){
+/**
+ * Return an array of values that have been identified and stored.
+ */
+JuiceMeta.prototype.getValues = function(){
 	return this._values;
 }
 
-//getLength - return length of values array
-JuiceMetaAttr.prototype.getLength = function(){
+/**
+ * Return the number of values that have been identified and stored.
+ */
+JuiceMeta.prototype.getLength = function(){
 	return this._values.length;
 }
 
-//getId - return id
-JuiceMetaAttr.prototype.getId = function(){
+/**
+ * Return the identifier name of this meta definition.
+ */
+JuiceMeta.prototype.getId = function(){
 	return this.id;
 }
 
-//hasMeta - return true if value(s) identified and stored
-JuiceMetaAttr.prototype.hasMeta = function(){
-	return this._found;
+/**
+ * Return whether value(s) have been identified and stored.
+ */
+JuiceMeta.prototype.hasMeta = function(){
+	return this._values.length > 0
 }
 
-//_find - internal function to identify & store values from JQuery selector
-JuiceMetaAttr.prototype._find = function(){
+/**
+ * Internal internal function to identify & store values from JQuery selector
+ */
+JuiceMeta.prototype._find = function(){
 	var THIS = this;
 	var i = 0;
 	$jq(this._selector).each(function(){
-		var val = "";
+		var val;
 		if(THIS._attName){
-			val = $jq(this).attr(THIS._attName);						
+			val = $jq(this).attr(THIS._attName);
 		}else{
-			//Only want the text of this node - not child nodes
-			$jq(this).contents().each(function(){if(this.nodeType == 3 ) val += this.nodeValue;});		
+			if ($jq(this).size() > 0) {
+				//Only want the text of this node - not child nodes 
+				// TODO: better save a jQuery object and filter filter nodes?
+				val = "";
+				var contents = $jq(this).contents();
+				contents.each(function(){if(this.nodeType == 3 ) val += this.nodeValue;});	
+			}
 		}
-		if(jQuery.isFunction(THIS._filterFunc)){
-			THIS._values[i] = THIS._filterFunc(val,THIS);
-		}else{
-			THIS._values[i] = val;
+		if(jQuery.isFunction(THIS._filterFunc) && val !== undefined ){
+			val = THIS._filterFunc(val); // TODO: why was THIS given as second parameter to filter?
 		}
-		if(val.length > 0){
-			THIS._found = true;
+		if (val !== undefined) {
+			THIS._values[i++] = val;
 		}
-		i++;
 	});
 }
 
