@@ -1,7 +1,6 @@
 = Creating a Metadef =
 
-A Juice Metadef is a collection of descriptions, associated with a particular User Interface type, of where information to be used by Juice extensions can be identified on a html page.  The description also identifies a name that can then be used within an extension to access the data displayed on the page.
-
+A Juice Metadef is a collection of descriptions, associated with a particular User Interface type, of where information to be used by [ExtensionList Juice extensions] can be identified on a html page.  The description also identifies a name that can then be used within an extension to access the data displayed on the page.
 
 = The Metadef file =
 
@@ -40,4 +39,11 @@ Remember that a jQuery selector can return multiple values, a feature used in th
 
 In our example the constructed instances of !JuiceMeta are passed to the Juice function `juice.addMeta`.  This makes them available to other components of the Juice framework.
 
- 
+== Debugging Metadefs ==
+
+If you enabled debugging, a list of all defined Metadefs and their selected content can be showed:
+
+{{{
+juice.setDebug(true);
+juice.debugMeta();
+}}}
