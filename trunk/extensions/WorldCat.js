@@ -1,5 +1,5 @@
-//Amzcouk.js
-//Extension to launch search of Amazon.co.uk based on meta value of 'isbns'
+//WorldCat.js
+//Extension to launch search of worldcat.org based on meta value of 'isbns'
 
 //Constructor arguments:
 //arg: ju - instance of juice
