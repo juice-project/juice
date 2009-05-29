@@ -1,6 +1,6 @@
 = Creating a Metadef =
 
-A Juice Metadef is a collection of descriptions, associated with a particular User Interface type, of where information to be used by [ExtensionList Juice extensions] can be identified on a html page.  The description also identifies a name that can then be used within an extension to access the data displayed on the page.
+A Juice Metadef is a named description, associated with a particular User Interface type, of where information to be used by [ExtensionList Juice extensions] can be identified on a html page. The description is identified by a name that can then be used within an extension to access the data displayed on the page.
 
 = The Metadef file =
 
@@ -33,7 +33,7 @@ Remember that a jQuery selector can return multiple values, a feature used in th
 
 === What about attributes? ===
 
-!JuiceMeta will retrieve and store the contents of a document element from the html page.  If you need to retrieve a value held in an element attribute you should use the associated class - !JuiceMetaAttr. It's constructor takes one extra argument defining the name of the attribute: `JuiceMetaAttr(id, selector, attName, filterFunc)`
+!JuiceMeta will retrieve and store the contents of a document element from the html page.  If you need to retrieve a value held in an element attribute you should use the associated class - !JuiceMetaAttr. It's constructor takes one extra argument defining the name of the attribute: `JuiceMetaAttr(id, selector, attName, filterFunc)
 
 == Making the value available ==
 
