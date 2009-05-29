@@ -1,0 +1,63 @@
+<html>
+<head>
+<script type="text/javascript" src="../jquery-1.3.2.js"></script>
+<script type="text/javascript" src="../juice.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function () {
+	juice.setDebug(true);
+
+	juice.addMeta(new JuiceMeta("a",".a"));
+	juice.addMeta(new JuiceMeta("a@",".a","value"));
+	juice.addMeta(new JuiceMeta("a_f",".a",function(){return;}));
+	juice.addMeta(new JuiceMeta("a@f",".a","value",function(){}));
+	juice.addMeta(new JuiceMeta("a+",".a",function(){return "something"}));
+
+	juice.addMeta(new JuiceMeta("b",".b"));
+	juice.addMeta(new JuiceMeta("b@",".b","value"));
+	juice.addMeta(new JuiceMeta("b_f",".b",function(){}));
+	juice.addMeta(new JuiceMeta("b@f",".b","value",function(){}));
+
+	juice.addMeta(new JuiceMeta("b2@",".b2","value"));
+	juice.addMeta(new JuiceMeta("b2@f",".b2","value",function(){}));
+	juice.addMeta(new JuiceMeta("b2@f+",".b2","value",function(){return "something"}));
+
+	juice.addMeta(new JuiceMeta("c",".c"));
+	juice.addMeta(new JuiceMeta("c@",".c","value"));
+	juice.addMeta(new JuiceMeta("c_f",".c",function(){}));
+	juice.addMeta(new JuiceMeta("c@f",".c","value",function(){}));
+
+	juice.addMeta(new JuiceMeta("d",".d"));
+	juice.addMeta(new JuiceMeta("d@",".d","value"));
+	juice.addMeta(new JuiceMeta("d_f",".d",function(){}));
+	juice.addMeta(new JuiceMeta("d@f",".d","value",function(){}));
+
+	juice.addMeta(new JuiceMeta("e",".e"));
+
+	juice.debugOutln("Testing JuiceMeta");
+	juice.debugMeta();
+});
+</script>
+<style type="text/css">
+	.juice-debug-meta {	}
+	.juice-debug-meta ul { padding: 0px; display: inline; }
+	.juice-debug-meta li { display: inline; }
+	.juice-debug-meta-id { font-weight: bold; }
+	.juice-debug-meta-value { background: #ddd; margin-left: 0.5em; border: 1px solid #ddd; }
+</style>
+<body>
+  <h1>Test cases for JqueryMeta</h1>
+  
+  <!--div class="a" value=""></div--> 
+
+  <div class="b" value=""></div>
+  <div class="b2"></div>
+
+  <div class="c" value="Hello" style="display:none">Hello</div>
+
+  <div class="d" value=""></div>
+  <div class="d" value="Hello" style="display:none">Hello</div>
+
+  <div class="e" style="display:none">content <span>this not</span></div>
+
+</body>
+</html>
