@@ -116,7 +116,12 @@ _Juice.prototype.debugMeta = function(){
 	for(var i=0;i < this._meta.length;i++){
 		var meta = this._meta[i];
 		if(meta.hasMeta()){
-			juice.debugOutln("Meta: "+meta.getId()+" - "+meta.get());			
+			if (meta.getLength()>1) {
+				juice.debugOutln("Meta: "+meta.getId()+" ["+meta.getArray().join(",")+"]");
+			} else { 
+				// TODO: value may be undefined - is this purpose?
+				juice.debugOutln("Meta: "+meta.getId()+" - "+meta.get());
+			}
 		}else{
 			juice.debugOutln("Meta: "+meta.getId()+" not set");
 		}
