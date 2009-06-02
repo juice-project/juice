@@ -22,6 +22,7 @@ Encapsulation of these elements became the basis of a Juice framework.  Experien
 = The Juice Community =
 Building on the theme of laziness, and humility, it is clear that there are far more people, with far more ideas for extending these interfaces than just myself. So why not build a framework that could be used by many.  By making the framework an open source project will enable a community to form around it so that the innovation can be shared far and wide.
 
+<a title="whowilluse"/>
 = Who will use Juice =
 There are three overlapping groups of web user interface managers/designers/developers who will use Juice.
 
