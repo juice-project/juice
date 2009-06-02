@@ -1,0 +1,82 @@
+#summary Some ideas for further developement of Juice
+
+= Simplify usage =
+
+Add a default [ExtensionList|extension] path to allow
+
+{{{
+juice.extension("JuiceSimpleInsert");
+}}}
+
+instead of 
+
+{{{
+juice.loadJs("http://www.example.com/juice/extensions/JuiceSimpleInsert.js");
+}}}
+
+Rename onJsLoaded to ready (like known from jQuery).
+
+{{{
+juice.ready(runExtensions);
+}}}
+
+instead of 
+
+{{{
+juice.onJsLoaded(runExtensions);
+}}}
+
+Let juice method return the juice object to allow
+
+{{{
+juice.ready(runExtensions).setDebug(true);
+}}}
+
+BTW: Why not make juice just a jQuery plugin? Contra: name clashes - but we could put the juice object in jQuery.juice.
+
+Usage of [CreateMetadef|MetaDefs] can be simplified:
+
+{{{
+juice.meta("title", "#itemDetailsContainer > h1 ");
+}}}
+
+or
+
+{{{
+juice.meta("title", JuiceMeta("#itemDetailsContainer > h1 "));
+}}}
+
+instead of
+
+{{{
+juice.addMeta(new JuiceMeta("title","#itemDetailsContainer > h1 "));
+}}}
+
+Change definition and installation of [InsertsAndPanels|inserts] and [ExtensionList|extension] from
+
+{{{
+var div = '<div>...</div>';
+var insert = new JuiceInsert(div,"body","append");
+new MyExtensionClass(juice,...,insert);
+}}}
+
+to
+
+{{{
+var div = '<div>...</div>';
+var extension = new MyExtensionClass(....);
+juice.insert(div, "body","append", extension);
+}}}
+
+or 
+
+{{{
+var div = '<div>...</div>';
+juice.insert(div, "body","append", MyExtensionClass(....));
+}}}
+
+Extensions have access to the juice object anyway because it's a global variable and the insert object should be passed to the initFunc (or another core method) of the extension.
+
+= Add test cases =
+
+Which framework?
