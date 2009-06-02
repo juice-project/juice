@@ -27,7 +27,7 @@ Your created html is then passed as the first argument to the constructor of the
  * prepend - insert at the start of the contents of the selected element
  * before - insert immediately before the selected element
  * prepend - insert immediately after the selected element
-
+ * replace - replace the content of the selected element
 
 = The Panel =
 
