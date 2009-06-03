@@ -14,7 +14,7 @@ instead of
 juice.loadJs("http://www.example.com/juice/extensions/JuiceSimpleInsert.js");
 }}}
 
----
+----
 
 Rename onJsLoaded to ready (like known from jQuery).
 
@@ -28,7 +28,7 @@ instead of
 juice.onJsLoaded(runExtensions);
 }}}
 
----
+----
 
 Let juice method return the juice object to allow
 
@@ -38,7 +38,7 @@ juice.ready(runExtensions).setDebug(true);
 
 BTW: Why not make juice just a jQuery plugin? Contra: name clashes - but we could put the juice object in jQuery.juice.
 
----
+----
 
 Usage of [CreateMetadef|MetaDefs] can be simplified:
 
@@ -58,7 +58,7 @@ instead of
 juice.addMeta(new JuiceMeta("title","#itemDetailsContainer > h1 "));
 }}}
 
----
+----
 
 Change definition and installation of [InsertsAndPanels|inserts] and [ExtensionList|extension] from
 
