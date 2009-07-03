@@ -29,8 +29,11 @@ jQuery(document).ready(function () {
 //	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThingCK.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleMap.js");
+	juice.loadCss("http://juice-project.s3.amazonaws.com/extensions/TwitterFeed.css");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/TwitterFeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleRssfeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Carousel3D.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/UCDMaps.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/textic.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
@@ -153,7 +156,7 @@ function buildWorldCatIframe(){
 		'http://talis-rjw.s3.amazonaws.com/arielx/images/worldcat.jpg',
 		'Search WorldCat',
 		null,
-		"iframe-ovelay",
+		"iframe-overlay",
 		insert);
 }
 function buildMTAInsert(){
@@ -209,6 +212,7 @@ var libraryLocations = [
 
 function frontPage(){
 	var html = '<div id="hpContainer" style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;">' +
+				'<div id="hpTop"style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;"/>' +
 				'<div id="hpLeft" style="width: 30%; float: left; border-right: 5px;"/>' +
 				'<div id="hpCenter" style="width: 40%; float: left; text-align: center;">' +
 				'<div id="hpCenterHead" class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px"></div>'+
@@ -225,9 +229,21 @@ function frontPage(){
 	 new GoogleRSSFeedJuice(juice,insert,"hpRight", "http://blogs.talis.com/panlibus/feed", googleOptions);
 	 new GoogleRSSFeedJuice(juice,insert,"hpLeft", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml", googleOptions);
 	if(whichPrism == "sandbox-ac"){
-		$jq('#hpCenterHead').append("Opening Hours");
+/*		$jq('#hpCenterHead').append("Opening Hours");
 		insertHours();
+*/
+		$jq('#hpCenterHead').append("Library Tweets");
+		var ops = {
+			height : "280px",
+			width : "350px",
+			showAvatar : true,
+			showId : true,
+			showLink : true,
+			count: 4
+		};
+		new TwitterFeedJuice(juice,insert,"hpCenterBody","#talis",ops);
 	}else{
+		//sandbox-Gov
 		$jq('#hpCenterHead').append("Library Locations");
 		var mapOps = {
 			height : "280px",
@@ -237,6 +253,36 @@ function frontPage(){
 			points : libraryLocations
 		};
 	 	new GoogleMapJuice(juice,insert,"hpCenterBody",mapOps);
+		$jq("#hpTop").append('<div class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px">New Additons to stock</div>');
+		var carouselOpts = {
+			height : "350px",
+			width : "960px",
+			feedUrl: "http://juice-project.s3.amazonaws.com/examples/talis-prism/sandbox-ac-carousel.atom",
+			items : [
+			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780596000486&size=medium",
+			  label : "JavaScript : the definitive guide",
+			  link : "http://prism.talis.com/sandbox-gov/items/620805"},
+			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780747551003&size=medium",
+			  label : "Harry Potter and the order of the Phoenix",
+			  link : "http://prism.talis.com/sandbox-gov/items/642036"},
+			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9781846040832&size=medium",
+			  label : "Fighting the banana wars and other Fairtrade battles",
+			  link : "http://prism.talis.com/sandbox-gov/items/723910"},
+			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780349116051&size=medium",
+			  label : "The wisdom of crowds",
+			  link : "http://prism.talis.com/sandbox-gov/items/674096"},
+			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9781840782332&size=medium",
+			  label : "C++ programming",
+			  link : "http://prism.talis.com/sandbox-gov/items/645259"},
+			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780099162810&size=medium",
+			  label : "Orson Cart and the seamonster",
+			  link : "http://prism.talis.com/sandbox-gov/items/93643"},
+			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780500019962&size=medium",
+			  label : "Art & fashion",
+			  link : "http://prism.talis.com/sandbox-gov/items/682072"}
+			]
+		}
+	 	new Carousel3DJuice(juice,insert,"hpTop",carouselOpts);
 	}
 
 }
