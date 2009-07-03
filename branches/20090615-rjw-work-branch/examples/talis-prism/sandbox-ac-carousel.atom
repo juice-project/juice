@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns="http://www.w3.org/2005/Atom" >
+  <id>Prism sandbox-gov carousel feed</id>
+  <title>Cool Books from Sandbox-ac</title>
+  <updated>2009-07-03T13:00:00Z</updated>
+  <entry>
+    <link type="text/html" rel="alternate" href="http://prism.talis.com/sandbox-gov/items/620805"/>
+    <title>JavaScript : the definitive guide</title>
+    <link type="image/jpg" rel="image" href="http://prism.talis.com/sandbox-gov/imageservice.php?id=9780596000486&amp;size=medium"/>
+    <id>620805</id>
+  </entry>
+  <entry>
+    <link type="text/html" rel="alternate" href="http://prism.talis.com/sandbox-gov/items/642036"/>
+    <title>Harry Potter and the order of the Phoenix</title>
+    <link type="image/jpg" rel="image" href="http://prism.talis.com/sandbox-gov/imageservice.php?id=9780747551003&amp;size=medium"/>
+    <id>642036</id>
+  </entry>
+  <entry>
+    <link type="text/html" rel="alternate" href="http://prism.talis.com/sandbox-gov/items/723910"/>
+    <title>Fighting the banana wars and other Fairtrade battles</title>
+    <link type="image/jpg" rel="image" href="http://prism.talis.com/sandbox-gov/imageservice.php?id=9781846040832&amp;size=medium"/>
+    <id>723910</id>
+  </entry>
+  <entry>
+    <link type="text/html" rel="alternate" href="http://prism.talis.com/sandbox-gov/items/674096"/>
+    <title>The wisdom of crowds</title>
+    <link type="image/jpg" rel="image" href="http://prism.talis.com/sandbox-gov/imageservice.php?id=9780349116051&amp;size=medium"/>
+    <id>674096</id>
+  </entry>
+  <entry>
+    <link type="text/html" rel="alternate" href="http://prism.talis.com/sandbox-gov/items/645259"/>
+    <title>C++ programming</title>
+    <link type="image/jpg" rel="image" href="http://prism.talis.com/sandbox-gov/imageservice.php?id=9781840782332&amp;size=medium"/>
+    <id>645259</id>
+  </entry>
+  <entry>
+    <link type="text/html" rel="alternate" href="http://prism.talis.com/sandbox-gov/items/93643"/>
+    <title>Orson Cart and the seamonster</title>
+    <link type="image/jpg" rel="image" href="http://prism.talis.com/sandbox-gov/imageservice.php?id=9780099162810&amp;size=medium"/>
+    <id>93643</id>
+  </entry>
+  <entry>
+    <link type="text/html" rel="alternate" href="http://prism.talis.com/sandbox-gov/items/682072"/>
+    <title>Art &amp; Fashion</title>
+    <link type="image/jpg" rel="image" href="http://prism.talis.com/sandbox-gov/imageservice.php?id=9780500019962&amp;size=medium"/>
+    <id>682072</id>
+  </entry>
+</feed>
