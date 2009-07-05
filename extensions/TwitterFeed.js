@@ -51,30 +51,33 @@ TwitterFeedJuice.prototype.getTweets = function(){
 
 	$jq.getJSON(url, function(data){
 		if(data && data.results && data.results.length > 0){
-			list = $jq('<ul class="tweet_list>"');
+			list = '<ul class="tweet_list">';
 			$jq.each(data.results, function(i, item){
-				list.append('<li>' +
+				var row = '<li>' +
 				This.avatar(item) +
 				This.twitterId(item) +
 				'<span class="tweet_text">' + 
-				This.formatTweet(item.text)  + 
-				' <span class="tweet_date">' + This.relativeTime(item.created_at) +' </span>' +
+				This.formatTweet(item.text)  +
+				' <span class="tweet_date">' + This.relativeTime(item.created_at) + ' </span>' +
 				This.twitterLink(item) +
-				'</span></li>');
-			});			
+				'</span></li>';
+				list += row;
+			});
+			list +='</ul>';			
 		}
 		This.displayFeed(list);
-		list.children('li:first').addClass('tweet_first');
-        list.children('li:odd').addClass('tweet_even');
-        list.children('li:even').addClass('tweet_odd');
+		$jq("#tweet_list").children('li:first').addClass('tweet_first');
+        $jq("#tweet_list").children('li:odd').addClass('tweet_even');
+        $jq("#tweet_list").children('li:even').addClass('tweet_odd');
         
 	});
 
 }
 
 TwitterFeedJuice.prototype.displayFeed = function(list){
+	
 	if(list){
-		var cont = '<div id="' + this.id + '" ' + 'class="juice_tweet" ' +
+		var cont = '<div id="' + this.processId() + '" ' + 'class="juice_tweet" ' +
 			'style="display: block; background-color: transparent; ' +
 			'padding: 0; border: 0; margin-left: auto; margin-right: auto; ' +
 			'width: ' +  this.opts.width + '; ' +
@@ -82,7 +85,7 @@ TwitterFeedJuice.prototype.displayFeed = function(list){
 		this.showInsert();
 		var insert = new JuiceInsert(cont,"#"+this.targetDiv,"append");
 		insert.show();
-		$jq("#"+this.id).append(list);
+		$jq("#"+this.processId()).append(list);
 	}
 }
 
