@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<project name="juice" basedir=".">
+
+    <!--property name="DIST_DIR" value="./dist" /-->
+    
+    <property name="TEST_DIR" value="./test" description="Test cases" />
+    <!--property name="DOCS_DIR" value="./docs"  /-->
+
+    <property name="BUILD_DIR" value="./build" />
+    <property name="RHINO" value="${BUILD_DIR}/js.jar" description="Rhino JS Engine" />
+        
+    <!--target name="dist">
+        <mkdir dir="${DIST_DIR}" />
+    </target-->
+
+    <target name="test">
+        <echo message="Running Automated Test Suite" />
+        <java jar="${RHINO}" fork="true">
+            <arg value="${TEST_DIR}/test.js" />
+        </java>
+        <echo message="Test Suite Finished" />
+    </target>
+
+    <target name="clean">
+        <!--delete dir="${DIST_DIR}" /-->
+        <!--delete dir="${DOCS_DIR}" /-->
+    </target>
+    
+</project>
