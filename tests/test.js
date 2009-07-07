@@ -10,7 +10,7 @@ window.onload = function(){
 
     // Load jquery, juice and the test runner
     load("jquery-1.3.2.js");
-    load("juice-0.4.js");
+    load("juice.js");
     load("build/env-js/testrunner.js");
 
     //var start = new Date().getTime();

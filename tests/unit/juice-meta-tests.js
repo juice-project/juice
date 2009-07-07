@@ -61,7 +61,7 @@ test("test JuiceMeta definitions", function(){
         "e":"content",
     };
 
-    expect(is_unset.length + is_set.length*2 + 2);
+    expect(is_unset.length + 16);
 
     for(var i=0; i<is_unset.length; i++) {
         ok( !juice.hasMeta(is_unset[i]), "meta not set: " + is_unset[i] );

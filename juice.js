@@ -940,7 +940,8 @@ JuiceMeta.prototype._find = function(){
 				// TODO: better save a jQuery object and filter filter nodes?
 				val = "";
 				var contents = $jq(this).contents();
-				contents.each(function(){if(this.nodeType == 3 ) val += this.nodeValue;});	
+				contents.each(function(){if(this.nodeType == 3 ) val += this.nodeValue;});
+                // TODO: should we normalize space here?
 			}
 		}
 		if(jQuery.isFunction(THIS._filterFunc) && val !== undefined ){
