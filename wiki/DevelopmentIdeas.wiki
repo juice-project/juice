@@ -2,7 +2,7 @@
 
 = Simplify usage =
 
-Add a default [ExtensionList|extension] path to allow
+Add a default [ExtensionList extension] path to allow
 
 {{{
 juice.extension("JuiceSimpleInsert");
@@ -48,9 +48,11 @@ BTW: Why not make juice just a jQuery plugin? Contra: name clashes - but we coul
 
 *RJW* - Again I believe that this will increase the possibility of confusion with little benefit.
 
+*JV* - agreed
+
 ----
 
-Usage of [CreateMetadef|MetaDefs] can be simplified:
+Usage of [CreateMetadef MetaDefs] can be simplified:
 
 {{{
 juice.meta("title", "#itemDetailsContainer > h1 ");
@@ -70,9 +72,11 @@ juice.addMeta(new JuiceMeta("title","#itemDetailsContainer > h1 "));
 
 *RJW* - There is merit in this suggestion - the `new` serves to complicate things - first option looks best.
 
+*JV* - ok
+
 ----
 
-Change definition and installation of [InsertsAndPanels|inserts] and [ExtensionList|extension] from
+Change definition and installation of [InsertsAndPanels inserts] and [ExtensionList extension] from
 
 {{{
 var div = '<div>...</div>';
@@ -105,3 +109,5 @@ Extensions have access to the juice object anyway because it's a global variable
 Which framework?
 
 *RJW* - Nadeem Shabir is looking at this using [http://docs.jquery.com/QUnit QUnit]
+
+*JV* - ok, I added automatic test running with Apache Ant and [http://www.mozilla.org/rhin Rhino]
