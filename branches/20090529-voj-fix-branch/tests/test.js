@@ -17,9 +17,9 @@ window.onload = function(){
 
     // Load the tests
     load(
-        "test/unit/demo.js",
-        "test/unit/juice-core-tests.js",
-        "test/unit/juice-meta-tests.js"
+        "tests/unit/demo.js",
+        "tests/unit/juice-core-tests.js",
+        "tests/unit/juice-meta-tests.js"
     );
  
     //var end = new Date().getTime();
@@ -32,4 +32,4 @@ window.onload = function(){
 
 
 // load HTML page
-window.location = "test/index.html";
+window.location = "tests/index.html";

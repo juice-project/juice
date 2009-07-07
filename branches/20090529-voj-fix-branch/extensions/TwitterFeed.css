@@ -1,0 +1,42 @@
+.juice_tweet {
+	margin-top: 0.5em;
+}
+
+.juice_tweet .tweet_list {
+    list-style-type: none;
+	text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.juice_tweet .tweet_list li {
+      overflow: auto;
+      padding: .5em; 
+}
+
+.juice_tweet .tweet_list li a {
+}
+
+.juice_tweet .tweet_list .tweet_id {
+       font-weight: bold;
+}
+.juice_tweet .tweet_list .tweet_date {
+       opacity:0.5;
+}
+.juice_tweet .tweet_list .tweet_link {
+       opacity:0.5;
+}
+
+.juice_tweet .tweet_list .tweet_even {
+      background-color: #f5f5f5; 
+}
+
+.juice_tweet .tweet_list .tweet_avatar {
+    padding-right: .5em;
+    float: left; 
+}
+
+.juice_tweet .tweet_list .tweet_avatar img {
+	height: 4em;
+    vertical-align: middle; 
+}

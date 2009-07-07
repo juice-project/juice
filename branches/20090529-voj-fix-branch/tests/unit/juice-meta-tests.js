@@ -6,16 +6,7 @@ module("juice.juicemeta");
 test("test JuiceMeta definitions", function(){
 
     // add definitions
-/*
-    <!-- string attribute/content -->
-    <div class="c" value="Hello" style="display:none">Hello</div>
-    <!-- some with content, some empty -->
-    <div class="d" value=""></div>
-    <div class="d" value="Hello" style="display:none">Hello</div>
-    <!-- complex content -->
-    <div class="e" style="display:none">content <span>this not</span></div>
-  </div>
-*/
+
     // .a does not exist so this should all return null
     juice.addMeta(new JuiceMeta("a",".a"));
     juice.addMeta(new JuiceMeta("a@",".a","value"));
@@ -52,6 +43,7 @@ test("test JuiceMeta definitions", function(){
     juice.addMeta(new JuiceMeta("d_f",".d",function(){}));
     juice.addMeta(new JuiceMeta("d@f",".d","value",function(){}));
 
+    // complex content
     juice.addMeta(new JuiceMeta("e",".e"));
 
     var is_unset = [
