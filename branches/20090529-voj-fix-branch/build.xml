@@ -1,7 +1,11 @@
 <?xml version="1.0"?>
 <project name="juice" basedir=".">
 
-    <loadfile property="version" srcfile="version.txt" description="Version to build" />
+    <loadfile property="VERSION" srcfile="version.txt" description="Version to build" >
+      <filterchain>
+        <striplinebreaks/>
+      </filterchain>
+    </loadfile>
     
     <property name="DIST_DIR" value="./dist" description="Distribution (ZIP files etc)"/>
     <property name="TEST_DIR" value="./tests" description="Test cases" />
@@ -13,7 +17,9 @@
                  
     <target name="dist" depends="doc">
         <mkdir dir="${DIST_DIR}" />
-        <echo message="Creating distribution files is not implemented yet!" />
+        <echo message="Creating distribution files is not fully implemented yet!" />
+        <copy file="juice.js" tofile="${DIST_DIR}/juice-${VERSION}.js" />
+        <echo message="created ${DIST_DIR}/juice-${VERSION}.js" />
         <!--zip destfile="${BUILD_DIR}/juice-${VERSION}.zip">
             <fileset file="juice.js" />
             <fileset dir="${DOCS_DIR}"/>
