@@ -18,12 +18,30 @@
   <!-- units -->
   <script type="text/javascript" src="unit/demo.js"></script>
   <script type="text/javascript" src="unit/juice-core-tests.js"></script>
+  <script type="text/javascript" src="unit/juice-meta-tests.js"></script>
 
 </head>
 <body id="body">
   <h1>Juice test suite</h1>
   <h2 id="banner"></h2>
   <h2 id="userAgent"></h2>
+
+  <div class="juice-meta-tests">
+    <!-- not existent --> 
+    <!--div class="a" value=""></div-->
+    <!-- empty attribute -->
+    <div class="b" value=""></div>
+    <!-- empty content -->
+    <div class="b2"></div>
+    <!-- string attribute/content -->
+    <div class="c" value="Hello" style="display:none">Hello</div>
+    <!-- some with content, some empty -->
+    <div class="d" value=""></div>
+    <div class="d" value="Hello" style="display:none">Hello</div>
+    <!-- complex content -->
+    <div class="e" style="display:none">content <span>this not</span></div>
+  </div>
+
   <ol id="tests"></ol>
   <div id="main"></div>
 </body>

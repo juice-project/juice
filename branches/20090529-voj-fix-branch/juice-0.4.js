@@ -859,7 +859,7 @@ JuicePanel.prototype.makeId = function(sel,pos){
 //arg: selector - JQuery selection string for element within page
 //filterFunc - optional function used to process retrieved data before storage	
 //See: JuiceMetaAttr
-function JuiceMeta(id, selector,filterFunc){
+function JuiceMeta(id, selector, filterFunc){
 	JuiceMeta.superclass.init.call(this,id, selector, null, filterFunc);
 }
 

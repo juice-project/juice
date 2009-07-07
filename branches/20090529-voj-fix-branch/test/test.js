@@ -18,7 +18,8 @@ window.onload = function(){
     // Load the tests
     load(
         "test/unit/demo.js",
-        "test/unit/juice-core-tests.js"
+        "test/unit/juice-core-tests.js",
+        "test/unit/juice-meta-tests.js"
     );
  
     //var end = new Date().getTime();
