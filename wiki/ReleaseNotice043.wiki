@@ -8,7 +8,7 @@ Revision 0.4.3 is a minor functionality update although it introduces a signific
  * *Closures* - All functionality within `juice.js` is now encapsulated in a [http://en.wikipedia.org/wiki/JavaScript#Functional JavaScript closure].  Functionality impact zero, but has effect of hiding all juice code, except top level classes, from main context reducing possibility of conflicts.
  * *Ready* - Introduction of `juice.read()` as a better named replacement for `juice.onAllLoaded()` - now deprecated.
  * *Carousel3D* - New extension to display a carousel of clickable images, ether predefined or from an atom/rss feed.
- * *TwitterFeed* - New extension to display the results of a Twitter search.  Options for display of image/ twitter id / link to twitter item.
+ * *!TwitterFeed* - New extension to display the results of a Twitter search.  Options for display of image/ twitter id / link to twitter item.
 
 
  
