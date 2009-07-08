@@ -40,7 +40,7 @@
     
     <target name="test">
         <echo message="Running Automated Test Suite" />
-        <java jar="${RHINO}" fork="true">
+        <java jar="${RHINO}" fork="true" failonerror="true">
             <arg value="${TEST_DIR}/test.js" />
         </java>
         <echo message="Test Suite Finished" />
