@@ -1,5 +1,5 @@
 function koha_metadef(){
-	juice.addMeta(new JuiceMetaAttr("isbns",".unapi-id","title",koha_scrapeunapi)); 
+	juice.addMeta(new JuiceMeta("isbns",".unapi-id","title",koha_scrapeunapi)); 
 	juice.addMeta(new JuiceMeta("author",".author  a")); 
 	juice.addMeta(new JuiceMeta("title","#catalogue_detail_biblio  h1")); 
 //	juice.debugMeta();

@@ -58,7 +58,7 @@ test("test JuiceMeta definitions", function(){
         "c@":"Hello",
         "d":["","Hello"],
         "d@":["","Hello"],
-        "e":"content",
+        "e":"content  test",
     };
 
     expect(is_unset.length + 16);
