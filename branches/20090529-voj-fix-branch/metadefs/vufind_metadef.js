@@ -1,7 +1,7 @@
 function vufind_metadef(){
-	juice.addMeta(new JuiceMetaAttr("isbns",".Z3988","title",vufind_scrapez3988)); 
-	juice.addMeta(new JuiceMetaAttr("author",".Z3988","title",vufind_scrapez3988)); 
-	juice.addMeta(new JuiceMetaAttr("title",".Z3988","title",vufind_scrapez3988)); 
+	juice.addMeta(new JuiceMeta("isbns",".Z3988","title",vufind_scrapez3988)); 
+	juice.addMeta(new JuiceMeta("author",".Z3988","title",vufind_scrapez3988)); 
+	juice.addMeta(new JuiceMeta("title",".Z3988","title",vufind_scrapez3988)); 
 //	juice.debugMeta();
 }
 
