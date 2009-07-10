@@ -1,0 +1,19 @@
+= Revision 0.5 - Release Notice =
+10th July 2009
+
+Revision 0.5 introduces several elements to increase the stability and buildability (if there is such a word) of Juice.
+
+From the user, as against the developer, point of view the most important enhancement is a zip download of the bits of Juice you need to use it.
+
+= Details =
+
+ * *Zip Download* - juice-0.5.zip contains the core elements of juice with the documentation of juice classes, but without the build stuff. Can be downloaded from the [http://code.google.com/p/juice-project/downloads/list project download area].
+ * *Ready* - Introduction of `juice.read()` as a better named replacement for `juice.onAllLoaded()` - now deprecated.
+ * *Ant Build Task* - Project now includes ant Build.xml file which controls the running of documentation, testing, and distribution build of the project. [Thanks sieheauch]
+ * *Unit Testing* - Unit testing has been introduced in this release, using a combination of jQuery's QUnit, and Rhino.  Can ether be invoked as a build test by running the ant test task, or as test for any browser by opening up the index.html file located in the tests area of the project.  Test coverage is not yet full for all juice classes and functions but this is a great start with many thanks to sieheauch and nadeem.shabir.
+ * *Documentation* - jsdoc style documentation has been added for juice classes and functions (created by using the ant doc task).  At this revision the juice classes and functions have by no means full documentation coverage, no other areas such as extensions have any documentation.  This will evolve as we go - thanks to sieheauch.
+ * *Distribution Build* - The ant dist task builds documentation then creates the zip file ready for download. Again  thanks to sieheauch.
+
+
+
+ 
