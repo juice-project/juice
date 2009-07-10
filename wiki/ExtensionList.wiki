@@ -4,6 +4,7 @@ List of published extensions, with links to individual documentation pages
 
  * [ExtensionAmazoncouk Amazoncouk] Launch search of Amazon.co.uk using ISBN data.
  * [ExtensionAudiblecouk Audiblecouk] Launch search of audible.co.uk using author and title data.
+ * [ExtensionCarousel3D Carousel3D] Insert a revolving 3D image carousel in to a page.
  * [ExtensionCopac Copac] Launch search of copac.ac.uk using ISBN data.
  * [ExtensionDelicious del.icio.us] Launch a window to the del.cio.us bookmaking service.
  * [ExtensionGBS Google Book Search] Launch a window to Google Book Search book display service.
@@ -11,8 +12,9 @@ List of published extensions, with links to individual documentation pages
  * [ExtensionGas Google Analytics] Simply add the code for Google Analytics to a page.
  * [ExtensionGoogleMap Google Map] Insert a Google Map in to a page.
  * [ExtensionGoogleRssFeed Google RSS Feed] Insert a Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] in to a page.
- * [ExtensionSimpleInsert Simple Insert] Simple Juice insert in to a page.
  * [ExtensionLibraryThing LibraryThing] Launch search of librarything.com using title data.
  * [ExtensionOpenLibrary OpenLibrary] Launch search of openlibrary.org using ISBN data.
+ * [ExtensionSimpleInsert Simple Insert] Simple Juice insert in to a page.
+ * [ExtensionTwitterFeed TwitterFeed] Insert a Twitter feed in to a page.
  * [ExtensionWaterstones Waterstones] Launch search of waterstones.com using ISBN data.
  * [ExtensionWorldCat WorldCat] Launch search of worldcat.org using ISBN data.
