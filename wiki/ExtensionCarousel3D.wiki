@@ -18,23 +18,23 @@ var insert = new JuiceInsert(html,"#pageContent","append");
 insert.show();
 
 $jq("#hpContainer").append('New Additons to stock');
-		var carouselOpts = {
-			height : "350px",
-			width : "960px",
-			feedUrl: "http://juice-project.s3.amazonaws.com/examples/talis-prism/sandbox-ac-carousel.atom",
-			items : [
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780596000486&size=medium",
-			  label : "JavaScript : the definitive guide",
-			  link : "http://prism.talis.com/sandbox-gov/items/620805"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780747551003&size=medium",
-			  label : "Harry Potter and the order of the Phoenix",
-			  link : "http://prism.talis.com/sandbox-gov/items/642036"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9781846040832&size=medium",
-			  label : "Fighting the banana wars and other Fairtrade battles",
-			  link : "http://prism.talis.com/sandbox-gov/items/723910"}
-		]
-		}
-	 	new Carousel3DJuice(juice,insert,"hpTop",carouselOpts);
+var carouselOpts = {
+	height : "350px",
+	width : "960px",
+	feedUrl: "http://juice-project.s3.amazonaws.com/examples/talis-prism/sandbox-ac-carousel.atom",
+	items : [
+		{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780596000486&size=medium",
+		  label : "JavaScript : the definitive guide",
+		  link : "http://prism.talis.com/sandbox-gov/items/620805"},
+		{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780747551003&size=medium",
+		  label : "Harry Potter and the order of the Phoenix",
+		  link : "http://prism.talis.com/sandbox-gov/items/642036"},
+		{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9781846040832&size=medium",
+		  label : "Fighting the banana wars and other Fairtrade battles",
+		  link : "http://prism.talis.com/sandbox-gov/items/723910"}
+	]
+}
+new Carousel3DJuice(juice,insert,"hpTop",carouselOpts);
 }}}
 
 == Prerequisites ==
