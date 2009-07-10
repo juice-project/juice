@@ -1,6 +1,6 @@
 = Google RSS Feed Juice Extension =
 
-[ExtensionList Extension] to embed a a Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] in to a page.
+[ExtensionList Extension] to embed a Google [http://www.google.com/uds/solutions/dynamicfeed/index.html Dynamic Feed Control] in to a page.
 
 Author: *Richard Wallis*<br/>
 Juice Version: > 0.4
