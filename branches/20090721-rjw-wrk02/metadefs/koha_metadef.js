@@ -1,14 +1,13 @@
 function koha_metadef(){
-	juice.addMeta(new JuiceMeta("isbns",".unapi-id","title",koha_scrapeunapi)); 
-	juice.addMeta(new JuiceMeta("author",".author  a")); 
-	juice.addMeta(new JuiceMeta("title","#catalogue_detail_biblio  h1")); 
+	juice.findMeta("isbns",".unapi-id","title",koha_scrapeunapi); 
+	juice.findMeta("author",".author  a"); 
+	juice.findMeta("title","#catalogue_detail_biblio  h1"); 
 //	juice.debugMeta();
 }
 
 function koha_scrapeunapi(val,meta){
 	var value = null;
-	var id = meta.getId();
-	switch(id){
+	switch(meta){
 		case "isbn":
 		case "isbns":
 			value = getFromParam(val,"koha:isbn");

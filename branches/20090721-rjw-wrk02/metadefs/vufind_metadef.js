@@ -1,14 +1,13 @@
 function vufind_metadef(){
-	juice.addMeta(new JuiceMeta("isbns",".Z3988","title",vufind_scrapez3988)); 
-	juice.addMeta(new JuiceMeta("author",".Z3988","title",vufind_scrapez3988)); 
-	juice.addMeta(new JuiceMeta("title",".Z3988","title",vufind_scrapez3988)); 
+	juice.findMeta("isbns",".Z3988","title",vufind_scrapez3988); 
+	juice.findMeta("author",".Z3988","title",vufind_scrapez3988); 
+	juice.findMeta("title",".Z3988","title",vufind_scrapez3988); 
 //	juice.debugMeta();
 }
 
 function vufind_scrapez3988(val,meta){
 	var value = null;
-	var id = meta.getId();
-	switch(id){
+	switch(meta){
 		case "isbn":
 		case "isbns":
 			value = getFromParam(val,"rft.isbn");
