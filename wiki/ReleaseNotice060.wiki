@@ -1,4 +1,4 @@
-= Revision 0.5 - Release Notice =
+= Revision 0.6 - Release Notice =
 23rd July 2009
 
 Revision 0.6 introduces a major simplification and refactoring of the Meta functionality and architecture
