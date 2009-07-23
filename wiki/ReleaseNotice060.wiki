@@ -1,0 +1,53 @@
+= Revision 0.5 - Release Notice =
+23rd July 2009
+
+Revision 0.6 introduces a major simplification and refactoring of the Meta functionality and architecture
+
+From the point of view of someone using/building extensions there is no difference except for the deprecation of the `juice.GetValues()` function which will removed from the code at a later revision.
+
+*Pre 0.6 Meta Definitions will fail with version 0.6* - see below for simple upgrade notes.
+
+== Overview of Meta changes ==
+
+Meta values (pre v0.6) could only be created from jQuery selects identifying values from within the html DOM.  The refactoring has retained that capability (using `juice.findMeta()`) and added the ability to directly set a meta value (using `juice.setMeta()`) ether from a value or from the result of calling a function.
+
+Meta values can now also be deleted (using `juice.deleteMeta()`) and overwritten by further calls to the set or find functions for a previously created Meta id.
+
+For naming consistency `juice.getValues()` has been deprecated by `juice.getMetaValues()`.  The `JuiceMeta` class is now not directly accessible.
+
+= Details =
+
+ * *JuiceMeta* - Class simplified and removed from Global Namespace.
+ * *FindMeta* - `juice.findMeta()` replaces `juice.addMeta()` functionality - _see upgrade notes below_.
+ * *SetMeta* - `juice.setMeta()` enables creation of a Meta value from a variable or a function.
+ * *DeleteMeta* - `juice.deleteMeta()` removes a previously created Meta value.
+ * *GetMetaValue* - `juice.getValues()` deprecated by `juice.getMetaValues()` with no change in functionality.
+
+
+== Upgrade Notes ==
+
+=== Upgrade from addMeta ===
+
+Pre 0.6 calls to juice.addMeta:
+{{{
+juice.addMeta(new JuiceMeta("isbns",".item > #details .table .ISBN",juice.stringToAlphnumAray));
+juice.addMeta(new JuiceMeta("title",".item > .summary > .title"));
+}}}
+
+Need to be replaced with calls to juice.findMeta, thus:
+{{{
+juice.findMeta("isbns",".item > #details .table .ISBN",juice.stringToAlphnumAray);
+juice.findMeta("title",".item > .summary > .title");
+}}}
+
+=== Upgrade for getValues ===
+
+Calls to juice.getValues:
+{{{
+var vals = juice.getValues("title");
+}}}
+
+Should be replaced with calls to juice.getMetaValues(), thus:
+{{{
+var vals = juice.getMetaValues("title");
+}}}
