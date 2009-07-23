@@ -17,11 +17,11 @@ For naming consistency `juice.getValues()` has been deprecated by `juice.getMeta
 
 = Details =
 
- * *JuiceMeta* - Class simplified and removed from Global Namespace.
- * *FindMeta* - `juice.findMeta()` replaces `juice.addMeta()` functionality - _see upgrade notes below_.
- * *SetMeta* - `juice.setMeta()` enables creation of a Meta value from a variable or a function.
- * *DeleteMeta* - `juice.deleteMeta()` removes a previously created Meta value.
- * *GetMetaValue* - `juice.getValues()` deprecated by `juice.getMetaValues()` with no change in functionality.
+ * *!JuiceMeta* - Class simplified and removed from Global Namespace.
+ * *!FindMeta* - `juice.findMeta()` replaces `juice.addMeta()` functionality - _see upgrade notes below_.
+ * *!SetMeta* - `juice.setMeta()` enables creation of a Meta value from a variable or a function.
+ * *!DeleteMeta* - `juice.deleteMeta()` removes a previously created Meta value.
+ * *!GetMetaValue* - `juice.getValues()` deprecated by `juice.getMetaValues()` with no change in functionality.
 
 
 == Upgrade Notes ==
