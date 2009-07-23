@@ -195,8 +195,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/JuiceInsert.html">JuiceInsert</a></li>
 	
-	<li><a href="../symbols/JuiceMeta.html">JuiceMeta</a></li>
-	
 	<li><a href="../symbols/JuicePanel.html">JuicePanel</a></li>
 	
 	<li><a href="../symbols/JuiceProcess.html">JuiceProcess</a></li>
@@ -270,6 +268,70 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#debugMeta">debugMeta</a></b>()
+								</div>
+								<div class="description">Step through all set meta values
+Output id and value(s) for each via debugOutln</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#deleteMeta">deleteMeta</a></b>(id)
+								</div>
+								<div class="description">Delete stored value</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#findMeta">findMeta</a></b>(id, selector, attribute, filter)
+								</div>
+								<div class="description">Create and store meta reference from DOM elements or element attributes using jQuery selectors.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#getMeta">getMeta</a></b>(id, index)
+								</div>
+								<div class="description">Return stored value</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#getMetaValues">getMetaValues</a></b>(id)
+								</div>
+								<div class="description">Return array of stored value(s)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#getValues">getValues</a></b>(id)
+								</div>
+								<div class="description">Return array of stored value(s)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#hasMeta">hasMeta</a></b>(id)
+								</div>
+								<div class="description">Have mata value(s) been stored.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/juice.html#onAllLoaded">onAllLoaded</a></b>(func)
 								</div>
 								<div class="description">Call user function when all loading Google APIs and JavaScripts are loaded
@@ -293,6 +355,15 @@ Waits on setTimeout of 5ms before trying again</div>
 								<div class="fixedFont"><b><a href="../symbols/juice.html#runscript">runscript</a></b>(id, src)
 								</div>
 								<div class="description">Add script element to document</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#setMeta">setMeta</a></b>(id, arg)
+								</div>
+								<div class="description">Create and store meta reference from function or data passed.</div>
 							</td>
 						</tr>
 					
@@ -354,6 +425,323 @@ any duplicates removed vales from second array taking precedence</div>
 				<div class="sectionTitle">
 					Method Detail
 				</div>
+				
+					<a name="debugMeta"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>debugMeta</b>()
+					
+					</div>
+					<div class="description">
+						Step through all set meta values
+Output id and value(s) for each via debugOutln
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="#debugOutln">#debugOutln</a></dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name="deleteMeta"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>deleteMeta</b>(id)
+					
+					</div>
+					<div class="description">
+						Delete stored value
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of meta</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="findMeta"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>findMeta</b>(id, selector, attribute, filter)
+					
+					</div>
+					<div class="description">
+						Create and store meta reference from DOM elements or element attributes using jQuery selectors.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of meta definition to create</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>selector</b>
+									
+								</dt>
+								<dd>JQuery selection string for element within page</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>attribute</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Attribute name if attribute values are wanted</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>filter</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Function used to process retrieved data before storage</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="#setMeta">#setMeta</a></dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name="getMeta"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getMeta</b>(id, index)
+					
+					</div>
+					<div class="description">
+						Return stored value
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of meta</dd>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>index</b>
+									
+								</dt>
+								<dd>element in array of values - optional, defauts to 0.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>value</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getMetaValues"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>getMetaValues</b>(id)
+					
+					</div>
+					<div class="description">
+						Return array of stored value(s)
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of meta</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> values.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getValues"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>getValues</b>(id)
+					
+					</div>
+					<div class="description">
+						Return array of stored value(s)
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of meta</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								by #getMetaValues
+							</dt>
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> values.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="hasMeta"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>hasMeta</b>(id)
+					
+					</div>
+					<div class="description">
+						Have mata value(s) been stored.
+If argument is a function, it should return a value or array of values to store
+the function will be called with a single argument - the id.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									<i>Optional</i>
+								</dt>
+								<dd>The id of meta definition to check - optional, defaults to any/all meta values</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>true | false</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
 				
 					<a name="onAllLoaded"> </a>
 					<div class="fixedFont">
@@ -478,6 +866,50 @@ Waits on setTimeout of 5ms before trying again
 
 					<hr />
 				
+					<a name="setMeta"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setMeta</b>(id, arg)
+					
+					</div>
+					<div class="description">
+						Create and store meta reference from function or data passed.
+If argument is a function, it should return a value or array of values to store
+the function will be called with a single argument - the id.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of meta definition to create</dd>
+							
+								<dt>
+									<b>arg</b>
+									
+								</dt>
+								<dd>Value(s) to store, or function that returns value(s) to store</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="updateArray"> </a>
 					<div class="fixedFont">
 					
@@ -541,7 +973,7 @@ any duplicates removed vales from second array taking precedence
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Fri Jul 10 2009 09:22:14 GMT+0100 (BST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Thu Jul 23 2009 15:59:34 GMT+0100 (BST)
 		</div>
 	</body>
 </html>

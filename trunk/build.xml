@@ -20,7 +20,7 @@
     <property name="RHINO" value="${BUILD_DIR}/js.jar" description="Rhino JS Engine" />
     <property name="JSDOC_TOOLKIT" value="${BUILD_DIR}/jsdoc-toolkit" />
                  
-    <target name="dist" depends="doc">
+    <target name="dist" depends="test,doc">
         <mkdir dir="${DIST_DIR}" />
         <echo message="Creating distribution files is not fully implemented yet!" />
         <copy file="juice.js" tofile="${DIST_DIR}/juice-${VERSION}.js" />

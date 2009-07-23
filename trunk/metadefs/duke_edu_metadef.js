@@ -1,6 +1,6 @@
 function duke_edu_metadef(){
-	juice.addMeta(new JuiceMeta("isbn","li:has(> em:contains('ISBN:'))"));
-	juice.addMeta(new JuiceMeta("isbns","li:has(> em:contains('ISBN:'))",juice.stringToAlphnumAray));
-	juice.addMeta(new JuiceMeta("author","[title*='Perform a search for the author']"));
-	juice.addMeta(new JuiceMeta("title",".resourcedetails > h1"));
+	juice.findMeta("isbn","li:has(> em:contains('ISBN:'))");
+	juice.findMeta("isbns","li:has(> em:contains('ISBN:'))",juice.stringToAlphnumAray);
+	juice.findMeta("author","[title*='Perform a search for the author']");
+	juice.findMeta("title",".resourcedetails > h1");
 }

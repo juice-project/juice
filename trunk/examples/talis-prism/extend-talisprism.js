@@ -35,6 +35,7 @@ jQuery(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Carousel3D.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/UCDMaps.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/LibraryGUIDEMaps.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/textic.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
@@ -50,7 +51,6 @@ function runExtensions(){
 	if(whichPage == "index.php" || whichPage == "" ){
 		frontPage();
 	}
-	
 //	juice.overlayFunc(juiceOverlayDisplay);
 	switch(whichPrism){
 		case "sandbox-gov":
@@ -68,11 +68,11 @@ function runExtensions(){
 			break;
 			case "sandbox-ac":
 				buildSelectionPanel();
-				buildMapsInsert();
 				buildGBSInsert();
 			break;
 		}
 		
+		buildMapsInsert();
 		buildWorldCatIframe();
 
 
@@ -115,9 +115,18 @@ function buildMapsInsert(){
 	var panel = new JuiceBasicPanel(insert,"MapPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
 	panel.shared(false);
 	juice.addPanel(panel);
-	var procMaps = new UCDMapsJuice(juice,
-		'http://juice-project.s3.amazonaws.com/extensions/local/floormap1.gif',
-		'Locate in Library',"MapPanelWindow");
+	switch(whichPrism){
+		case "sandbox-gov":
+		new LibraryGUIDEMapsJuice(juice,
+			'http://juice-project.s3.amazonaws.com/extensions/local/floormap1.gif',
+			'Locate in Library',"MapPanelWindow");
+		break;
+		case "sandbox-ac":
+		new UCDMapsJuice(juice,
+			'http://juice-project.s3.amazonaws.com/extensions/local/floormap1.gif',
+			'Locate in Library',"MapPanelWindow");
+		break;
+	}
 }
 
 function buildSelectionPanel(){
@@ -167,7 +176,7 @@ function buildMTAInsert(){
 
 function buildLocationsMapsInsert(){
 	if(juice.hasMeta("location")){
-		var locs = juice.getValues("location");
+		var locs = juice.getMetaValues("location");
 		var div = '<div id="LocMapPanel" style="display: block; width: 240px; height: 310px"><br/><h2 class="title">Library Location</h2><div id="LocMap" style="width: 240px; height: 250px"></div></div>';
 		var insert = new JuiceInsert(div,"#itemActions > ul:last","after");
 				var mapOps = {
