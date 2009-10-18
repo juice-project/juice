@@ -2,13 +2,19 @@
 //Add in Extension specific code
 //Save in file extension-name.js
 
+//Constructor arguments:
+//arg: ju - instance of juice
+//arg: insert - JuiceInsert for page
+//arg: targetDiv - id of html element to contain output
+//arg: opts - controling options
+
 		//Inspiration and some code from Andrew Sellick - http://www.andrewsellick.com/75/simple-3d-carousel-using-mootools  
 
 function Carousel3DJuice(ju,insert,targetDiv,opts){
 	this.id = "Carousel3DSel";
 	this.targetDiv = targetDiv;
 	var defOpts = {
-		height : "200px",
+		height : "260px",
 		width : "300px",
 		radiusX : 220,
 		radiusY : 40,
@@ -110,8 +116,9 @@ Carousel3DJuice.prototype.setupCarousel = function(){
 		this.numElements = Math.min(this.imageDivs.length,this.opts.max);
 		
 	
-		this.centerX = Math.round(this.carousel.offset().left + (this.carousel.width()/2));
-		this.centerY = Math.round(this.carousel.offset().top + (this.carousel.height()/2) - (this.radiusY / 2));
+		this.centerX = Math.round(this.carousel.offset().left + (this.carousel.width()/2) - (this.radiusX / 3.142));
+//		this.centerY = Math.round(this.carousel.offset().top + (this.carousel.height()/2) - (this.radiusY / 2));
+		this.centerY = Math.round(this.carousel.offset().top + (this.carousel.height()/2) - (this.radiusY));
 }
 
 Carousel3DJuice.prototype.startCarousel = function(){
@@ -159,7 +166,6 @@ Carousel3DJuice.prototype.getItemsFromFeed = function(url){
 	feed.load(function(result) {
 		var items = [];
 	  if (!result.error) {
-	    var container = document.getElementById("feed");
 	    for (var i = 0; i < result.feed.entries.length; i++) {
 	      var entry = result.feed.entries[i];
 

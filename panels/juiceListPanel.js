@@ -26,8 +26,6 @@ JuiceListPanel.prototype.add = function(sel){
 		this.buildlist();
 		this.added = true;
 	}
-//	var htm = '<li title="'+ sel.selText() + '" id="' + this.getPanelId() + sel.processId() + '" class="' + this.startClass() + '" >';
-//	htm += sel.selText() + '</li>';
 	var id = this.makeId(sel);
 	var htm = '<li title="'+ sel.selText() + '" id="' + id +  '" class="' + this.startClass() + '" >';
 	htm += '<a href="javascript:void(0)" title="'+ sel.selText() + '">';

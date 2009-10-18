@@ -278,6 +278,15 @@ Output id and value(s) for each via debugOutln</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#deleteCookie">deleteCookie</a></b>(name)
+								</div>
+								<div class="description">Delete browser coookie</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/juice.html#deleteMeta">deleteMeta</a></b>(id)
 								</div>
 								<div class="description">Delete stored value</div>
@@ -290,6 +299,15 @@ Output id and value(s) for each via debugOutln</div>
 								<div class="fixedFont"><b><a href="../symbols/juice.html#findMeta">findMeta</a></b>(id, selector, attribute, filter)
 								</div>
 								<div class="description">Create and store meta reference from DOM elements or element attributes using jQuery selectors.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#getCookie">getCookie</a></b>(name)
+								</div>
+								<div class="description">Get browser coookie</div>
 							</td>
 						</tr>
 					
@@ -355,6 +373,15 @@ Waits on setTimeout of 5ms before trying again</div>
 								<div class="fixedFont"><b><a href="../symbols/juice.html#runscript">runscript</a></b>(id, src)
 								</div>
 								<div class="description">Add script element to document</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/juice.html#setCookie">setCookie</a></b>(name, value, minutes, hours, days, path, domain, secure)
+								</div>
+								<div class="description">Set browser coookie</div>
 							</td>
 						</tr>
 					
@@ -459,6 +486,42 @@ Output id and value(s) for each via debugOutln
 
 					<hr />
 				
+					<a name="deleteCookie"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>deleteCookie</b>(name)
+					
+					</div>
+					<div class="description">
+						Delete browser coookie
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="deleteMeta"> </a>
 					<div class="fixedFont">
 					
@@ -552,6 +615,49 @@ Output id and value(s) for each via debugOutln
 								<dd><a href="#setMeta">#setMeta</a></dd>
 							
 							</dl>
+						
+
+					<hr />
+				
+					<a name="getCookie"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{string}</span>
+					<b>getCookie</b>(name)
+					
+					</div>
+					<div class="description">
+						Get browser coookie
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{string}</span> cookie value or null</dd>
+							
+							</dl>
+						
+						
 						
 
 					<hr />
@@ -866,6 +972,84 @@ Waits on setTimeout of 5ms before trying again
 
 					<hr />
 				
+					<a name="setCookie"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setCookie</b>(name, value, minutes, hours, days, path, domain, secure)
+					
+					</div>
+					<div class="description">
+						Set browser coookie
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>value</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>minutes</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>hours</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{int}</span> <b>days</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>path</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>domain</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>secure</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="setMeta"> </a>
 					<div class="fixedFont">
 					
@@ -973,7 +1157,7 @@ any duplicates removed vales from second array taking precedence
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Thu Jul 23 2009 15:59:34 GMT+0100 (BST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Sun Oct 18 2009 22:21:38 GMT+0100 (BST)
 		</div>
 	</body>
 </html>

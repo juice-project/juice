@@ -1,18 +1,68 @@
-var procEGBS = null;
+//////////////// WARNING - this example contains many extra functions for demo purposes
+//////////////// Any functions begining with demo_ are not required for a normal Talis Prism tennancy
+//////////////// RJW August 2009
+
+//////////////// Code to ascertain prism tennancy name
 var locationBits = document.location.pathname.split('/');
 var whichPrism = locationBits[1];
-var demo = false;
 if(whichPrism == "demo"){
-	demo = true;
 	whichPrism = locationBits[2];
 }
-var whichPage = locationBits[locationBits.length - 1];
 
-juice.googleApiKey("ABQIAAAAKi1cC767naAPtNw6ExDJHBSr1cLuvfmD_hPnfKXXZtPgfYowlRRaiVfGUqzawVB9RWLIPD4MTDzgdw");
-	
+var prismPage = "";
+
 jQuery(document).ready(function () { 
+	prismPage = jQuery("body").attr("id");
+	whenJuiceLoaded(startJuiceActions);
+});
+
+/// Function to wait for juice.js to be fully loaded before proceeding
+/// Only really needed if this script file is dynamingly loaded via another script
+function whenJuiceLoaded(func){
+	if(typeof juice != 'undefined'){
+		func();
+	}else{
+		setTimeout(function(){whenJuiceLoaded(func);},10);
+	}
+}
+
+
+///Not normally required see warning at top of file
+function demo_Mode(){
+	juice.setDebug(true);
+	str = new String(window.location.search);
+	if(str.indexOf('?') == 0){
+		str = str.substring(1,str.length);
+	}
+	params = str.split('&');
+	for(var i=0;i < params.length;i++){
+		var param = params[i].split('=');
+		if(param[0] == 'demo'){
+			if(param[1] == 'yes' || param[1] == 'true'){
+				juice.setCookie("juiceDemo","true",0,2,0);
+			}else if(param[1] == 'no' || param[1] == 'false'){
+				juice.deleteCookie("juiceDemo");
+			}			
+		}
+	}
+
+	if(juice.getCookie("juiceDemo")){
+		return true;
+	}
+
+	return false;
+}
+
+function startJuiceActions(){
+	
+	if(demo_Mode()){
+		juice.loadJs("http://juice-project.s3.amazonaws.com/examples/talis-prism/demo.js");
+		return;
+	}
+	juice.googleApiKey("ABQIAAAAKi1cC767naAPtNw6ExDJHBSr1cLuvfmD_hPnfKXXZtPgfYowlRRaiVfGUqzawVB9RWLIPD4MTDzgdw");
 	juice.setDebug(true);
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/JuiceSimpleInsert.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/extendedbyJuice.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_prism_metadef.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
@@ -33,49 +83,91 @@ jQuery(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/TwitterFeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleRssfeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Carousel3D.js");
+//	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/BookListFromFeed.js");
+
+
+juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/qrcode_juice.js");
+juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Carousel3D.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/UCDMaps.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/LibraryGUIDEMaps.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/BhamACMaps.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/textic.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
 	juice.onJsLoaded(runExtensions);
-});
+}
 
 function runExtensions(){
+	juice.debugOutln(juice._absoluteUri("http://juice-project.s3.amazonaws.com/examples/talis-prism/demo.js"));
+	juice.debugOutln(juice._absoluteUri("/examples/talis-prism/demo.js"));
+	juice.debugOutln(juice._absoluteUri("examples/talis-prism/demo.js"));
+
 	buildExtendedBy();
-	var procGas = new gasJuice(juice);
+	new gasJuice(juice,"UA-2411194-19,UA-11090604-1");
 	talis_prism_metadef();
 //	juice.debugMeta();
-	if(whichPage == "index.php" || whichPage == "" ){
+	if(prismPage == "index"){
 		frontPage();
+		return;
+	}else if(prismPage == "searchaction"){
+		return;
 	}
 //	juice.overlayFunc(juiceOverlayDisplay);
 	switch(whichPrism){
 		case "sandbox-gov":
+		new gasJuice(juice,"UA-2411194-12,UA-11090604-1");
 	//	buildTextic();
 		break;
 		case "sandbox-ac":
+		new gasJuice(juice,"UA-2411194-19,UA-11090604-1");
 		break;
 	}	
 	if(juice.hasMeta()){
-		switch(whichPrism){
+ 		switch(whichPrism){
 			case "sandbox-gov":
 				buildSelectionPanel2();
 				buildMTAInsert();
 				buildLocationsMapsInsert();
+				buildQRInsert();
 			break;
 			case "sandbox-ac":
 				buildSelectionPanel();
 				buildGBSInsert();
+				buildQRInsertSide();
 			break;
 		}
-		
+////
+/*		var bhamdiv = '<div id="bhamframe" style="display: block; height: 600px; width: 100%; border: 1px solid #EAEADC; ">' + 
+			'</div>';
+		var bhaminsert = new JuiceInsert(bhamdiv,"#details .table","after");
+		new BhamACDetailMapsJuice(juice,
+			"",
+			"Find in the Library"
+			,null,
+			"iframe-overlay",
+			bhaminsert);
+*/
+///
+/*
+var bhdiv = '<div id="bhPanelWindow" style="display: inline; margin-left: 5px;"></div>';
+var bhinsert = new JuiceInsert(bhdiv,".item > .summary > .description","append");
+var bhpanel = new JuiceListPanel(bhinsert,"bhPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
+bhpanel.shared(false);
+juice.addPanel(bhpanel);
+new BhamACListMapsJuice(juice,
+	"kjhkjhkjh",
+	"Find in the Library"
+	,"bhPanelWindow",
+	"iframe-overlay",
+	bhaminsert);
+*/
+
 		buildMapsInsert();
 		buildWorldCatIframe();
 
 
+			
 		var procGBS = new GBSJuice(juice,
 			'http://books.google.com/intl/en/googlebooks/images/gbs_preview_button1.gif',
 			'Preview at Google Books');
@@ -173,6 +265,18 @@ function buildMTAInsert(){
 	var insert = new JuiceInsert(div,"#itemActions > ul:last","after");
 	procMTA = new MTAEmbedJuice(juice,insert,"MTAViewer");
 }
+function buildQRInsert(){
+	var div = '<div id="QRPanel" style="display: block; float: right; width: 230px; height: 230px"><div id="QRDiv" style="width: 230px; height: 230px"></div></div>';
+	var insert = new JuiceInsert(div,"#details > .table","before");
+	procMTA = new qrcodeJuice(juice,insert,"QRDiv","title,location,shelfmark",'\n','m');
+}
+function buildQRInsertSide(){
+	var div = '<div id="QRPanel" style="display: block; float: right; width: 230px; height: 230px"><div id="QRDiv" style="width: 230px; height: 230px"></div></div>';
+	var insert = new JuiceInsert(div,"#itemActions > ul:last","after");
+//	var insert = new JuiceInsert(div,"#details > .table","before");
+	new qrcodeJuice(juice,insert,"QRDiv","title,location,shelfmark",'\n','m');
+}
+
 
 function buildLocationsMapsInsert(){
 	if(juice.hasMeta("location")){
@@ -192,10 +296,13 @@ function buildLocationsMapsInsert(){
 }
 
 function buildExtendedBy(){
+/*
 	var div = '<div id="extendedBy" style="display: block; width: 100%; text-align: center;">' +
 	'Extended by <a href="http://juice-project.googlecode.com">The Juice Project</a></div>';
 	var insert = new JuiceInsert(div,"body","append");
 	var procExtendedBy = new simpleInsertJuice(juice,insert);	
+*/
+	new extendedbyJuice(juice);
 }
 
 function buildTextic(){
@@ -204,6 +311,50 @@ function buildTextic(){
 	new texticJuice(juice,insert,"textic");
 }
 
+
+var bhamlocs = [
+{ point : {lt: 52.480257, lg: -1.904882}, id : "Birmingham Central Library", title : "Birmingham Central Library", body : "Chamberlain Square <br/>Birmingham <br/>B3 3HQ <br/>United Kingdom <br/>"},
+        { point : {lt: 52.445041, lg: -1.824157 }, id : "Acocks Green Library", title : "Acocks Green Library", body : "Shirley Road <br/>Birmingham <br/>B27 7XH <br/>United Kingdom <br/>"},
+        { point : {lt: 52.503812, lg: -1.895830}, id : "Aston Library", title : "Aston Library", body : "Albert Road <br/>Birmingham <br/>B6 5NQ  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.458916, lg: -1.885501}, id : "Balsall Heath Library", title : "Balsall Heath Library", body : "Moseley Road <br/>Balsall Heath <br/>Birmingham <br/>B12 9BX  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.436064, lg: -1.998500}, id : "Bartley Green Library", title : "Bartley Green Library", body : "Adams Hill  <br/>Birmingham <br/>B32 3QG   <br/>United Kingdom <br/>"},
+        { point : {lt: 52.514065, lg: -1.901494}, id : "Birchfield Library", title : "Birchfield Library", body : "Birchfield Road <br/>Birmingham <br/>B20 3BX  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.492326, lg: -1.871659}, id : "Bloomsbury Library", title : "Bloomsbury Library", body : "Nechells Parkway  <br/>Birmingham <br/>B7 4PT  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.492326, lg: -1.871659}, id : "Boldmere Library", title : "Boldmere Library", body : "119 Boldmere Road  <br/>Birmingham <br/>B73 5TU  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.521875, lg: -1.784308}, id : "Castle Vale Library", title : "Castle Vale Library", body : "Turnhouse Road  <br/>Birmingham <br/>B35 6PR  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.407523, lg: -1.889397}, id : "Druids Heath Library", title : "Druids Heath Library", body : "Idmiston Croft  <br/>Birmingham <br/>B14 5NJ  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.526040, lg: -1.836304}, id : "Erdington Library", title : "Erdington Library", body : "Orphanage Road  <br/>Birmingham <br/>B24 9HP <br/>United Kingdom <br/>"},
+        { point : {lt: 52.404607, lg: -2.016948}, id : "Frankley Library", title : "Frankley Library", body : "Frankley Community High School  <br/>New Street <br/>Birmingham <br/>B45 0EU <br/>United Kingdom <br/>"},
+        { point : {lt: 52.490473, lg: -1.794595}, id : "Glebe Farm Library", title : "Glebe Farm Library", body : "Glebe Farm Road  <br/>Birmingham <br/>B33 9NA  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.433888, lg: -1.846632}, id : "Hall Green Library", title : "Hall Green Library", body : "1221 Stratford Road  <br/>Hall Green <br/>Birmingham <br/>B28 9AD  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.502470, lg: -1.929348}, id : "Handsworth Library", title : "Handsworth Library", body : "Soho Road  <br/>Birmingham <br/>B21 9DP  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.458412, lg: -1.951538}, id : "Harborne Library", title : "Harborne Library", body : "High Street <br/>Birmingham <br/>B17 9QG <br/>United Kingdom <br/>"},
+        { point : {lt: 52.521280, lg: -1.935198}, id : "Hawthorn House Library", title : "Hawthorn House Library", body : "Hamstead Hall Road <br/>Birmingham <br/>B20 1HX  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.476340, lg: -1.788536}, id : "Kents Moat Library", title : "Kents Moat Library", body : "55-57 Pool Way  <br/>Birmingham <br/>B33 8NF  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.437616, lg: -1.892956}, id : "Kings Heath Library", title : "Kings Heath Library", body : "High Street <br/>Birmingham <br/>B14 7SW  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.410133, lg: -1.928275}, id : "Kings Norton Library", title : "Kings Norton Library", body : "Pershore Road South <br/>Birmingham <br/>B30 3EU  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.551970, lg: -1.885334}, id : "Kingstanding Library", title : "Kingstanding Library", body : "Kingstanding Road <br/>Birmingham <br/>B44 9ST  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.477699, lg: -1.923630}, id : "Ladywood Community and Health Centre", title : "Ladywood Community and Health Centre", body : "St.Vincent Street West <br/>Birmingham <br/>B16 8RP <br/>United Kingdom <br/>"},
+        { point : {lt: 52.587460, lg: -1.824961}, id : "Mere Green Library", title : "Mere Green Library", body : "30A Mere Green Road <br/>Birmingham <br/>B75 5BT <br/>United Kingdom <br/>"},
+        { point : {lt: 52.414987, lg: -1.967434}, id : "Northfield Library", title : "Northfield Library", body : "77 Church Road <br/>Birmingham <br/>B31 2LB <br/>United Kingdom <br/>"},
+        { point : {lt: 52.534245, lg: -1.879277}, id : "Perry Common Library", title : "Perry Common Library", body : "College Road <br/>Birmingham <br/>B44 0HH <br/>United Kingdom <br/>"},
+        { point : {lt: 52.460274, lg: -1.987181}, id : "Quinton Library", title : "Quinton Library", body : "Ridgacre Road <br/>Birmingham <br/>B32 2TW  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.441217, lg: -1.938360}, id : "Selly Oak Library", title : "Selly Oak Library", body : "669 Bristol Road <br/>Birmingham <br/>B29 6AE <br/>United Kingdom <br/>"},
+        { point : {lt: 52.495259, lg: -1.776279}, id : "Shard End Library", title : "Shard End Library", body : "Shustoke Road <br/>Birmingham <br/>B34 7BA  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.461874, lg: -1.783041}, id : "Sheldon Library", title : "Sheldon Library", body : "Brays Road <br/>Birmingham <br/>B26 2RJ  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.471264, lg: -1.857131}, id : "Small Heath Library", title : "Small Heath Library", body : "Muntz Street <br/>Birmingham <br/>B10 9RX  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.460079, lg: -1.816621}, id : "South Yardley Library", title : "South Yardley Library", body : "Yardley Road <br/>Birmingham <br/>B25 8LT  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.449499, lg: -1.864558}, id : "Sparkhill Library", title : "Sparkhill Library", body : "641 Stratford Road <br/>Birmingham <br/>B11 4EA  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.485375, lg: -1.920819}, id : "Spring Hill Library", title : "Spring Hill Library", body : "Spring Hill <br/>Birmingham <br/>B18 7BH  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.428866, lg: -1.923553}, id : "Stirchley Library", title : "Stirchley Library", body : "Bournville Lane <br/>Birmingham <br/>B30 2JT <br/>United Kingdom <br/>"},
+        { point : {lt: 52.562457, lg: -1.823217}, id : "Sutton Coldfield Library", title : "Sutton Coldfield Library", body : "Lower Parade <br/>Sutton Coldfield  <br/>Birmingham <br/>B72 1XX  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.533668, lg: -1.920055}, id : "Tower Hill Library", title : "Tower Hill Library", body : "Tower Hill <br/>Birmingham <br/>B42 1LG  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.541079, lg: -1.800714}, id : "Walmley Library", title : "Walmley Library", body : "Walmley Road <br/>Sutton Coldfield  <br/>Birmingham <br/>B76 1NP  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.494798, lg: -1.835344}, id : "Ward End Library", title : "Ward End Library", body : "Washwood Heath Road  <br/>Birmingham <br/>B8 2HF  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.439036, lg: -1.968049}, id : "Weoley Castle Library", title : "Weoley Castle Library", body : "76 Beckbury Road <br/>Birmingham <br/>B29 5HR  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.400592, lg: -1.960125}, id : "West Heath Library", title : "West Heath Library", body : "The Fordrough  <br/>Birmingham <br/>B31 3LX  <br/>United Kingdom <br/>"},
+        { point : {lt: 52.418648, lg: -1.859168}, id : "Yardley Wood Library", title : "Yardley Wood Library", body : "Highfield Road <br/>Birmingham <br/>B14 4DU  <br/>United Kingdom <br/>"}
+];
 var libraryLocations = [
 { point : {lt: 51.500087,lg: -0.059738}, id : "Blue Anchor", title : "Blue Anchor Library", body : "Market Place<br/>Southwark Park Road<br/>SE16 3UQ<br/><br/><i>Opening hours</i>: Monday, Tuesday and Thursday 9am to 7pm, Friday 10am to 6pm, Saturday 9am to 5pm"},
 { point : {lt: 51.490095,lg: -0.098791}, id : "Brandon", title : "Brandon Library", body : "Maddock Way<br/>Cooks Road<br/>SE17 3NH<br/><br/><i>Opening hours</i>: Monday 10am to 6pm, Tuesday and Thursday 10am to 7pm, Saturday 10am to 5pm"},
@@ -220,14 +371,19 @@ var libraryLocations = [
 ];
 
 function frontPage(){
-	var html = '<div id="hpContainer" style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;">' +
-				'<div id="hpTop"style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;"/>' +
-				'<div id="hpLeft" style="width: 30%; float: left; border-right: 5px;"/>' +
-				'<div id="hpCenter" style="width: 40%; float: left; text-align: center;">' +
-				'<div id="hpCenterHead" class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px"></div>'+
-				'<div id="hpCenterBody" style="display: block; width: 100%;"/>' +
-				'</div>' +
-				'<div id="hpRight" style="width: 30%; float: right; border-left: 5px;"/>' +
+	var html = '<div id="hpContainer" style="background-color: transparent; width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;">' +
+					'<div id="hpTop" style="width: 100%; margin-right: auto; margin-left: auto; text-align: left; height: auto;"/>' +
+					'<div id="hpbottom" style="height: auto; display: block; overflow: hidden; width: 100%; background-color: #ffffff; border: 1px; border-style: solid; border-color: #3366cc;">' +
+						'<div id="hpLeft" style="width: 30%; float: left; border-right: 5px;"/>' +
+						'<div id="hpCenter" style="width: 40%; float: left; text-align: center;">' +
+							'<div id="hpCenterHead" class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px"></div>'+
+							'<div id="hpCenterBody" style="display: block; width: 100%;"/>' +
+						'</div>' +
+						'<div id="hpRight" style="width: 30%; float: right; border-left: 5px;">' +
+							'<div id="hpRightHead" class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px"></div>'+
+							'<div id="hpRightBody" style="display: block; width: 100%;"/>' +
+						'</div>' +
+					'</div>' +
 				'</div>';
 	var insert = new JuiceInsert(html,"#pageContent","append");
 	insert.show();
@@ -235,22 +391,57 @@ function frontPage(){
 	   numResults : 10
 	 }
 
-	 new GoogleRSSFeedJuice(juice,insert,"hpRight", "http://blogs.talis.com/panlibus/feed", googleOptions);
-	 new GoogleRSSFeedJuice(juice,insert,"hpLeft", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml", googleOptions);
+//	 new GoogleRSSFeedJuice(juice,insert,"hpRight", "http://blogs.talis.com/panlibus/feed", googleOptions);
+//   new GoogleRSSFeedJuice(juice,insert,"hpRight", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml", googleOptions);
+
+//	insertSocial();
+	
+	 new GoogleRSSFeedJuice(juice,insert,"hpLeft", "http://www.birminghampost.net/news/west-midlands-news/rss.xml", googleOptions);
+//	 new GoogleRSSFeedJuice(juice,insert,"hpLeft", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml", googleOptions);
 	if(whichPrism == "sandbox-ac"){
 /*		$jq('#hpCenterHead').append("Opening Hours");
 		insertHours();
 */
-		$jq('#hpCenterHead').append("Library Tweets");
+var carouselOpts1 = {
+	height : "370px",
+	width : "960px",
+	feedUrl: "http://juice-project.s3.amazonaws.com/examples/talis-prism/sandbox-ac-carousel.atom"
+};
+new Carousel3DJuice(juice,insert,"hpTop",carouselOpts1);
+
+$jq('#hpRightHead').append("Library Tweets");
+var ops = {
+	height : "280px",
+	width : "280px",
+	showAvatar : true,
+	showId : true,
+	showLink : true,
+	count: 3
+};
+new TwitterFeedJuice(juice,insert,"hpRightBody","from: rjw",ops);
+		$jq('#hpCenterHead').append("Library Locations");
+		var mapOps1 = {
+			height : "280px",
+			width : "280px",
+			defaultZoom : 12,
+			defaultCenter : {lt: 51.481436,lg: -0.085402},
+//			points : libraryLocations
+			points : bhamlocs
+		};
+	 	new GoogleMapJuice(juice,insert,"hpCenterBody",mapOps1);
+
+/*		$jq('#hpCenterHead').append("Library Tweets");
 		var ops = {
 			height : "280px",
 			width : "350px",
 			showAvatar : true,
 			showId : true,
 			showLink : true,
-			count: 4
+			count: 3
 		};
-		new TwitterFeedJuice(juice,insert,"hpCenterBody","#talis",ops);
+		new TwitterFeedJuice(juice,insert,"hpCenterBody","from: rjw",ops);
+*/
+
 	}else{
 		//sandbox-Gov
 		$jq('#hpCenterHead').append("Library Locations");
@@ -259,39 +450,18 @@ function frontPage(){
 			width : "350px",
 			defaultZoom : 12,
 			defaultCenter : {lt: 51.481436,lg: -0.085402},
-			points : libraryLocations
+//			points : libraryLocations
+			points : bhamlocs
 		};
 	 	new GoogleMapJuice(juice,insert,"hpCenterBody",mapOps);
-		$jq("#hpTop").append('<div class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px">New Additons to stock</div>');
+//		$jq("#hpTop").append('<div class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px">New Additons to stock</div>');
 		var carouselOpts = {
-			height : "350px",
+			height : "270px",
 			width : "960px",
-			feedUrl: "http://juice-project.s3.amazonaws.com/examples/talis-prism/sandbox-ac-carousel.atom",
-			items : [
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780596000486&size=medium",
-			  label : "JavaScript : the definitive guide",
-			  link : "http://prism.talis.com/sandbox-gov/items/620805"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780747551003&size=medium",
-			  label : "Harry Potter and the order of the Phoenix",
-			  link : "http://prism.talis.com/sandbox-gov/items/642036"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9781846040832&size=medium",
-			  label : "Fighting the banana wars and other Fairtrade battles",
-			  link : "http://prism.talis.com/sandbox-gov/items/723910"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780349116051&size=medium",
-			  label : "The wisdom of crowds",
-			  link : "http://prism.talis.com/sandbox-gov/items/674096"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9781840782332&size=medium",
-			  label : "C++ programming",
-			  link : "http://prism.talis.com/sandbox-gov/items/645259"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780099162810&size=medium",
-			  label : "Orson Cart and the seamonster",
-			  link : "http://prism.talis.com/sandbox-gov/items/93643"},
-			{ src : "http://prism.talis.com/sandbox-gov/imageservice.php?id=9780500019962&size=medium",
-			  label : "Art & fashion",
-			  link : "http://prism.talis.com/sandbox-gov/items/682072"}
-			]
+			feedUrl: "http://juice-project.s3.amazonaws.com/examples/talis-prism/sandbox-ac-carousel.atom"
 		}
 	 	new Carousel3DJuice(juice,insert,"hpTop",carouselOpts);
+//	 	new BookListFromFeed(juice,insert,"hpTop",carouselOpts);
 	}
 
 }
@@ -334,6 +504,15 @@ var hours = '<div style="text-align: left; margin-left: 40px; " id="branch_hours
 '</div>';
 var insert = new JuiceInsert(hours,"#hpCenterBody","append");
 insert.show();
+}
+
+function insertSocial(){
+	var head = '<div id="hpRightHead" class="gfg-title" style="display: block; width: 100%; text-align: center; hight: 20px">Follow the Library</div>';
+	$jq('#hpRight').append(head);
+	$jq('#hpRight').append('<a href="http://www.facebook.com/search/?q=birmingham+library&init=quick#/group.php?gid=6930638274&ref=search&sid=567241154.1198614156..1"><img width="285" border="1" src="http://juice-project.s3.amazonaws.com/examples/talis-prism/images/facebook.jpg"/></a>');
+	$jq('#hpRight').append('<a href="http://twitter.com/thisisbrum"><img width="285" border="1" src="http://juice-project.s3.amazonaws.com/examples/talis-prism/images/Twitter-11.png"/></a>');
+	$jq('#hpRight').append('<img width="285" border="1" src="http://juice-project.s3.amazonaws.com/examples/talis-prism/images/bebo.png"/>');
+	
 }
 
 

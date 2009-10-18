@@ -1,5 +1,5 @@
 /*
- * Juice 0.6 - Javascript User Interface Framework for Extension
+ * Juice 0.6.1 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2009 Talis (talis.com)
@@ -91,7 +91,7 @@ function _Juice(){
 }
 
 //Version of Juice
-_Juice.prototype.version = "0.4.2";
+_Juice.prototype.version = "0.6.1";
 
 _Juice.prototype._setReady = function(){
 	this._ready = true;
@@ -533,9 +533,13 @@ function JsLoadFlag(file){
 //JsLoadFlags - Array to track script/css file loadings
 _Juice.prototype.JsLoadFlags = [];
 
-//Load script file - append to head of of document - ONLY if not previously loaded anywhere in document
+//Load script 
+//arg: target - append to head of of document - ONLY if not previously loaded anywhere in document
+//arg: pathPrefix - path to prefixed to relative and absolute paths
 //arg: onLoadEvent - function to call when loaded
-_Juice.prototype.loadJs = function (file,onLoadEvent){
+_Juice.prototype.loadJs = function (target,pathPrefix,onLoadEvent){
+	var file = this._absoluteUri(target,pathPrefix);
+	
 	if(this.findJs(file)){
 		if(onLoadEvent){
 			onLoadEvent();
@@ -545,9 +549,11 @@ _Juice.prototype.loadJs = function (file,onLoadEvent){
 	this._loadFile(file,"js",onLoadEvent);
 }
 		
-//Load css file - append to head of of document
-_Juice.prototype.loadCss = function (file){
-	this._loadFile(file,"css");
+//Load css 
+//arg: target - append to head of of document
+//arg: pathPrefix - path to prefixed to relative and absolute paths
+_Juice.prototype.loadCss = function (target,pathPrefix){
+	this._loadFile(this._absoluteUri(target,pathPrefix),"css");
 }
 		
 //_loadFile - internl function to append file elements to document header
@@ -589,6 +595,38 @@ _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	}
 	//Copy of jQuery fix for IE6 - insert at top of head 
 	head.insertBefore( ins, head.firstChild );
+}
+
+_Juice.prototype._absoluteUri = function(file, pathPrefix){
+
+	if(this._strBeginsWith(file,"http://") || this._strBeginsWith(file,"https://")){
+		return file;
+	}
+	if(this._strBeginsWith(file,"/")){
+		if(!pathPrefix){
+			pathPrefix = "";
+		}else{
+			pathPrefix = "/" + pathPrefix;
+		}
+		return window.location.protocol + "//" + window.location.host + pathPrefix + file;
+	}else{
+		if(!pathPrefix){
+			pathPrefix = "";
+		}else{
+			pathPrefix = pathPrefix + "/";
+		}
+		var ret =  window.location.protocol + "//" + window.location.host;
+		var path = document.location.pathname;
+		if(this._strEndsWith(path,"/")){
+			path = path.substr(0,path.length -1);
+		}
+		
+		var locationBits = path.split('/');
+		for(var i = 0; i < locationBits.length - 1;i++){
+			ret += locationBits[i] + "/";
+		}
+		return ret + pathPrefix + file;
+	}
 }
 
 //findJs - return true if script element already loaded in document
@@ -819,7 +857,7 @@ _Juice.prototype.stringToArray = function(str,extras)
 	var items = [];
 	var count = 0;
 
-	while (str != "") {
+	while (str != null && str != "") {
 	  index = 0;
 	  while (index < str.length && juice.isSepChar(str.charAt(index),seps)) {
 	    index++;  
@@ -892,7 +930,79 @@ _Juice.prototype.updateArray = function(first,second){
 	return ret;
 }
 
+///Cookie handling utils
 
+/**
+ * Set browser coookie
+ * @param {string} name
+ * @param {string} value
+ * @param {int} [minutes]
+ * @param {int} [hours]
+ * @param {int} [days]
+ * @param {string} [path]
+ * @param {string} [domain]
+ * @param {boolean} secure
+ */
+
+_Juice.prototype.setCookie = function(name,value,minutes,hours,days,path,domain,secure ){
+	var cookie_string = name + "=" + escape ( value );
+
+	if(minutes){
+		if(!hours){
+			hours = 0;
+		}
+		if(!days){
+			days = 0;
+		}
+		var date = new Date();
+		date.setTime(date.getTime()+((((days*24*60*60) + (hours*60*60) + (minutes*60))*1000)));
+		var expires = "; expires="+date.toGMTString();
+		cookie_string += "; expires=" + expires.toGMTString();
+	}
+
+	if(path){
+		cookie_string += "; path=" + escape ( path );
+	}
+
+	if (domain){
+		cookie_string += "; domain=" + escape ( domain );	
+	}
+
+	if (secure){
+		cookie_string += "; secure";	
+	}
+
+	document.cookie = cookie_string;
+}
+/**
+ * Get browser coookie
+ * @param {string} name
+ * @return {string} cookie value or null
+ */
+_Juice.prototype.getCookie = function(name){
+	var results = document.cookie.match ( '(^|;) ?' + name + '=([^;]*)(;|$)' );
+	if ( results ){
+		return ( unescape ( results[2] ) );	
+	}
+	return null;
+}
+/**
+ * Delete browser coookie
+ * @param {string} name
+ */
+_Juice.prototype.deleteCookie = function(name){
+	var cookie_date = new Date();  // current date & time
+	cookie_date.setTime(cookie_date.getTime() - 1);
+	document.cookie = name += "=; expires=" + cookie_date.toGMTString();
+}
+
+_Juice.prototype._strBeginsWith = function(str,target){
+	return (str.match("^"+target)==target)
+}
+
+_Juice.prototype._strEndsWith = function(str,target){
+	return (str.match(target+"$")==target)
+}
 
 window.juice = new _Juice();
 
