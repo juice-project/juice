@@ -3,13 +3,14 @@
 
 //Constructor arguments:
 //arg: ju - instance of juice
-//arg: code - Google Analytics code
+//arg: code - Google Analytics code(s) - comma separated list
 
 function gasJuice(ju,code){
 	id = "gasSel";
 	this.analyticsCode = code;
+	this.codes = juice.stringToArray(code,",;");
 	initFunc = this.startgas;
-	if(arguments.length){
+	if(arguments.length == 2){
 		gasJuice.superclass.init.call(this,id,initFunc,null,null,ju);
 		gasJuice.superclass.startup.call(this);
 	}
@@ -28,11 +29,20 @@ gasJuice.prototype.startgas = function(){
 }
 
 gasJuice.prototype.rungas = function(){
-	var insert = 'try{' +
-	'var pageTracker = _gat._getTracker("' + this.analyticsCode + '");' +
-	'pageTracker._trackPageview();' +
-	'} catch(err) {}';
-	
+		
+	var insert = 'try{';
+	for(var i = 0; i < this.codes.length;i++){
+		var v = 'Trk_' + i;
+		insert += 'var ' + v + ' = _gat._getTracker("' + this.codes[i] + '");';
+		if(i > 0){
+			insert += v + '._setDomainName("none");';
+			insert += v + '._setAllowLinker(true);';
+		}
+		insert += v + '._initData();';
+		insert += v + '._trackPageview();';		
+	}
+	insert += '} catch(err) {}';
+
 	var script = document.createElement("script"); 
 	script.setAttribute('type','text/javascript'); 
 	script.text = insert; 
