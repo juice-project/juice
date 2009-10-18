@@ -39,6 +39,7 @@
             <zipfileset dir="${META_DIR}" includes="*.js" prefix="${META_DIR}"/>
             <zipfileset dir="${META_DIR}" includes="*.css" prefix="${META_DIR}"/>
         </zip>
+        <copy file="${BUILD_DIR}/juice-${VERSION}.zip" tofile="juice-${VERSION}.zip" />
     </target>
 
     <target name="doc">
