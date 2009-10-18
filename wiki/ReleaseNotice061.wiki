@@ -1,0 +1,12 @@
+= Revision 0.6.1 - Release Notice =
+18th October 2009
+
+Revision 0.6.1 Enhancement to `juice.loadJs()`, `juice.loadCss()` and `GoogleAnalytics.js`.
+
+
+
+= Details =
+
+ * *juice.loadJs()* - Added capability to load relative and absolute URI paths.  Relative paths are calculated from location of current page.  Added extra `pathPrefix` parameter, if supplied is inserted between host and path elements of relative and absolute paths.
+ * *juice.loadCss()* - Added capability to load relative and absolute URI paths.  Relative paths are calculated from location of current page.  Added extra `pathPrefix` parameter, if supplied is inserted between host and path elements of relative and absolute paths.
+ * *!gasJuice* - !GoogleAnalytics extension enhanced to take more than one Analytics code. Code parameter now tales a comma separated list of Google IDs.
