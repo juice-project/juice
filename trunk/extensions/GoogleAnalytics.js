@@ -25,7 +25,7 @@ gasJuice.prototype.startgas = function(){
 	This = this;
 	var doit = function(){This.rungas();};
 	var target = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.") + "google-analytics.com/ga.js";
-	juice.loadJs(target,doit);
+	juice.loadJs(target,"",doit);
 }
 
 gasJuice.prototype.rungas = function(){
