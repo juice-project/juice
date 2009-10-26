@@ -1,0 +1,17 @@
+= Revision 0.6.2 - Release Notice =
+26th October 2009
+
+Revision 0.6.2 Addition of a juice-basic-0.6.2.zip and an example site specific file examples/example_extend.js
+
+
+
+= Details =
+
+ * *juice-basic-0.6.2.zip* - Contains minimal set of files to get started with Juice.
+  * jquery
+  * juice
+  * example extend.js
+  * panels
+  * two extentions - extendedbyJuice & GoogleAnalytics
+
+ * *example_extend.js* - Template extension file set the host URI an Google Analytics ID, uncomment and you'll have Juice running
