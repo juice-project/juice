@@ -30,7 +30,7 @@
             <zipfileset dir="." includes="*.js" />
             <zipfileset dir="." includes="*.css" />
             <zipfileset dir="${DOCS_DIR}" includes="**/**" prefix="${DOCS_DIR}"/>
-            <zipfileset dir="${EXAMPLES_DIR}" includes="**/*.js" prefix="${EXAMPLES_DIR}"/>
+            <zipfileset dir="${EXAMPLES_DIR}" includes="example_extend.js, **/*.js" prefix="${EXAMPLES_DIR}"/>
             <zipfileset dir="${EXAMPLES_DIR}" includes="**/*.css" prefix="${EXAMPLES_DIR}"/>
             <zipfileset dir="${EXTENSIONS_DIR}" includes="*.js" prefix="${EXTENSIONS_DIR}"/>
             <zipfileset dir="${EXTENSIONS_DIR}" includes="*.css" prefix="${EXTENSIONS_DIR}"/>
@@ -39,7 +39,17 @@
             <zipfileset dir="${META_DIR}" includes="*.js" prefix="${META_DIR}"/>
             <zipfileset dir="${META_DIR}" includes="*.css" prefix="${META_DIR}"/>
         </zip>
+        <zip destfile="${BUILD_DIR}/juice-basic-${VERSION}.zip">
+            <zipfileset dir="." includes="*.txt" />
+            <zipfileset dir="." includes="*.js" />
+            <zipfileset dir="." includes="*.css" />
+            <zipfileset dir="${PANELS_DIR}" includes="*.js" prefix="${PANELS_DIR}"/>
+            <zipfileset dir="${PANELS_DIR}" includes="*.css" prefix="${PANELS_DIR}"/>
+            <zipfileset dir="${EXAMPLES_DIR}" includes="example_extend.js" prefix="${EXAMPLES_DIR}"/>
+            <zipfileset dir="${EXTENSIONS_DIR}" includes="extendedbyJuice.js, GoogleAnalytics.js" prefix="${EXTENSIONS_DIR}"/>
+        </zip>
         <copy file="${BUILD_DIR}/juice-${VERSION}.zip" tofile="juice-${VERSION}.zip" />
+        <copy file="${BUILD_DIR}/juice-basic-${VERSION}.zip" tofile="juice-basic-${VERSION}.zip" />
     </target>
 
     <target name="doc">
