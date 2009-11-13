@@ -1,0 +1,16 @@
+= Revision 0.6.3 - Release Notice =
+13th November 2009
+
+Revision 0.6.3 Addition of an Amazon Bookjacket extension and example extend and metadefs for Talis Prism2 
+
+No other functional changes.
+
+
+
+= Details =
+
+ * *AmazonJackets.js* - Extnsion to insert Amazon Bookjacket images
+
+ * *extend-talisP2.js* - example extend file for Talis Prism 2 installations
+
+* *talis_prism2_metadef.js - basic metadef fot Talis Prism 2 installations
