@@ -8,8 +8,8 @@ jQuery(document).ready(function () {
 //	juice.loadCss("http://{mySite}/juiceOverlay.css");
 	
 	
-//	juice.loadJs("http://{mySite}/js/extensions/extendedbyJuice.js",prismTenancy());
-//	juice.loadJs("http://{mySite}/js/extensions/GoogleAnalytics.js",prismTenancy());
+//	juice.loadJs("http://{mySite}/js/extensions/extendedbyJuice.js");
+//	juice.loadJs("http://{mySite}/js/extensions/GoogleAnalytics.js");
 	juice.onAllLoaded(runExtensions);
 });
 
