@@ -1,0 +1,35 @@
+.juiceXInactiveText {
+	opacity:0.4;
+}	
+
+.juiceXActiveText { 
+	cursor: pointer;
+}
+
+.juiceXInactiveIcon {
+	opacity:0.4;
+}	
+
+.juiceXActiveIcon {
+	cursor: pointer;
+}
+
+.juiceXMediumPaddedIcon{
+	height: 40px;
+	padding: 10px;	
+}
+
+.juiceMapInfoTitle {
+	text-align: center;
+	font-weight: bold;
+	width: 210px;
+	line-height: 1;
+}
+
+.juiceMapInfoBody {
+	text-align: left;
+	font-style: normal;
+	width: 210px;
+	line-height: 1;
+}	
+
