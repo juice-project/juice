@@ -196,8 +196,6 @@ _Juice.prototype._selectMeta = function(id, selector, attribute, filter){
 
 /**
  * Have mata value(s) been stored.
- * If argument is a function, it should return a value or array of values to store
- * the function will be called with a single argument - the id.
  * @param {String} [id] The id of meta definition to check - optional, defaults to any/all meta values
  * @return true | false
  */

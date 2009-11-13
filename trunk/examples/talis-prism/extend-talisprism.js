@@ -83,6 +83,7 @@ function startJuiceActions(){
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/TwitterFeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleRssfeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/AmazonJackets.js");
 //	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/BookListFromFeed.js");
 
 
@@ -99,14 +100,20 @@ juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Carousel3D.js");
 }
 
 function runExtensions(){
-	juice.debugOutln(juice._absoluteUri("http://juice-project.s3.amazonaws.com/examples/talis-prism/demo.js"));
-	juice.debugOutln(juice._absoluteUri("/examples/talis-prism/demo.js"));
-	juice.debugOutln(juice._absoluteUri("examples/talis-prism/demo.js"));
 
 	buildExtendedBy();
 	new gasJuice(juice,"UA-2411194-19,UA-11090604-1");
 	talis_prism_metadef();
 //	juice.debugMeta();
+	switch(whichPrism){
+		case "sandbox-gov":
+		new gasJuice(juice,"UA-2411194-12,UA-11090604-1");
+		buildTextic();
+		break;
+		case "sandbox-ac":
+		new gasJuice(juice,"UA-2411194-19,UA-11090604-1");
+		break;
+	}	
 	if(prismPage == "index"){
 		frontPage();
 		return;
@@ -114,15 +121,6 @@ function runExtensions(){
 		return;
 	}
 //	juice.overlayFunc(juiceOverlayDisplay);
-	switch(whichPrism){
-		case "sandbox-gov":
-		new gasJuice(juice,"UA-2411194-12,UA-11090604-1");
-	//	buildTextic();
-		break;
-		case "sandbox-ac":
-		new gasJuice(juice,"UA-2411194-19,UA-11090604-1");
-		break;
-	}	
 	if(juice.hasMeta()){
  		switch(whichPrism){
 			case "sandbox-gov":
@@ -303,6 +301,9 @@ function buildExtendedBy(){
 	var procExtendedBy = new simpleInsertJuice(juice,insert);	
 */
 	new extendedbyJuice(juice);
+	var div = '<div id="jack"></div>';
+	var insert = new JuiceInsert(div,"#pageFooter","after");
+	new AmazonJackets(juice,insert,"jack");
 }
 
 function buildTextic(){
@@ -460,6 +461,7 @@ new TwitterFeedJuice(juice,insert,"hpRightBody","from: rjw",ops);
 			width : "960px",
 			feedUrl: "http://juice-project.s3.amazonaws.com/examples/talis-prism/sandbox-ac-carousel.atom"
 		}
+		insertHours();
 	 	new Carousel3DJuice(juice,insert,"hpTop",carouselOpts);
 //	 	new BookListFromFeed(juice,insert,"hpTop",carouselOpts);
 	}
@@ -467,6 +469,8 @@ new TwitterFeedJuice(juice,insert,"hpRightBody","from: rjw",ops);
 }
 
 function insertHours(){
+	$jq('#hpRightHead').append("Opening Hours");
+	
 var hours = '<div style="text-align: left; margin-left: 40px; " id="branch_hours">' +
     '<div id="branch_hours_inner">' +
 //        '<h2 style="text-align: center;">Opening Hours</h2>' +
@@ -502,7 +506,7 @@ var hours = '<div style="text-align: left; margin-left: 40px; " id="branch_hours
         '</table>' +
     '</div>' +
 '</div>';
-var insert = new JuiceInsert(hours,"#hpCenterBody","append");
+var insert = new JuiceInsert(hours,"#hpRightBody","append");
 insert.show();
 }
 
