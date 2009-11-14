@@ -1,5 +1,5 @@
 = Revision 0.6.3 - Release Notice =
-13th November 2009
+14th November 2009
 
 Revision 0.6.3 Addition of an Amazon Bookjacket extension and example extend and metadefs for Talis Prism2 
 
