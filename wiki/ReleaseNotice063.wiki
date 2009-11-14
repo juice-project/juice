@@ -9,8 +9,8 @@ No other functional changes.
 
 = Details =
 
- * *AmazonJackets.js* - Extnsion to insert Amazon Bookjacket images
+ * *!AmazonJackets.js* - Extnsion to insert Amazon Bookjacket images
 
  * *extend-talisP2.js* - example extend file for Talis Prism 2 installations
 
-* *talis_prism2_metadef.js* - basic metadef fot Talis Prism 2 installations
+ * *talis_prism2_metadef.js* - basic metadef for Talis Prism 2 installations
