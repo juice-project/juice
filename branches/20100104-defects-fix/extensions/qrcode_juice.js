@@ -40,9 +40,12 @@ function qrcodeJuice(ju, insert, targetDiv, fieldstr, fieldsep, imgsize){
 	case 'm': 
             this.imgsize = '230x230';
             break;
-        case 'l':
-            this.imgsize = '350x350';
-            break;
+	        case 'l':
+	            this.imgsize = '350x350';
+	            break;
+	        case 's':
+	            this.imgsize = '200x200';
+	            break;
         default:
             this.imgsize = '120x120';
     }

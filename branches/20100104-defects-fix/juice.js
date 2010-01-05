@@ -326,15 +326,20 @@ _Juice.prototype.debugOut = function(text){
 
 //createDebugWin - append debug window to document body
 _Juice.prototype.createDebugWin = function(){
-	this.appendElement("body","div",this._debugWinId);
+	this.appendElement("body","div",this._debugWinId,'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
 }
 
 //appendElement - append element 
 //arg: selector - JQuery select for append point
 //arg: type - element type to create
 //arg: id - id of element
-_Juice.prototype.appendElement = function(selector,type,id){
-	var html = '<' + type + ' id="' + id + '"></' + type + '>';
+_Juice.prototype.appendElement = function(selector,type,id,attribString){
+	var atts = "";
+	if(attribString){
+		atts = " " + attribString + " ";
+	}
+	
+	var html = '<' + type + ' id="' + id + '"' + atts + '></' + type + '>';
 	$jq(selector).append(html);
 }
 
