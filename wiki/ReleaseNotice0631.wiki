@@ -1,0 +1,20 @@
+= Revision 0.6.3.1 - Release Notice =
+5th January 2010
+
+Revision 0.6.3.1  Minor defect fixes + style added to debug div 
+
+Updated contents of 0.6.3 release files - no new distribution files for these fixes.
+
+No other functional changes.
+
+
+
+= Details =
+
+ * *!AmazonJackets.js* - Error in superclass arguments
+
+ * *!GoogleMap.js* - Error in superclass arguments
+
+ * *qrcode-juice.js* - sm,l now can be passed as code size arguments
+
+ * *juice.js* - Added style to debug DIV - now aligns left with a high z-index
