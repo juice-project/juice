@@ -83,7 +83,7 @@ function startJuiceActions(){
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/TwitterFeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleRssfeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/AmazonJackets.js");
+//	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/AmazonJackets.js");
 //	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/BookListFromFeed.js");
 
 
@@ -301,9 +301,6 @@ function buildExtendedBy(){
 	var procExtendedBy = new simpleInsertJuice(juice,insert);	
 */
 	new extendedbyJuice(juice);
-	var div = '<div id="jack"></div>';
-	var insert = new JuiceInsert(div,"#pageFooter","after");
-	new AmazonJackets(juice,insert,"jack");
 }
 
 function buildTextic(){

@@ -3,7 +3,7 @@ function AmazonJackets(ju,insert,targetDiv,opts){
 	var defOpts = {
 		location : "01",
 		collection : "images",
-		command: "_SCLZZZZZZZ_"
+		command: "_SCMZZZZZZZ_"
 	};
 	this.opts = juice.updateArray(defOpts,opts);
 	
