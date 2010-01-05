@@ -16,7 +16,7 @@ function GoogleMapJuice(ju,insert,targetDiv,opts){
 	initFunc = this.startMap;
 	if(arguments.length){
 		juice.loadGoogleApi("maps", "2");
-		GoogleMapJuice.superclass.init.call(this,id,initFunc,null,insert,ju);
+		GoogleMapJuice.superclass.init.call(this,this.id,initFunc,null,insert,ju);
 		GoogleMapJuice.superclass.startup.call(this);
 	}
 
