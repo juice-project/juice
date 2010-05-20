@@ -1,16 +1,15 @@
 function talis_prism_metadef(){
-	juice.findMeta("isbns",".item #details .table .ISBN",juice.stringToAlphnumAray);
-	juice.findMeta("isbn",".item #details .table .ISBN");
-	juice.findMeta("author",".item .summary .author .author");
-	juice.findMeta("title",".item .summary .title");
-	
-	juice.findMeta("shelfmark","#availability .options table td:nth-child(2)",null);	
-	juice.setMeta("shelfmark",juice.updateArray([], juice.getValues('shelfmark')));
-	
-	juice.findMeta("location","#availability  .options h3 span",null);
+	juice.findMeta("isbns",".item > #details .table .ISBN",juice.stringToAlphnumAray);
+	juice.findMeta("isbn",".item > #details .table .ISBN");
+	juice.findMeta("author",".item > .summary .author > .author");
+	juice.findMeta("title",".item > .summary > .title");
+	juice.findMeta("shelfmark","#availability > table > tbody > tr > td:nth-child(3)",null);
+	juice.findMeta("location","#availability > table > tbody > tr > td:nth-child(2)",null);
 
-	juice.findMeta("workids",".item .summary > .title > a","href",talis_prism_items_workids);
+	juice.findMeta("workids",".item > .summary > .title > a","href",talis_prism_items_workids);
 	juice.setMeta("workid",talis_prism_item_workid);
+	
+//	juice.debugMeta();
 }
 
 function talis_prism_item_workid(){
