@@ -4,10 +4,10 @@ function talis_prism_metadef(){
 	juice.findMeta("author",".item .summary .author .author");
 	juice.findMeta("title",".item .summary .title");
 	
-	juice.findMeta("shelfmark","#availability .options table td:nth-child(2)",null);	
+	juice.findMeta("shelfmark","#availability .options table td:nth-child(2)");	
 	juice.setMeta("shelfmark",talis_prism_dedup(juice.getValues('shelfmark')));
 	
-	juice.findMeta("location","#availability  .options h3 span",null);
+	juice.findMeta("location","#availability  .options h3 span");
 
 	juice.findMeta("workids",".item .summary > .title > a","href",talis_prism_items_workids);
 	juice.setMeta("workid",talis_prism_item_workid);
