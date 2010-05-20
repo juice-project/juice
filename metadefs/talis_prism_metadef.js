@@ -5,7 +5,7 @@ function talis_prism_metadef(){
 	juice.findMeta("title",".item .summary .title");
 	
 	juice.findMeta("shelfmark","#availability .options table td:nth-child(2)",null);	
-	juice.setMeta("shelfmark",talis_prism_dedup(juice.getValues('shelfmark')));
+	juice.setMeta("shelfmark",juice.updateArray([], juice.getValues('shelfmark')));
 	
 	juice.findMeta("location","#availability  .options h3 span",null);
 
@@ -31,15 +31,3 @@ function talis_prism_items_workids(val,id){
 		
 	}
 }
-
-function talis_prism_dedup(a) {
-	var i, r=[], o={};
-
-	for (i=0;i<a.length;i++) {
-		if (!o[a[i]]){
-		o[a[i]]={};
-		r.push(a[i]);
-		}
-	}
-	return r;
-	}
