@@ -34,11 +34,12 @@ function talis_prism_items_workids(val,id){
 
 function talis_prism_dedup(a) {
 	var i, r=[], o={};
-
-	for (i=0;i<a.length;i++) {
-		if (!o[a[i]]){
-		o[a[i]]={};
-		r.push(a[i]);
+	if(jQuery.isArray(a)){
+		for (i=0;i<a.length;i++) {
+			if (!o[a[i]]){
+			o[a[i]]={};
+			r.push(a[i]);
+			}
 		}
 	}
 	return r;
