@@ -4,13 +4,20 @@ function talis_prism_metadef(){
 	juice.findMeta("author",".item .summary .author .author");
 	juice.findMeta("title",".item .summary .title");
 	
-	juice.findMeta("shelfmark","#availability .options table td:nth-child(2)");	
-	juice.setMeta("shelfmark",talis_prism_dedup(juice.getValues('shelfmark')));
-	
-	juice.findMeta("location","#availability  .options h3 span");
-
+	juice.findMeta("shelfmark","#availability .options table td:nth-child(2)");		
+	juice.setMeta("location", shelf_location_mapper);
 	juice.findMeta("workids",".item .summary > .title > a","href",talis_prism_items_workids);
 	juice.setMeta("workid",talis_prism_item_workid);
+}
+
+
+//maps shelves and locations to match
+function shelf_location_mapper(id){
+	var ret=[];
+	jQuery(juice.getMeta('shelfmark')).each(function(i, el){
+		ret[ret.length]=jQuery(el).parents('li').find('h3 span');
+	});
+	return ret;
 }
 
 function talis_prism_item_workid(){
@@ -31,6 +38,8 @@ function talis_prism_items_workids(val,id){
 		
 	}
 }
+
+//call for de-deduping an array of items
 
 function talis_prism_dedup(a) {
 	var i, r=[], o={};
