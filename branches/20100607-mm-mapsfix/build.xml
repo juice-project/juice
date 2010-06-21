@@ -25,6 +25,7 @@
         <mkdir dir="${DIST_DIR}" />
         <echo message="Creating distribution files is not fully implemented yet!" />
         <copy file="juice.js" tofile="${DIST_DIR}/juice-${VERSION}.js" />
+        <copy file="juice.min.js" tofile="${DIST_DIR}/juice-${VERSION}.min.js" />
         <echo message="created ${DIST_DIR}/juice-${VERSION}.js" />
         <zip destfile="${DIST_DIR}/juice-${VERSION}.zip">
             <zipfileset dir="." includes="*.txt" />
