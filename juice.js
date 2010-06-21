@@ -1629,15 +1629,4 @@ function testDebug(data){
 	}
 }
 
-(function(){
-var window = this;
-
-	function fred(arg){
-		alert("Fred "+ arg);
-	}
-	
-	window.freddy = fred;
-
-})();
-
 
