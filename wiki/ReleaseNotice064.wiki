@@ -1,0 +1,13 @@
+=Revision 0.6.4 - Release Notice=
+
+25th June 2010
+
+Revision 0.6.4 Fixes to Prism 3 metadefs and build process
+
+No other functional changes.
+
+=Details=
+
+    * metadefs/talis_prism_metadef.js - updated prism 3 metadefs file
+
+    * juice.min.js - Minified version for production environments
