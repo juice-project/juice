@@ -19,14 +19,17 @@
     <property name="BUILD_DIR" value="./build" />    
     <property name="RHINO" value="${BUILD_DIR}/js.jar" description="Rhino JS Engine" />
     <property name="JSDOC_TOOLKIT" value="${BUILD_DIR}/jsdoc-toolkit" />
+    <property name="YUICompressor" value="${BUILD_DIR}/yuicompressor-2.4.2.jar" description="YUI Compression" />
                  
-    <target name="dist" depends="test,doc">
+    <target name="dist" depends="test,doc,min">
         <mkdir dir="${DIST_DIR}" />
         <echo message="Creating distribution files is not fully implemented yet!" />
         <copy file="juice.js" tofile="${DIST_DIR}/juice-${VERSION}.js" />
+        <copy file="juice.min.js" tofile="${DIST_DIR}/juice-${VERSION}.min.js" />
         <echo message="created ${DIST_DIR}/juice-${VERSION}.js" />
-        <zip destfile="${BUILD_DIR}/juice-${VERSION}.zip">
+        <zip destfile="${DIST_DIR}/juice-${VERSION}.zip">
             <zipfileset dir="." includes="*.txt" />
+            <zipfileset dir="." includes="*.js" />
             <zipfileset dir="." includes="*.js" />
             <zipfileset dir="." includes="*.css" />
             <zipfileset dir="${DOCS_DIR}" includes="**/**" prefix="${DOCS_DIR}"/>
@@ -39,7 +42,7 @@
             <zipfileset dir="${META_DIR}" includes="*.js" prefix="${META_DIR}"/>
             <zipfileset dir="${META_DIR}" includes="*.css" prefix="${META_DIR}"/>
         </zip>
-        <zip destfile="${BUILD_DIR}/juice-basic-${VERSION}.zip">
+        <zip destfile="${DIST_DIR}/juice-basic-${VERSION}.zip">
             <zipfileset dir="." includes="*.txt" />
             <zipfileset dir="." includes="*.js" />
             <zipfileset dir="." includes="*.css" />
@@ -48,8 +51,8 @@
             <zipfileset dir="${EXAMPLES_DIR}" includes="example_extend.js" prefix="${EXAMPLES_DIR}"/>
             <zipfileset dir="${EXTENSIONS_DIR}" includes="extendedbyJuice.js, GoogleAnalytics.js" prefix="${EXTENSIONS_DIR}"/>
         </zip>
-        <copy file="${BUILD_DIR}/juice-${VERSION}.zip" tofile="juice-${VERSION}.zip" />
-        <copy file="${BUILD_DIR}/juice-basic-${VERSION}.zip" tofile="juice-basic-${VERSION}.zip" />
+        <copy file="${DIST_DIR}/juice-${VERSION}.zip" tofile="juice-${VERSION}.zip" />
+        <copy file="${DIST_DIR}/juice-basic-${VERSION}.zip" tofile="juice-basic-${VERSION}.zip" />
     </target>
 
     <target name="doc">
@@ -60,6 +63,17 @@
             <arg value="-t=${JSDOC_TOOLKIT}/templates/jsdoc" />
             <arg value="-d=${DOCS_DIR}" />
             <arg value="juice.js" />
+        </java> 
+    </target>
+    
+    <target name="min">
+        <!-- minify juice.js to juice.min.js --> 
+        <echo message="Minifying:" />
+        <java jar="${YUICompressor}" fork="true" failonerror="true">
+ 			 <!-- <arg line="-v" /> -->
+            <arg line="--nomunge" />
+            <arg line="-o juice.min.js" />
+            <arg line="juice.js" />
         </java> 
     </target>
     
