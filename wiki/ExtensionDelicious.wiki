@@ -1,4 +1,4 @@
-= Audiblecouk Juice Extension =
+= Delicious Juice Extension =
 
 [ExtensionList Extension] to launch a window to the del.cio.us bookmaking service passing on on meta values of author and/or title held on page. Can be launched from either text or image based selection [InsertsAndPanels panels].
 
