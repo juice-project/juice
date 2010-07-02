@@ -114,7 +114,7 @@ TwitterFeedJuice.prototype.avatar = function(item){
 TwitterFeedJuice.prototype.twitterId = function(item){
 	var ret = "";
 	if(this.opts.showId){
-		ret = '<a class="tweet_id" href="http://twitter.com/"' +
+		ret = '<a class="tweet_id" href="http://twitter.com/' +
 		item.from_user + '">' + item.from_user + ' </a>';		
 	}
 	return ret;
