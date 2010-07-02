@@ -12,7 +12,7 @@
  */
 //============== Remap jQuery ==============
 // Isolates Juice from use of jQuery compatability mode whilst retailing a short-ish cut 
-var $jq = jQuery;
+var $jq = jQuery; //TODO replace with closure param
 
 /**
  * Master juice class
@@ -81,20 +81,12 @@ var window = this;
     /** @exports _Juice as juice */ 
 function _Juice(){
 	this._debugEnabled = false;
-	this._debugWinId = "JuiceDebug";
-	this._debugWinSel = "#"+this._debugWinId;
+	this._debugWinSel = "#JuiceDebug";
 	this._ready = false;
 	this._panels = [];
 	this._meta = [];
 	this._overlayFunc = null;
-	$jq(document).ready(this._setReady);
-}
-
-//Version of Juice
-_Juice.prototype.version = "0.6.1";
-
-_Juice.prototype._setReady = function(){
-	this._ready = true;
+	this.version = "0.6.5";
 }
 
 //setDebug - Set Debug output state
@@ -326,7 +318,7 @@ _Juice.prototype.debugOut = function(text){
 
 //createDebugWin - append debug window to document body
 _Juice.prototype.createDebugWin = function(){
-	this.appendElement("body","div",this._debugWinId,'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
+	this.appendElement("body","div",this._debugWinSel,'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
 }
 
 //appendElement - append element 
@@ -360,7 +352,7 @@ _Juice.prototype.addToPanel = function(sel){
 	
 }
 
-//enableOnPanel - enaple selector on panel(s) 
+//enableOnPanel - enable selector on panel(s) 
 //arg: sel - selector to enable - type JuiceSelectProcess
 //See also: JuiceSelectProcess, JucePanel
 _Juice.prototype.enableOnPanel = function(sel,pos){
@@ -498,36 +490,36 @@ _Juice.prototype.runscript = function(id,src){
 //Script &  CSS Loading Utilities ----------
 
                   
-    /**
-     * Call user function when all loading Google APIs and JavaScripts are loaded
-     * Waits on setTimeout of 5ms before trying again
-     * @param func Function to call when ready
-	 * @deprecated Depricated by juice.ready()
-     */
-	_Juice.prototype.onAllLoaded = function(func){
-		this.ready(func);
+/**
+ * Call user function when all loading Google APIs and JavaScripts are loaded
+ * Waits on setTimeout of 5ms before trying again
+ * @param func Function to call when ready
+ * @deprecated Depricated by juice.ready()
+ */
+_Juice.prototype.onAllLoaded = function(func){
+	this.ready(func);
+}
+
+/**
+ * Call user function when all loading Google APIs and JavaScripts are loaded
+ * Waits on setTimeout of 5ms before trying again
+ * @param func Function to call when ready
+ */
+_Juice.prototype.ready = function(func){
+	var This = this;
+	if(this.isGoogleApiLoaded() && this.isJsLoaded()){
+		func();
+	}else{
+		setTimeout(function(){This.ready(func);},5);
 	}
-
-    /**
-     * Call user function when all loading Google APIs and JavaScripts are loaded
-     * Waits on setTimeout of 5ms before trying again
-     * @param func Function to call when ready
-     */
-	_Juice.prototype.ready = function(func){
-		var This = this;
-		if(this.isGoogleApiLoaded() && this.isJsLoaded()){
-			func();
-		}else{
-			setTimeout(function(){This.ready(func);},5);
-		}
-	}
+}
 
 
-    /**
-     * utility class to track script loading ready states
-     * @constructor
-     * @param {string} file File being loded
-     */
+/**
+ * utility class to track script loading ready states
+ * @constructor
+ * @param {string} file File being loded
+ */
 function JsLoadFlag(file){
 	this.name = file;
 	this.loaded = false;
@@ -820,7 +812,7 @@ _Juice.prototype.nums = '0123456789';
 _Juice.prototype.lc = 'abcdefghijklmnopqrstuvwxyz';
 _Juice.prototype.uc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-//isVal retun true if all chars in 'value' string can be found in 'val' string
+//isVal return true if all chars in 'value' string can be found in 'val' string
 _Juice.prototype.isVal = function(value,val) {
 	if (value == "") return true;
 	for (i=0; i<value.length; i++) {
@@ -895,7 +887,7 @@ _Juice.prototype.isSepChar = function(ch,chars)
 
 //Array handling utils ----------
 
-//toArray ensures retun is an array of the data.
+//toArray ensures return is an array of the data.
 //If data is single value returns a single element array
 //Handles a string as a single value
 _Juice.prototype.toArray = function(data){
@@ -1336,6 +1328,8 @@ window.JuiceProcess = JuiceProcess;
 
 //============== Class JuiceSelectProcess ==============	
 	
+//TODO fix to use the DOM rather than internals
+
 /**
  * @constructor
  * @augments JuiceProcess
@@ -1617,16 +1611,5 @@ Meta.prototype.hasMeta = function(){
 }
 
 })();
-
-//============== Stuff ==============	
-
-function testDebug(data){
-	if(this._debugEnabled){
-		div = document.getElementById("pageFooter");
-		if(div){
-			div.innerHTML += " " + data;
-		}
-	}
-}
 
 
