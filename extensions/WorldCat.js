@@ -21,9 +21,9 @@ function worldcatJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-worldcatJuice.prototype = new JuiceSelectProcess();
+worldcatJuice.prototype = new juice.selectProcess();
 worldcatJuice.prototype.constructor = worldcatJuice;
-worldcatJuice.superclass = JuiceSelectProcess.prototype;
+worldcatJuice.superclass = juice.selectProcess.prototype;
 
 
 worldcatJuice.prototype._targetUrl = null;

@@ -22,9 +22,9 @@ function GoogleMapJuice(ju,insert,targetDiv,opts){
 
 }
 
-GoogleMapJuice.prototype = new JuiceProcess();
+GoogleMapJuice.prototype = new juice.process();
 GoogleMapJuice.prototype.constructor = GoogleMapJuice;
-GoogleMapJuice.superclass = JuiceProcess.prototype;
+GoogleMapJuice.superclass = juice.process.prototype;
 
 GoogleMapJuice.prototype.startMap = function(){
 	this.buildContainer();
@@ -41,7 +41,7 @@ GoogleMapJuice.prototype.buildContainer = function(){
 		'width: ' +  this.opts.width + '; ' +
 		'height: ' +  this.opts.height + '"/>';
 	this.showInsert();
-	var insert = new JuiceInsert(cont,"#"+this.targetDiv,"append");
+	var insert = new juice.insert(cont,"#"+this.targetDiv,"append");
 	insert.show();
 }
 

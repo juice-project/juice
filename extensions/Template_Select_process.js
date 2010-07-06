@@ -14,7 +14,7 @@ function xxxJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-xxxJuice.prototype = new JuiceSelectProcess();
+xxxJuice.prototype = new juice.selectProcess();
 xxxJuice.prototype._targetUrl = null;
 
 xxxJuice.prototype.searchxxx = function(){

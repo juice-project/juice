@@ -26,9 +26,9 @@ function TwitterFeedJuice(ju,insert,targetDiv,query,opts,css){
 
 }
 
-TwitterFeedJuice.prototype = new JuiceProcess();
+TwitterFeedJuice.prototype = new juice.process();
 TwitterFeedJuice.prototype.constructor = TwitterFeedJuice;
-TwitterFeedJuice.superclass = JuiceProcess.prototype;
+TwitterFeedJuice.superclass = juice.process.prototype;
 
 TwitterFeedJuice.prototype.startFeed = function(){
 	var This = this;
@@ -83,7 +83,7 @@ TwitterFeedJuice.prototype.displayFeed = function(list){
 			'width: ' +  this.opts.width + '; ' +
 			'height: ' +  this.opts.height + '"/>';
 		this.showInsert();
-		var insert = new JuiceInsert(cont,"#"+this.targetDiv,"append");
+		var insert = new juice.insert(cont,"#"+this.targetDiv,"append");
 		insert.show();
 		$jq("#"+this.processId()).append(list);
 	}

@@ -17,10 +17,10 @@ var juiceOverlay = null;
 
 function juiceOverlayDisplay(content,hdrContent){
 	var maskhtml = '<div id="juiceOverlayMask" class="juiceOverlay-Mask" />';
-	juiceOverlayMask = new JuiceInsert(maskhtml,"body","append");
+	juiceOverlayMask = new juice.insert(maskhtml,"body","append");
 	juiceOverlayMask.show();
 	var overlayhtml = '<div id="juiceOverlay" class="juiceOverlay" />';
-	juiceOverlay = new JuiceInsert(overlayhtml,"body","append");
+	juiceOverlay = new juice.insert(overlayhtml,"body","append");
 	juiceOverlay.show();
 	var target = juiceOverlay.getInsertObject();
 

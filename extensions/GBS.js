@@ -24,7 +24,7 @@ function GBSJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-GBSJuice.prototype = new JuiceSelectProcess();
+GBSJuice.prototype = new juice.selectProcess();
 GBSJuice.prototype._targetBook = null;
 GBSJuice.prototype._targetUrl = null;
 

@@ -21,7 +21,7 @@ function amzcoukJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-amzcoukJuice.prototype = new JuiceSelectProcess();
+amzcoukJuice.prototype = new juice.selectProcess();
 amzcoukJuice.prototype._targetUrl = null;
 
 amzcoukJuice.prototype.searchamzcouk = function(){

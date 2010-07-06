@@ -22,7 +22,7 @@ function waterstonesJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-waterstonesJuice.prototype = new JuiceSelectProcess();
+waterstonesJuice.prototype = new juice.selectProcess();
 waterstonesJuice.prototype._targetUrl = null;
 
 waterstonesJuice.prototype.searchwaterstones = function(){

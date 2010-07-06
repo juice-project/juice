@@ -14,9 +14,9 @@ function texticJuice(ju,insert,targetDiv){
 
 }
 
-texticJuice.prototype = new JuiceProcess();
+texticJuice.prototype = new juice.process();
 texticJuice.prototype.constructor = texticJuice;
-texticJuice.superclass = JuiceProcess.prototype;
+texticJuice.superclass = juice.process.prototype;
 
 texticJuice.prototype.starttextic = function(){
 	this.showInsert();

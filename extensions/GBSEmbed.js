@@ -21,9 +21,9 @@ function GBSEmbedJuice(ju,insert,targetDiv){
 
 }
 
-GBSEmbedJuice.prototype = new JuiceProcess();
+GBSEmbedJuice.prototype = new juice.process();
 GBSEmbedJuice.prototype.constructor = GBSEmbedJuice;
-GBSEmbedJuice.superclass = JuiceProcess.prototype;
+GBSEmbedJuice.superclass = juice.process.prototype;
 
 
 GBSEmbedJuice.prototype.searchGBS = function(){

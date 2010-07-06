@@ -58,9 +58,9 @@ function qrcodeJuice(ju, insert, targetDiv, fieldstr, fieldsep, imgsize){
 //    juice.debugOutln("*** qrcodeJuice constructor: targetDiv "+this.targetDiv+" ; fields "+this.fields+" ; size "+this.imgsize+"***");
 }
 
-qrcodeJuice.prototype = new JuiceProcess();
+qrcodeJuice.prototype = new juice.process();
 qrcodeJuice.prototype.constructor = qrcodeJuice;
-qrcodeJuice.superclass = JuiceProcess.prototype;
+qrcodeJuice.superclass = juice.process.prototype;
 
 qrcodeJuice.prototype.qrcodeInit = function(){
     var This = this;
@@ -97,7 +97,7 @@ qrcodeJuice.prototype.displayQrCode = function(){
 //        juice.debugOutln(" qrcodeJuice display: qrimage "+qrimage+" ***");
         //
         this.showInsert();
-        var insert = new JuiceInsert(qrimage, "#"+this.targetDiv,"append");
+        var insert = new juice.insert(qrimage, "#"+this.targetDiv,"append");
         insert.show();
     }
 }

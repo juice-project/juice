@@ -1,13 +1,13 @@
 function talis_prism_metadef(){
-        juice.findMeta("isbns",".item #details .table .ISBN",juice.stringToAlphnumAray);
-        juice.findMeta("isbn",".item #details .table .ISBN");
-        juice.findMeta("author",".item .summary .author .author");
-        juice.findMeta("title",".item .summary .title");
+        $jq.juice.findMeta("isbns",".item #details .table .ISBN",$jq.juice.stringToAlphnumAray);
+        $jq.juice.findMeta("isbn",".item #details .table .ISBN");
+        $jq.juice.findMeta("author",".item .summary .author .author");
+        $jq.juice.findMeta("title",".item .summary .title");
         
-        juice.findMeta("shelfmark","#availability .options table td:nth-child(2)");             
-        juice.setMeta("location", shelf_location_mapper("#availability .options table td:nth-child(2)"));
-        juice.findMeta("workids",".item .summary > .title > a","href",talis_prism_items_workids);
-        juice.setMeta("workid",talis_prism_item_workid);
+        $jq.juice.findMeta("shelfmark","#availability .options table td:nth-child(2)");             
+        $jq.juice.setMeta("location", shelf_location_mapper("#availability .options table td:nth-child(2)"));
+        $jq.juice.findMeta("workids",".item .summary > .title > a","href",talis_prism_items_workids);
+        $jq.juice.setMeta("workid",talis_prism_item_workid);
 
 //		juice.debugMeta();
 }

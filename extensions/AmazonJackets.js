@@ -17,9 +17,9 @@ function AmazonJackets(ju,insert,targetDiv,opts){
 
 }
 
-AmazonJackets.prototype = new JuiceProcess();
+AmazonJackets.prototype = new juice.process();
 AmazonJackets.prototype.constructor = AmazonJackets;
-AmazonJackets.superclass = JuiceProcess.prototype;
+AmazonJackets.superclass = juice.process.prototype;
 
 AmazonJackets.prototype.start = function(){
 	if(juice.hasMeta("isbns")){
@@ -43,7 +43,7 @@ AmazonJackets.prototype.insertImage = function(){
 		
 	var cont = '<img src="' + src + '" />';
 	this.showInsert();
-	var insert = new JuiceInsert(cont,"#"+this.targetDiv,"append");
+	var insert = new juice.insert(cont,"#"+this.targetDiv,"append");
 	insert.show();	
 }
 

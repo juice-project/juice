@@ -48,7 +48,7 @@ function Carousel3DJuice(ju,insert,targetDiv,opts){
 
 }
 
-Carousel3DJuice.prototype = new JuiceProcess();
+Carousel3DJuice.prototype = new juice.process();
 Carousel3DJuice.prototype.constructor = Carousel3DJuice;
 Carousel3DJuice.superclass = JuiceProcess.prototype;
 
@@ -102,7 +102,7 @@ Carousel3DJuice.prototype.setupDivs = function(){
 	}
 	this.showInsert();
 	
-	var insert = new JuiceInsert(cont,"#"+this.targetDiv,"append");
+	var insert = new juice.insert(cont,"#"+this.targetDiv,"append");
 	insert.show();
 	
 }

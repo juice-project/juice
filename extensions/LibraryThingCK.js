@@ -8,7 +8,7 @@ function LibraryThingCKJuice(ju,src,text,defPanel){
 	}
 }
 
-LibraryThingCKJuice.prototype = new JuiceSelectProcess();
+LibraryThingCKJuice.prototype = new juice.selectProcess();
 LibraryThingCKJuice.prototype._data = null;
 LibraryThingCKJuice.prototype._content = null;
 

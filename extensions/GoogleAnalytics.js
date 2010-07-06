@@ -17,9 +17,9 @@ function gasJuice(ju,code){
 
 }
 
-gasJuice.prototype = new JuiceProcess();
+gasJuice.prototype = new juice.process();
 gasJuice.prototype.constructor = gasJuice;
-gasJuice.superclass = JuiceProcess.prototype;
+gasJuice.superclass = juice.process.prototype;
 
 gasJuice.prototype.startgas = function(){
 	This = this;

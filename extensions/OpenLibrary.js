@@ -21,7 +21,7 @@ function openlibraryJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-openlibraryJuice.prototype = new JuiceSelectProcess();
+openlibraryJuice.prototype = new juice.selectProcess();
 openlibraryJuice.prototype._targetUrl = null;
 
 openlibraryJuice.prototype.searchopenlibrary = function(){
