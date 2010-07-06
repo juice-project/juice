@@ -22,7 +22,7 @@ function audiblecoukJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-audiblecoukJuice.prototype = new JuiceSelectProcess();
+audiblecoukJuice.prototype = new juice.selectProcess();
 audiblecoukJuice.prototype._targetBook = null;
 audiblecoukJuice.prototype._targetUrl = null;
 

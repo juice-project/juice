@@ -22,7 +22,7 @@ function copacJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-copacJuice.prototype = new JuiceSelectProcess();
+copacJuice.prototype = new juice.selectProcess();
 copacJuice.prototype._targetUrl = null;
 
 copacJuice.prototype.searchcopac = function(){

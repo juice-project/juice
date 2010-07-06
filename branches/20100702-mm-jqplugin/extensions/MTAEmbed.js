@@ -10,9 +10,9 @@ function MTAEmbedJuice(ju,insert,targetDiv){
 
 }
 
-MTAEmbedJuice.prototype = new JuiceProcess();
+MTAEmbedJuice.prototype = new juice.process();
 MTAEmbedJuice.prototype.constructor = MTAEmbedJuice;
-MTAEmbedJuice.superclass = JuiceProcess.prototype;
+MTAEmbedJuice.superclass = juice.process.prototype;
 
 MTAEmbedJuice.prototype.startMTA = function(){
 	if(juice.hasMeta("isbns")){

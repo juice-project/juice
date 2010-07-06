@@ -21,7 +21,7 @@ function deliciousJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-deliciousJuice.prototype = new JuiceSelectProcess();
+deliciousJuice.prototype = new juice.selectProcess();
 deliciousJuice.prototype._targetUrl = null;
 
 deliciousJuice.prototype.searchdelicious = function(){

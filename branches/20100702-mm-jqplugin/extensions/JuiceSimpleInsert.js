@@ -17,9 +17,9 @@ function simpleInsertJuice(ju,insert,func){
 
 }
 
-simpleInsertJuice.prototype = new JuiceProcess();
+simpleInsertJuice.prototype = new juice.process();
 simpleInsertJuice.prototype.constructor = simpleInsertJuice;
-simpleInsertJuice.superclass = JuiceProcess.prototype;
+simpleInsertJuice.superclass = juice.process.prototype;
 
 simpleInsertJuice.prototype.startsimpleInsert = function(){
 	this.showInsert();

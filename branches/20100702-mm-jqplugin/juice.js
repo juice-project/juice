@@ -14,79 +14,23 @@
 // Isolates Juice from use of jQuery compatability mode whilst retailing a short-ish cut 
 var $jq = jQuery; //TODO replace with closure param
 
-/**
- * Master juice class
- * @constructor
- * @namespace
- */	
-var juice = {}; 
-
-/**
- * Definition of insert in to document body
- * InsertPoint could result in multiple instances of insert on a single page - this is supported
- * methods such as show(), getInsertObject(), and remove() default to a zero position in any
- * array of instances to simplify operation of a single insert instance.
- * @namespace
- * @constructor
- * @param {String} container html to be inserted in to document
- * @param {String} insertPoint location within document
- * @param {String} insertType How to insert at insert point: before | after | append | prepend | replace
- */
-var JuiceInsert = {};
-
-/**
- * Base class for extensions.
- * @namespace
- * @constructor
- * @param {String} id of extension - should be unique in current document
- * @param {Function} initFunc function to call when extention ready
- * @param {Function} selectFunc function to call when extension activated
- * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
- * @param {juice} controlling Juice class
- */
- 
-var JuiceProcess = {};
-/**
- * Base class for selection style extensions.
- * @namespace
- * @constructor
- * @extends JuiceProcess
- * @param {String} id of extension - should be unique in current document
- * @param {String} iconSrc uri of icon to display in selection panel
- * @param {String} selText text to display
- * @param {Function} initFunc function to call when extention ready
- * @param {Function} selectFunc function to call when extension activated
- * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
- * @param {juice} controlling Juice class
- * @param {String} [defPanel] panel this extention is restricted to - optional
- */
-var JuiceSelectProcess = {};
-
-/**
- * Base/Controlling class for selection panels.
- * @namespace
- * @constructor
- * @param {String} insertDiv JuiceInsert defining panel insert in document
- * @param {String} pannelId Id of panel
- * @param {String} startClass css classes to be applied to inserted icons before selector is enabled
- * @param {Function} [showFunc] Function to be called as panel is shown - optional (isert show function may be sufficient)
- */
-var JuicePanel = {};
-	
-//============== Class _Juice ==============	
-(function(){
+//============== Juice Plugin Definition ==============	
+(function($){
 var window = this;
  
-//Master Juice Class - global instance created as 'juice'
     /** @exports _Juice as juice */ 
-function _Juice(){
-	this._debugEnabled = false;
-	this._debugWinSel = "#JuiceDebug";
-	this._ready = false;
-	this._panels = [];
-	this._meta = [];
-	this._overlayFunc = null;
-	this.version = "0.6.5";
+function _Juice(opts){ 
+	$jq.extend(this, {
+	_debugEnabled : false,
+	_debugWinSel : "#JuiceDebug",
+	_ready : false,
+	_panels : [],
+	_meta : [],
+	_overlay : null,
+	_overlayMask : null,
+	version : "0.6.5",
+	protocol:("https:" == document.location.protocol) ? 'https://' : 'http://'
+	}, opts);
 }
 
 //setDebug - Set Debug output state
@@ -94,21 +38,42 @@ _Juice.prototype.setDebug = function(state){
 	this._debugEnabled = state;
 }
 
-//overlayFunc - Set/get function used to load lightbox overlay
-//arg: v - new value - optional
-_Juice.prototype.overlayFunc = function(v){
-	if(v != null){
-		this._overlayFunc = v;
+_Juice.prototype.launchOverlayWin  = function (content,hdrContent){
+	
+	if(content instanceof JuiceInsert)
+	{
+		content = content.container();
 	}
-	if(this._overlayFunc == null){
-		try{
-			this._overlayFunc = juiceOverlayDisplay;
-		}catch(msg){
-			//catch undefined juiceOverlayDisplay - the default function JavasSript not loaded. 
-			juice.debugOutln("juiceOverlayDisplay not defined");
-		}
+	
+	var maskhtml = '<div id="juiceOverlayMask" class="juiceOverlay-Mask" />';
+	juice._overlayMask = new juice.insert(maskhtml,"body","append");
+	juice._overlayMask.show();
+	var overlayhtml = '<div id="juiceOverlay" class="juiceOverlay" />';
+	juice._overlay = new juice.insert(overlayhtml,"body","append");
+	juice._overlay.show();
+	var target = juice._overlay.getInsertObject();
+
+	var head = '<div id="juiceovTitle" class="juiceOverlayTitle"/>';
+	target.append(head);
+	if(hdrContent){
+		$jq("#juiceovTitle").append(hdrContent);
 	}
-	return this._overlayFunc;
+	var icon = "<img id='juiceovExitClick' src='http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png' class='juiceovOverlayExitClick'/>";
+	$jq("#juiceovTitle").append(icon);
+	$jq("#juiceovExitClick").click(juiceOverlayRemove);
+	var contentObj = jQuery(content);
+	target.append(contentObj);
+	
+	return contentObj;
+}
+
+_Juice.prototype.overlayRemove = function(){
+	if(juice._overlayMask){
+		juice._overlay.remove();
+		juice._overlayMask.remove();
+		juice._overlayMask = null;
+		juice._overlay = null;
+	}
 }
 
 /**
@@ -187,7 +152,7 @@ _Juice.prototype._selectMeta = function(id, selector, attribute, filter){
 }
 
 /**
- * Have mata value(s) been stored.
+ * Have meta value(s) been stored.
  * @param {String} [id] The id of meta definition to check - optional, defaults to any/all meta values
  * @return true | false
  */
@@ -255,7 +220,7 @@ _Juice.prototype.getMetaValues = function(id){
 
 /**
  * @private
- * Return internal instance of Meta Class for id
+ * Return internal instjuiceOverlayDisplayance of Meta Class for id
  * @param {String} id The id of meta instance
  * @return {Meta}
  */
@@ -274,13 +239,13 @@ _Juice.prototype.debugMeta = function(){
 		var meta = this._meta[i];
 		if(meta.hasMeta()){
 			if (meta.getLength()>1) {
-				juice.debugOutln(i+": ["+meta.getValues().join(",")+"]");
-			} else { 
+				_Juice.prototype.debugOutln(i+": ["+meta.getValues().join(",")+"]");
+			} else { juiceOverlayDisplay
 				// TODO: value may be undefined - is this purpose?
-				juice.debugOutln(i+": "+meta.get());
+				_Juice.prototype.debugOutln(i+": "+meta.get());
 			}
 		}else{
-			juice.debugOutln("Meta "+i+": not set");
+			_Juice.prototype.debugOutln("Meta "+i+": not set");
 		}
 	}	
 }
@@ -289,14 +254,6 @@ _Juice.prototype.debugMeta = function(){
 //arg: panel - Description - type JuicePanel
 _Juice.prototype.addPanel = function(panel){
 	this._panels[this._panels.length] = panel;
-}
-
-//hasDebugWin - Returns true if page contains debug win
-_Juice.prototype.hasDebugWin = function(){
-	if($jq(this._debugWinSel).length){
-		return true
-	}
-	return false;
 }
 
 //debugOutln - append text plus '<br/>' to debug window
@@ -309,16 +266,11 @@ _Juice.prototype.debugOutln = function(text){
 //arg: text
 _Juice.prototype.debugOut = function(text){
 	if(this._debugEnabled){
-		if(!this.hasDebugWin()){
-			this.createDebugWin();
+		if(!$jq(this._debugWinSel).length){
+			this.appendElement("body","div",this._debugWinSel,'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
 		}
 		$jq(this._debugWinSel).append(text);
 	}
-}
-
-//createDebugWin - append debug window to document body
-_Juice.prototype.createDebugWin = function(){
-	this.appendElement("body","div",this._debugWinSel,'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
 }
 
 //appendElement - append element 
@@ -426,21 +378,6 @@ _Juice.prototype.launch = function(uri){
 	location.href = uri;
 }
 
-//launchOverlayWin - call Overlay function. - called by 'launchWin' for type "overlay"
-//arg: content - html/dom to append to overlay - arg1 from 'launchWin'
-//arg: hdrContent - html/dom to append to overlay header  - arg2 from 'launchWin'
-_Juice.prototype.launchOverlayWin = function(content,hdrContent){
-	var target = null;
-	if(this.overlayFunc()){
-		if(content instanceof JuiceInsert)
-		{
-			content = content.container();
-		}
-		target = this.overlayFunc()(content,hdrContent);
-	}
-	return target;
-}
-
 //launchExternalWin - create and launch new browser window  - called by 'launchWin' for type "new"
 //arg: uri - target uri for window
 _Juice.prototype.launchExternalWin = function(uri){
@@ -487,25 +424,15 @@ _Juice.prototype.runscript = function(id,src){
 	$jq(document).prepend(cont);
 }
 
-//Script &  CSS Loading Utilities ----------
-
-                  
-/**
- * Call user function when all loading Google APIs and JavaScripts are loaded
- * Waits on setTimeout of 5ms before trying again
- * @param func Function to call when ready
- * @deprecated Depricated by juice.ready()
- */
-_Juice.prototype.onAllLoaded = function(func){
-	this.ready(func);
-}
+//Script &  CSS Loading Utilities ----------              
 
 /**
  * Call user function when all loading Google APIs and JavaScripts are loaded
  * Waits on setTimeout of 5ms before trying again
  * @param func Function to call when ready
+ * Also maps to deprecated onAllReady
  */
-_Juice.prototype.ready = function(func){
+_Juice.prototype.ready = _Juice.prototype.onAllLoaded =  function(func){
 	var This = this;
 	if(this.isGoogleApiLoaded() && this.isJsLoaded()){
 		func();
@@ -821,20 +748,20 @@ _Juice.prototype.isVal = function(value,val) {
 	return true;
 }
 
-_Juice.prototype.isnumser = function(value) {return juice.isVal(value,juice.nums);}
-_Juice.prototype.isLower = function(value) {return juice.isVal(value,juice.lc);}
-_Juice.prototype.isUpper = function(value) {return juice.isVal(value,juice.uc);}
-_Juice.prototype.isAlpha = function(value) {return juice.isVal(value,juice.lc+juice.uc);}
-_Juice.prototype.isAlphanum = function(value) {return juice.isVal(value,juice.lc+juice.uc+juice.nums);}
+_Juice.prototype.isnumser = function(value) {return $jq.juice.isVal(value,$jq.juice.nums);}
+_Juice.prototype.isLower = function(value) {return $jq.juice.isVal(value,j$jq.juice.lc);}
+_Juice.prototype.isUpper = function(value) {return $jq.juice.isVal(value,$jq.juice.uc);}
+_Juice.prototype.isAlpha = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc);}
+_Juice.prototype.isAlphanum = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc+$jq.juice.nums);}
 
 //Converts string of words in to an array of strings - word only included if it only conains alphanum chars
 //arg: str - string to parse
 _Juice.prototype.stringToAlphnumAray = function(str){
 	var items = [];
 	var count = 0;
-	var raw = juice.stringToArray(str,",.:;");
+	var raw = $jq.juice.stringToArray(str,",.:;");
  	for(j=0;j < raw.length;j++){
-		if(juice.isAlphanum(raw[j])){
+		if($jq.juice.isAlphanum(raw[j])){
 			items[count++] = raw[j];
 		}
 	}
@@ -854,12 +781,12 @@ _Juice.prototype.stringToArray = function(str,extras)
 
 	while (str != null && str != "") {
 	  index = 0;
-	  while (index < str.length && juice.isSepChar(str.charAt(index),seps)) {
+	  while (index < str.length && $jq.juice.isSepChar(str.charAt(index),seps)) {
 	    index++;  
 	  }
 	  if (index < str.length) {
 	    var item = "";
-	    while (index < str.length && !juice.isSepChar(str.charAt(index),seps)) {
+	    while (index < str.length && !$jq.juice.isSepChar(str.charAt(index),seps)) {
 	      item += str.charAt(index);
 	      index++;
 	    }
@@ -999,17 +926,27 @@ _Juice.prototype._strEndsWith = function(str,target){
 	return (str.match(target+"$")==target)
 }
 
-window.juice = new _Juice();
+//map _Juice to jQuery plugin and window object TODO deprecate juice object
 
-//Global instance of Juice class created on load
-//var juice = new _Juice();
-
+window.juice=jQuery.juice=new _Juice();
 
 //============== Class JuiceInsert ==============	
 //Definition of insert in to document body
 //InsertPoint could result in multiple instances of insert on a single page - this is supported
 //methods such asa show(), getInsertObject(), and remove() default to a zero position in any
 //aray of instances to simplify operation of a single insert instance.
+
+/**
+ * Definition of insert in to document body
+ * InsertPoint could result in multiple instances of insert on a single page - this is supported
+ * methods such as show(), getInsertObject(), and remove() default to a zero position in any
+ * array of instances to simplify operation of a single insert instance.
+ * @namespace
+ * @constructor
+ * @param {String} container html to be inserted in to document
+ * @param {String} insertPoint location within document
+ * @param {String} insertType How to insert at insert point: before | after | append | prepend | replace
+ */
 
 function JuiceInsert(container,insertPoint,insertType){
 	//html/dom to insert in to page
@@ -1133,7 +1070,7 @@ JuiceInsert.prototype.remove = function(pos){
 	}
 }
 
-window.JuiceInsert = JuiceInsert;
+window.JuiceInsert= $jq.juice.insert = JuiceInsert;
 
 //============== Class JuiceProcess ==============
 
@@ -1145,6 +1082,8 @@ window.JuiceInsert = JuiceInsert;
 //arg: selectFunc - function to call when extension activated
 //arg: insert - insert definition to contain extention output embeded in document - optional
 //arg: ju - controlling Juice class
+
+
 function JuiceProcess(id,initFunc,selectFunc,insert,ju){
 	this._ready = false;
 	if( arguments.length ){
@@ -1324,7 +1263,7 @@ JuiceProcess.prototype.enable = function(){
 //Dummy func
 }
 
-window.JuiceProcess = JuiceProcess;
+window.JuiceProcess=$jq.juice.process = JuiceProcess;
 
 //============== Class JuiceSelectProcess ==============	
 	
@@ -1415,7 +1354,7 @@ JuiceSelectProcess.prototype.getSelectFunction = function(i){
 	return(function(){_JXSPA[pos]._selectFunc(i);});
 }
 
-window.JuiceSelectProcess = JuiceSelectProcess;
+window.JuiceSelectProcess = $jq.juice.selectProcess = JuiceSelectProcess;
 	
 //============== Class JuicePanel ==============	
 	
@@ -1547,7 +1486,7 @@ JuicePanel.prototype.makeId = function(sel,pos){
 	return this.getPanelId() + "-" + sel.processId() + "-" + pos;
 }
 
-window.JuicePanel = JuicePanel;
+window.JuicePanel = $jq.juice.panel = JuicePanel;
 
 /**
  * @private
@@ -1573,7 +1512,7 @@ function Meta(arg){
  * @param val value(s) to be stored
  */
 Meta.prototype.setValues = function(val){
-	this._values = juice.toArray(val);
+	this._values = $jq.juice.toArray(val);
 }
 
 /**
@@ -1610,6 +1549,6 @@ Meta.prototype.hasMeta = function(){
 	return this._values.length > 0;
 }
 
-})();
+})(jQuery);
 
 

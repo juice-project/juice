@@ -14,7 +14,7 @@ function UCDMapsJuice(ju,src,text,defPanel,launchType,insert1,insert2){
 	}
 }
 
-UCDMapsJuice.prototype = new JuiceSelectProcess();
+UCDMapsJuice.prototype = new juice.selectProcess();
 UCDMapsJuice.prototype._targetUrl = [];
 
 UCDMapsJuice.prototype.searchUCDMaps = function(){

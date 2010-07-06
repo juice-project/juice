@@ -12,7 +12,7 @@ function extendedbyJuice(ju,overrideDiv){
 	if(overrideDiv){
 		div = overrideDiv;
 	}
-	var insert = new JuiceInsert(div,"body","append");
+	var insert = new juice.insert(div,"body","append");
 	
 	var initFunc = this.extendedInsert;
 	if(arguments.length){
@@ -22,9 +22,9 @@ function extendedbyJuice(ju,overrideDiv){
 
 }
 
-extendedbyJuice.prototype = new JuiceProcess();
+extendedbyJuice.prototype = new juice.process();
 extendedbyJuice.prototype.constructor = extendedbyJuice;
-extendedbyJuice.superclass = JuiceProcess.prototype;
+extendedbyJuice.superclass = juice.process.prototype;
 
 extendedbyJuice.prototype.extendedInsert = function(){
 	this.showInsert();	

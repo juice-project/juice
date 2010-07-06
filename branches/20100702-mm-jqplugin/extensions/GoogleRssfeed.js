@@ -24,9 +24,9 @@ function GoogleRSSFeedJuice(ju,insert,targetDiv,feeds,googleOptions,css){
 
 }
 
-GoogleRSSFeedJuice.prototype = new JuiceProcess();
+GoogleRSSFeedJuice.prototype = new juice.process();
 GoogleRSSFeedJuice.prototype.constructor = GoogleRSSFeedJuice;
-GoogleRSSFeedJuice.superclass = JuiceProcess.prototype;
+GoogleRSSFeedJuice.superclass = juice.process.prototype;
 
 GoogleRSSFeedJuice.prototype.startRSSFeed = function(){
 	var This = this;

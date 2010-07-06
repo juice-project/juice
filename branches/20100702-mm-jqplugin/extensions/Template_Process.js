@@ -13,9 +13,9 @@ function xxxJuice(ju,insert,targetDiv){
 
 }
 
-xxxJuice.prototype = new JuiceProcess();
+xxxJuice.prototype = new juice.process();
 xxxJuice.prototype.constructor = xxxJuice;
-xxxJuice.superclass = JuiceProcess.prototype;
+xxxJuice.superclass = juice.process.prototype;
 
 xxxJuice.prototype.startxxx = function(){
 	//Add functionality to create command for extension

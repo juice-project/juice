@@ -21,7 +21,7 @@ function librarythingSearchJuice(ju,src,text,defPanel,launchType,insert1,insert2
 	}
 }
 
-librarythingSearchJuice.prototype = new JuiceSelectProcess();
+librarythingSearchJuice.prototype = new juice.selectProcess();
 librarythingSearchJuice.prototype._targetUrl = null;
 
 librarythingSearchJuice.prototype.searchlibrarythingSearch = function(){
