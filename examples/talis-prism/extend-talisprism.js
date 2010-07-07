@@ -93,9 +93,7 @@ juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Carousel3D.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/LibraryGUIDEMaps.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/BhamACMaps.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/local/textic.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
-	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
 	juice.onJsLoaded(runExtensions);
 }
 
