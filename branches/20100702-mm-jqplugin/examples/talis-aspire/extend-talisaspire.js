@@ -19,7 +19,6 @@ jQuery(document).ready(function () {
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
 	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
-	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
 	juice.onJsLoaded(runExtensions);
 //	setTimeout(function(){juice.debugOutln(juice.JsNotLoaded());},5000)
 });
