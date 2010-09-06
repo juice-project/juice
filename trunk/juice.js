@@ -11,7 +11,7 @@
  * $Rev: 39 $
  */
 //============== Remap jQuery ==============
-// Isolates Juice from use of jQuery compatability mode whilst retailing a short-ish cut 
+// Isolates Juice from use of jQuery compatability mode whilst retaining a short-ish cut 
 var $jq = jQuery;
 
 /**

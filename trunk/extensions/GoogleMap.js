@@ -93,7 +93,7 @@ GoogleMapJuice.prototype.displayPoint = function(p){
     var marker = new GMarker(point,{title:p.title});
     GEvent.addListener(marker,"click", function() {
         var myHtml = '<div class="juiceMapInfoTitle">' + p.title + '</div><div class="juiceMapInfoBody">' + p.body + '</div>';
-        This.map.openInfoWindowHtml(point, myHtml);
+        This.map.openInfoWindowHtml(point, myHtml, {maxWidth: 160});
       });
     this.map.addOverlay(marker);
 	this.bounds.extend(point);

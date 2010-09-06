@@ -83,7 +83,7 @@ function startJuiceActions(){
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/TwitterFeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleRssfeed.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GoogleAnalytics.js");
-//	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/AmazonJackets.js");
+	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/AmazonJackets.js");
 //	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/BookListFromFeed.js");
 
 
@@ -124,6 +124,7 @@ function runExtensions(){
 	if(juice.hasMeta()){
  		switch(whichPrism){
 			case "sandbox-gov":
+				repaceImage();
 				buildSelectionPanel2();
 				buildMTAInsert();
 				buildLocationsMapsInsert();
@@ -201,7 +202,8 @@ new BhamACListMapsJuice(juice,
 function buildMapsInsert(){
 //	juice.debugOutln("buildMapsInsert");
 	var div = '<div id="MapPanelWindow" style="display: inline; margin-left: 5px;"></div>';
-	var insert = new JuiceInsert(div,"#availability > table > tbody > tr > td:nth-child(2)","append");
+//	var insert = new JuiceInsert(div,"#availability > table > tbody > tr > td:nth-child(2)","append");
+	var insert = new JuiceInsert(div,"#availability .options table tr.available td:nth-child(4)","append");
 	var panel = new JuiceBasicPanel(insert,"MapPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
 	panel.shared(false);
 	juice.addPanel(panel);
@@ -245,6 +247,12 @@ function buildGBSInsert(){
 		'</div>';
 	var insert = new JuiceInsert(div,"#details .table","after");
 	procEGBS = new GBSEmbedJuice(juice,insert,"GBSViewer");
+}
+
+function repaceImage(){
+	var div = '<div id = "repJack"></div>';
+	var insert = new JuiceInsert(div,"#itemControl > .item > .image > img", "replace");
+	new AmazonJackets(juice,insert,"repJack");
 }
 
 function buildWorldCatIframe(){
