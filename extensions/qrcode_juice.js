@@ -21,6 +21,7 @@
  * Written by Andy Bussey
  * Version 0.1, August 2009
  * Copyright 2009 University of Sheffield
+ * Under GPL (gpl-2.0.txt) license.
  */
 
  
