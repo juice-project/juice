@@ -1,5 +1,5 @@
 /*
- * Juice 0.6.1 - Javascript User Interface Framework for Extension
+ * Juice 0.6.5 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2009 Talis (talis.com)
@@ -579,7 +579,7 @@ _Juice.prototype.urlRoot = function(url){
 	return str.toString();
 }
 
-//jsOnLoadEvent - clled by browser script load - flags file as loaded
+//jsOnLoadEvent - called by browser script load - flags file as loaded
 //arg: name - id of script lodd
 _Juice.prototype.jsOnLoadEvent = function(name){
 	var loadFlags = this.JsLoadFlags;
