@@ -1,5 +1,5 @@
 /*
- * Juice 0.6.5 - Javascript User Interface Framework for Extension
+ * Juice 0.7 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2009 Talis (talis.com)
@@ -36,47 +36,6 @@ function _Juice(opts){
 //setDebug - Set Debug output state
 _Juice.prototype.setDebug = function(state){
 	this._debugEnabled = state;
-}
-
-_Juice.prototype.launchOverlayWin  = function (content,hdrContent){
-	
-	if(content instanceof JuiceInsert){
-		content = content.container();
-	}
-	
-	var maskhtml = '<div id="juiceOverlayMask" class="juiceOverlayMask"></div>';
-	juice._overlayMask = new juice.insert(maskhtml,"body","append");
-	juice._overlayMask.show();
-	var overlayhtml = '<div id="juiceOverlay" class="juiceOverlay" role="dialog" aria-labelledby="juiceovTitle" />';
-	juice._overlay = new juice.insert(overlayhtml,"body","append");
-	juice._overlay.show();
-	var target = juice._overlay.getInsertObject();
-
-	target.append('<h2 id="juiceovTitle" class="juiceOverlayTitle" tabindex="0" />');
-	if(hdrContent){
-		$jq("#juiceovTitle").append(hdrContent);
-	}
-	var icon = '<a href="javascript:void()" id="juiceovExitClick"><img alt="close lightbox" src="http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png" class="juiceovOverlayExitClick" /></a>';
-	$jq("#juiceovTitle").append(icon);
-	$jq("#juiceovExitClick").click(this.overlayRemove);
-	$jq(document).keydown(function(e){
-		if(e.keyCode==27){
-			$jq.juice.overlayRemove();
-		}
-	});
-	
-	var contentObj = jQuery(content);
-	target.append(contentObj);	
-	return contentObj;
-}
-
-_Juice.prototype.overlayRemove = function(){
-	if(juice._overlayMask){
-		juice._overlay.remove();
-		juice._overlayMask.remove();
-		juice._overlayMask = null;
-		juice._overlay = null;
-	}
 }
 
 /**
@@ -379,6 +338,49 @@ _Juice.prototype.launchWin = function(uri,type,arg1,arg2){
 //arg: uri
 _Juice.prototype.launch = function(uri){
 	location.href = uri;
+}
+
+//launchOverlayWin - called by 'launchWin' for type 'overlay' 
+
+_Juice.prototype.launchOverlayWin  = function (content,hdrContent){
+	
+	if(content instanceof JuiceInsert){
+		content = content.container();
+	}
+	
+	var maskhtml = '<div id="juiceOverlayMask" class="juiceOverlayMask"></div>';
+	juice._overlayMask = new juice.insert(maskhtml,"body","append");
+	juice._overlayMask.show();
+	var overlayhtml = '<div id="juiceOverlay" class="juiceOverlay" role="dialog" aria-labelledby="juiceovTitle" />';
+	juice._overlay = new juice.insert(overlayhtml,"body","append");
+	juice._overlay.show();
+	var target = juice._overlay.getInsertObject();
+
+	target.append('<h2 id="juiceovTitle" class="juiceOverlayTitle" tabindex="0" />');
+	if(hdrContent){
+		$jq("#juiceovTitle").append(hdrContent);
+	}
+	var icon = '<a href="javascript:void()" id="juiceovExitClick"><img alt="close lightbox" src="http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png" class="juiceovOverlayExitClick" /></a>';
+	$jq("#juiceovTitle").append(icon);
+	$jq("#juiceovExitClick").click(this.overlayRemove);
+	$jq(document).keydown(function(e){
+		if(e.keyCode==27){
+			$jq.juice.overlayRemove();
+		}
+	});
+	
+	var contentObj = jQuery(content);
+	target.append(contentObj);	
+	return contentObj;
+}
+
+_Juice.prototype.overlayRemove = function(){
+	if(juice._overlayMask){
+		juice._overlay.remove();
+		juice._overlayMask.remove();
+		juice._overlayMask = null;
+		juice._overlay = null;
+	}
 }
 
 //launchExternalWin - create and launch new browser window  - called by 'launchWin' for type "new"
@@ -942,7 +944,7 @@ _Juice.prototype._strEndsWith = function(str,target){
 	return (str.match(target+"$")==target)
 }
 
-//map _Juice to jQuery plugin and window object TODO deprecate juice object
+//map _Juice to jQuery plugin and window object TODO deprecate global juice object
 
 window.juice=jQuery.juice=new _Juice();
 
