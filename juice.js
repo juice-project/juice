@@ -1,15 +1,16 @@
 /*
- * Juice 0.6.1 - Javascript User Interface Framework for Extension
+ * Juice 0.6.4 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
- * Copyright (c) 2009 Talis (talis.com)
+ * Copyright (c) 2010 Talis (talis.com)
  * Originator: Richard Wallis
- * Under GPL (gpl-2.0.txt) license.
+ * Dual licensed under the MIT (mit-license.txt) and GPL licenses (gpl-2.0.txt).
  *
  * $Author: richard.wallis@talis.com $
  * $Date: 2009-03-23 18:15:18 +0000 (Mon, 23 Mar 2009) $
  * $Rev: 39 $
  */
+ 
 //============== Remap jQuery ==============
 // Isolates Juice from use of jQuery compatability mode whilst retaining a short-ish cut 
 var $jq = jQuery;
@@ -22,7 +23,7 @@ var $jq = jQuery;
 var juice = {}; 
 
 /**
- * Definition of insert in to document body
+ * Definition of insert into document body
  * InsertPoint could result in multiple instances of insert on a single page - this is supported
  * methods such as show(), getInsertObject(), and remove() default to a zero position in any
  * array of instances to simplify operation of a single insert instance.
