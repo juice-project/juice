@@ -396,7 +396,7 @@ _Juice.prototype.launchExternalWin = function(uri){
 //launchIframeWin - create and launch iframe in current browser window  - called by 'launchWin' for type "iframe"
 //arg: uri - ifram target
 //arg: insert - insert to carry iframe
-//See also JiuceInsert
+//See also JuiceInsert
 _Juice.prototype.launchIframeWin = function(uri,insert){
 	var target = insert;
 	if(insert instanceof JuiceInsert){
@@ -457,6 +457,19 @@ function JsLoadFlag(file){
 
 //JsLoadFlags - Array to track script/css file loadings
 _Juice.prototype.JsLoadFlags = [];
+
+//Quick and easy laodng of extensions in standard folde structure 
+//args: extension strings ('x','y',etc)
+
+_Juice.prototype.loadExtensions = function(){
+	var path=$jq('script[src=~=/juice.js').first().attr('src');
+	path.replace('/juice.js','/');
+	
+	for (var i = 0; i < arguments.length; i++){
+	    this.loadJs(path+'extensions/'+arguments[i]);
+	    }
+}
+
 
 //Load script 
 //arg: target - append to head of of document - ONLY if not previously loaded anywhere in document
