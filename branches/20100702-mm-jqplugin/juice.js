@@ -22,13 +22,10 @@ var window = this;
 function _Juice(opts){ 
 	$jq.extend(this, {
 	_debugEnabled : false,
-	_debugWinSel : "#JuiceDebug",
 	_ready : false,
 	_panels : [],
 	_meta : [],
-	_overlay : null,
-	_overlayMask : null,
-	version : "0.6.5",
+	version : "0.7",
 	protocol:("https:" == document.location.protocol) ? 'https://' : 'http://'
 	}, opts);
 }
@@ -47,39 +44,7 @@ _Juice.prototype.setDebug = function(state){
  * @param {Function} [filter] Function used to process retrieved data before storage
  */
 _Juice.prototype.findMeta = function(id, selector, attribute, filter){
-	this.setMeta(id,this._selectMeta(id, selector, attribute, filter));
-}
-
-/**
- * Create and store meta reference from function or data passed.
- * If argument is a function, it should return a value or array of values to store
- * the function will be called with a single argument - the id.
- * @param {String} id The id of meta definition to create
- * @param arg Value(s) to store, or function that returns value(s) to store
- */
-_Juice.prototype.setMeta = function(id, arg){
-	var val;
-	if ( $jq.isFunction(arg) ) {
-		val = arg(id);
-    }else{
-		val = arg;
-	}
-	if(val){
-		this._meta[id] = new Meta(val);
-	}
-}
-
-/**
- * @private
- * Identify data from DOM elements or element attributes using jQuery selectors.
- * @param {String} id The id of meta definition to create
- * @param {String} selector JQuery selection string for element within page
- * @param {String} [attribute] Attribute name if attribute values are wanted
- * @param {Function} [filter] Function used to process retrieved data before storage
- * @return Value or array of values.
- */
-
-_Juice.prototype._selectMeta = function(id, selector, attribute, filter){
+	
 	if ( $jq.isFunction(attribute) ) {
 		filter = attribute;
 		attribute = null;
@@ -100,7 +65,7 @@ _Juice.prototype._selectMeta = function(id, selector, attribute, filter){
                 // TODO: should we normalize space here?
 			}
 		}
-		if(jQuery.isFunction(filter) && val !== undefined ){
+		if($jq.isFunction(filter) && val !== undefined ){
 			val = filter(val,id); // TODO: why was THIS given as second parameter to filter?
 		}
 		if (val !== undefined) {
@@ -108,9 +73,29 @@ _Juice.prototype._selectMeta = function(id, selector, attribute, filter){
 		}
 	});
 	if(values.length > 0){
-		return values;
+		this.setMeta(id,values);
 	}
-	return null;
+	
+}
+
+/**
+ * Create and store meta reference from function or data passed.
+ * If argument is a function, it should return a value or array of values to store
+ * the function will be called with a single argument - the id.
+ * @param {String} id The id of meta definition to create
+ * @param arg Value(s) to store, or function that returns value(s) to store
+ */
+_Juice.prototype.setMeta = function(id, arg){
+	var val;
+	if ( $jq.isFunction(arg) ) {
+		val = arg(id);
+    }else{
+		val = arg;
+	}
+	if(val){
+		var values= $jq.juice.toArray(val);
+		this._meta[id] = {'values':values};	
+	}
 }
 
 /**
@@ -120,9 +105,9 @@ _Juice.prototype._selectMeta = function(id, selector, attribute, filter){
  */
 _Juice.prototype.hasMeta = function(id){
 	if(id){
-		var meta = this._getMetaInstance(id);
+		var meta = this._meta[id];
 		if(meta != null){
-			return meta.hasMeta();
+			return meta.values.length>0;
 		}
 	}else{
 		for(var i in this._meta){
@@ -141,9 +126,9 @@ _Juice.prototype.hasMeta = function(id){
  * @return value
  */
 _Juice.prototype.getMeta = function(id,index){
-	var meta = this._getMetaInstance(id);
+	var meta = this._meta[id];
 	if(meta != null){
-		return meta.get(index);
+		return meta.values[ index == null ? 0 : index ];
 	}
 	return null;
 }
@@ -160,34 +145,15 @@ _Juice.prototype.deleteMeta = function(id){
 
 /**
  * Return array of stored value(s)
- * @deprecated by #getMetaValues
- * @param {String} id The id of meta 
- * @return {Array} values.
- */
-_Juice.prototype.getValues = function(id){
-	return this.getMetaValues(id);
-}
-/**
- * Return array of stored value(s)
  * @param {String} id The id of meta 
  * @return {Array} values.
  */
 _Juice.prototype.getMetaValues = function(id){
-	var meta = this._getMetaInstance(id);
+	var meta = this._meta[id]
 	if(meta != null){
-		return meta.getValues();
+		return meta.values;
 	}
 	return null;
-}
-
-/**
- * @private
- * Return internal instjuiceOverlayDisplayance of Meta Class for id
- * @param {String} id The id of meta instance
- * @return {Meta}
- */
-_Juice.prototype._getMetaInstance = function(id){
-		return this._meta[id];
 }
 
 /**
@@ -199,12 +165,12 @@ _Juice.prototype._getMetaInstance = function(id){
 _Juice.prototype.debugMeta = function(){
 	for(var i in this._meta){
 		var meta = this._meta[i];
-		if(meta.hasMeta()){
-			if (meta.getLength()>1) {
-				_Juice.prototype.debugOutln(i+": ["+meta.getValues().join(",")+"]");
-			} else { juiceOverlayDisplay
+		if(meta.values.length>0){
+			if (meta.values.length>1) {
+				_Juice.prototype.debugOutln(i+": ["+meta.values.join(",")+"]");
+			} else { 
 				// TODO: value may be undefined - is this purpose?
-				_Juice.prototype.debugOutln(i+": "+meta.get());
+				_Juice.prototype.debugOutln(i+": "+meta.values[ index == null ? 0 : index ]);
 			}
 		}else{
 			_Juice.prototype.debugOutln("Meta "+i+": not set");
@@ -228,10 +194,10 @@ _Juice.prototype.debugOutln = function(text){
 //arg: text
 _Juice.prototype.debugOut = function(text){
 	if(this._debugEnabled){
-		if(!$jq(this._debugWinSel).length){
-			this.appendElement("body","div",this._debugWinSel,'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
+		if($jq("#JuiceDebug").length==0){
+			this.appendElement("body","div","#JuiceDebug",'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
 		}
-		$jq(this._debugWinSel).append(text);
+		$jq("#JuiceDebug").append(text);
 	}
 }
 
@@ -289,24 +255,6 @@ _Juice.prototype.launchWinH = 600;
 //Defaut launch window width
 _Juice.prototype.launchWinW = 800;
 
-//launchWinHieght - set/get defaut launch window height
-//arg: v - new value - optional
-_Juice.prototype.launchWinHieght = function(v){
-	if(v != null){
-		this.launchWinH = v;
-	}
-	return this.launchWinH;
-}
-
-//launchWinWidth - set/get defaut launch window width
-//arg: v - new value - optional
-_Juice.prototype.launchWinWidth = function(v){
-	if(v != null){
-		this.launchWinW = v;
-	}
-	return this.launchWinW;
-}
-
 //launchWin - Launch a new win of type type.
 //arg: uri - target of win
 //arg: type - "new"(default) | "overlay" | "iframe" | "current"
@@ -348,40 +296,28 @@ _Juice.prototype.launchOverlayWin  = function (content,hdrContent){
 		content = content.container();
 	}
 	
-	var maskhtml = '<div id="juiceOverlayMask" class="juiceOverlayMask"></div>';
-	juice._overlayMask = new juice.insert(maskhtml,"body","append");
-	juice._overlayMask.show();
-	var overlayhtml = '<div id="juiceOverlay" class="juiceOverlay" role="dialog" aria-labelledby="juiceovTitle" />';
-	juice._overlay = new juice.insert(overlayhtml,"body","append");
-	juice._overlay.show();
-	var target = juice._overlay.getInsertObject();
-
-	target.append('<h2 id="juiceovTitle" class="juiceOverlayTitle" tabindex="0" />');
+	$jq('body').append('<div id="juiceOverlayMask" class="juiceOverlayMask"></div>');
+	$jq('body').append('<div id="juiceOverlay" class="juiceOverlay" role="dialog" aria-labelledby="juiceovTitle" />');
+	$jq('#juiceOverlay').append('<h2 id="juiceovTitle" class="juiceOverlayTitle" tabindex="0" />'+content);
 	if(hdrContent){
-		$jq("#juiceovTitle").append(hdrContent);
+		$jq("#juiceOverlay h2").append(hdrContent);
 	}
-	var icon = '<a href="javascript:void()" id="juiceovExitClick"><img alt="close lightbox" src="http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png" class="juiceovOverlayExitClick" /></a>';
-	$jq("#juiceovTitle").append(icon);
-	$jq("#juiceovExitClick").click(this.overlayRemove);
+	$jq("#juiceOverlay h2").append('<a href="javascript:void()" id="juiceovExitClick"><img alt="close lightbox" src="http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png" class="juiceovOverlayExitClick" /></a>');	
+	var overlayRemove = function(){
+		$jq('#juiceOverlay').remove();
+		$jq('#juiceOverlayMask').remove();
+	}
+	
+	$jq("#juiceovExitClick").click(overlayRemove);
 	$jq(document).keydown(function(e){
 		if(e.keyCode==27){
-			$jq.juice.overlayRemove();
+			overlayRemove();
 		}
 	});
+
 	
-	var contentObj = jQuery(content);
-	target.append(contentObj);	
-	return contentObj;
 }
 
-_Juice.prototype.overlayRemove = function(){
-	if(juice._overlayMask){
-		juice._overlay.remove();
-		juice._overlayMask.remove();
-		juice._overlayMask = null;
-		juice._overlay = null;
-	}
-}
 
 //launchExternalWin - create and launch new browser window  - called by 'launchWin' for type "new"
 //arg: uri - target uri for window
@@ -427,9 +363,7 @@ _Juice.prototype.runscript = function(id,src){
 	$jq("#"+id).remove();
 	var cont = '<script id="' + id + '" src="' + src +'" type="text/javascript"></script>';
 	$jq(document).prepend(cont);
-}
-
-//Script &  CSS Loading Utilities ----------              
+}   
 
 /**
  * Call user function when all loading Google APIs and JavaScripts are loaded
@@ -446,25 +380,14 @@ _Juice.prototype.ready = _Juice.prototype.onAllLoaded =  function(func){
 	}
 }
 
-
-/**
- * utility class to track script loading ready states
- * @constructor
- * @param {string} file File being loded
- */
-function JsLoadFlag(file){
-	this.name = file;
-	this.loaded = false;
-}
-
 //JsLoadFlags - Array to track script/css file loadings
 _Juice.prototype.JsLoadFlags = [];
 
-//Quick and easy laodng of extensions in standard folde structure 
+//Quick and easy loading of extensions in standard folder structure 
 //args: extension strings ('x','y',etc)
 
 _Juice.prototype.loadExtensions = function(){
-	var path=$jq('script[src=~=/juice.js').first().attr('src');
+	var path=$jq('script[src~="/juice.js"').first().attr('src');
 	path.replace('/juice.js','/');
 	
 	for (var i = 0; i < arguments.length; i++){
@@ -516,7 +439,7 @@ _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 	}
 
 	if(type == "js"){
-		This.JsLoadFlags[this.JsLoadFlags.length] = new JsLoadFlag(file);
+		This.JsLoadFlags[this.JsLoadFlags.length] = {'name':file, 'loaded':false}
 		
 		ins.onreadystatechange = function () {
 	        if (ins.readyState == 'loaded' || ins.readyState == 'complete') {
@@ -571,27 +494,20 @@ _Juice.prototype._absoluteUri = function(file, pathPrefix){
 
 //findJs - return true if script element already loaded in document
 _Juice.prototype.findJs = function (file){
-	var fileString = this.urlRoot(file);
-	var scripts = document.getElementsByTagName('script');
-	
-	for(var i=0;i < scripts.length;i++){
-		if(this.urlRoot(scripts[i].getAttribute("src")) == fileString){
-			return true;
-		}
-	}
+	var script=$jq('script[src='+this.urlRoot(file)+']')
+	if(script.length>0) return true;
 	return false;
 }
 
 //Remove everything after and including '#' and/or '?' from a string
 _Juice.prototype.urlRoot = function(url){
-	str = new String(url);
-	if(str.indexOf('#') != -1){
-		str = new String(str.substring(0,str.indexOf('#')));
+	if(url.indexOf('#') != -1){
+		url = url.substring(0,url.indexOf('#'));
 	}
-	if(str.indexOf('?') != -1){
-		str = new String(str.substring(0,str.indexOf('?')));
+	if(url.indexOf('?') != -1){
+		url = url.substring(0,url.indexOf('?'));
 	}
-	return str.toString();
+	return str;
 }
 
 //jsOnLoadEvent - called by browser script load - flags file as loaded
@@ -1505,67 +1421,6 @@ JuicePanel.prototype.makeId = function(sel,pos){
 }
 
 window.JuicePanel = $jq.juice.panel = JuicePanel;
-
-/**
- * @private
- * Meta definition class.
- * Can store single value or an array of values. A value is always a string.
- * @constructor
- * If argument is a function, it should return a value or array of values to store
- * the function will be called with a single argument - the id.
- * @param arg Value(s) to store, or function that returns value(s) to store
- */
-function Meta(arg){
-	this._values = [];
-	if(arguments.length){
-		this.setValues(arg);
-	}	
-}
-
-
-/**
- * @private
- * Set the array of value(s) stored
- * Uses juice.toArray() to ensure whatever is passed is stored as an array
- * @param val value(s) to be stored
- */
-Meta.prototype.setValues = function(val){
-	this._values = $jq.juice.toArray(val);
-}
-
-/**
- * @private
- * Return a value that have been identified and stored. By default the first
- * value is returned (index 0) but you can select any other value by index.
- * @param {Number} [index] The index of a value, starting with 0
- */
-Meta.prototype.get = function(index){
-	return this._values[ index == null ? 0 : index ];
-}
-
-/**
- * @private
- * Return an array of values that have been identified and stored.
- */
-Meta.prototype.getValues = function(){
-	return this._values;
-}
-
-/**
- * @private
- * Return the number of values that have been identified and stored.
- */
-Meta.prototype.getLength = function(){
-	return this._values.length;
-}
-
-/**
- * @private
- * Return whether value(s) have been identified and stored.
- */
-Meta.prototype.hasMeta = function(){
-	return this._values.length > 0;
-}
 
 })(jQuery);
 
