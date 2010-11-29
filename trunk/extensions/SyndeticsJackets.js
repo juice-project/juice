@@ -1,11 +1,10 @@
-// SyndeticsCovers.js
+// SyndeticsJackets.js
 // -------------------
-// Version: 0.4
-// Author: Darren Bradley
-// Last Edit: 06/09/2010
+// Version: 1.0
+// Author: db
+// Last Edit: 29/11/2010
 
 // Displays book jackets pulled from http://www.syndetics.com
-// (Based on AmazonJacket.js)
 
 // URL for jackets are in the form:
 //		http://www.syndetics.com/index.aspx?isbn=<ISBN>/<SIZE>.GIF&client=<PASSWORD>type=<TYPE>
@@ -22,9 +21,9 @@
  * arg: password - password to pass to call to syndetics
  */
  
-function SyndeticsCovers(ju,insert, targetDiv, size, password){
+function SyndeticsJackets(ju, insert, targetDiv, size, password){
 	// Initialise extension
-	id = "SyndeticsCovers";
+	id = "SyndeticsJackets";
     this.targetDiv = targetDiv;					
 	switch(size){
 		case "medium" :
@@ -41,31 +40,30 @@ function SyndeticsCovers(ju,insert, targetDiv, size, password){
 
 	initFunc = this.start;
 	if(arguments.length){
-		SyndeticsCovers.superclass.init.call(this,id,initFunc,null,insert,ju);
-		SyndeticsCovers.superclass.startup.call(this);
+		SyndeticsJackets.superclass.init.call(this,id,initFunc,null,insert,ju);
+		SyndeticsJackets.superclass.startup.call(this);
 	}
 }
 
-SyndeticsCovers.prototype = new JuiceProcess();
-SyndeticsCovers.prototype.constructor = SyndeticsCovers;
-SyndeticsCovers.superclass = JuiceProcess.prototype;
+SyndeticsJackets.prototype = new JuiceProcess();
+SyndeticsJackets.prototype.constructor = SyndeticsJackets;
+SyndeticsJackets.superclass = JuiceProcess.prototype;
 
-SyndeticsCovers.prototype.start = function(){
+SyndeticsJackets.prototype.start = function(){
 
 	if(juice.hasMeta("image_isbns")){
+		// Get ISBNs for current page
 		var isbns = juice.getMetaValues("image_isbns");
-		
-		//juice.debugOutln("meta count: "+isbns.length);
-		//juice.debugOutln("insert count: "+this.insertCount());
-		
+		// Parse ISBNs
 		for(var i=0; i < isbns.length; i++){
-		
+			// Construct image URL
 			var url = "http://www.syndetics.com/index.aspx?isbn=" + 
 						isbns[i] + "/" + this.size + ".GIF&client=" + 
-						this.password + "&type=hwwesterkid";
+						this.password;
+			// Construct final link
+			var newImage = '<img src="' + url + '" onError="this.src=\'http://prism.talis.com/talis-consultancy/assets/-/nojacket.gif\';" />';
 			
-			var newImage = '<img src="' + url + '"/>';
-			
+			// Add to page
 			this.showInsert(i)
 			insert = this.getInsertObject(i);
 			insert.append(newImage);
