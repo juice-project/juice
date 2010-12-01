@@ -59,7 +59,7 @@ function startJuiceActions(){
 		juice.loadJs("http://juice-project.s3.amazonaws.com/examples/talis-prism/demo.js");
 		return;
 	}
-	juice.googleApiKey("ABQIAAAAKi1cC767naAPtNw6ExDJHBSr1cLuvfmD_hPnfKXXZtPgfYowlRRaiVfGUqzawVB9RWLIPD4MTDzgdw");
+	juice.googleApiKey="ABQIAAAAKi1cC767naAPtNw6ExDJHBSr1cLuvfmD_hPnfKXXZtPgfYowlRRaiVfGUqzawVB9RWLIPD4MTDzgdw";
 	juice.setDebug(true);
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/JuiceSimpleInsert.js");
 	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/extendedbyJuice.js");
@@ -149,7 +149,7 @@ function runExtensions(){
 var bhdiv = '<div id="bhPanelWindow" style="display: inline; margin-left: 5px;"></div>';
 var bhinsert = new JuiceInsert(bhdiv,".item > .summary > .description","append");
 var bhpanel = new JuiceListPanel(bhinsert,"bhPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
-bhpanel.shared(false);
+bhpanel.shared=false;
 juice.addPanel(bhpanel);
 new BhamACListMapsJuice(juice,
 	"kjhkjhkjh",
@@ -201,7 +201,7 @@ function buildMapsInsert(){
 	var div = '<div id="MapPanelWindow" style="display: inline; margin-left: 5px;"></div>';
 	var insert = new JuiceInsert(div,"#availability > table > tbody > tr > td:nth-child(2)","append");
 	var panel = new JuiceBasicPanel(insert,"MapPanelWindow",'juiceXInactiveIcon','juiceXActiveIcon',null);
-	panel.shared(false);
+	panel.shared=false;
 	juice.addPanel(panel);
 	switch(whichPrism){
 		case "sandbox-gov":

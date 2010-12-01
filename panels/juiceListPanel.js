@@ -23,14 +23,14 @@ JuiceListPanel.prototype.add = function(sel){
 	this.insert();
 	this.show();
 	if(!this.added){
-		$jq("#"+this.getPanelId()).append('<ul class="JuiceList"></ul>');
+		$jq("#"+this.getPanelId).append('<ul class="JuiceList"></ul>');
 		this.added = true;
 	}
 	var id = this.makeId(sel);
-	var htm = '<li title="'+ sel.selText() + '" id="' + id +  '" class="' + this.startClass() + '" >';
-	htm += '<a href="javascript:void(0)" title="'+ sel.selText() + '">';
-	htm += sel.selText() + '</a></li>';
+	var htm = '<li title="'+ sel.selText + '" id="' + id +  '" class="' + this.startClass + '" >';
+	htm += '<a href="javascript:void(0)" title="'+ sel.selText + '">';
+	htm += sel.selText + '</a></li>';
 	
 	
-	$jq("#"+this.getPanelId()+" ul").append(htm);
+	$jq("#"+this.panelId+" ul").append(htm);
 }
