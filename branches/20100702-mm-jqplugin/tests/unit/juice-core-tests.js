@@ -30,36 +30,3 @@ test("test the debug function", function(){
     
 });
 
-module("juice.scriptloading");
-
-test("test script loading", function(){
-	stop();
-	juice.loadJs('../extensions/delicious.js','', function(){
-													equals(typeof deliciousJuice, 'function', 'There should be a delicious extension');
-													start();
-													});
-});
-
-test("runscript", function(){
-	stop();
-	juice.runscript('testrunscript', '../extensions/extendedbyjuice.js');
-	setTimeout(function(){
-							equals(typeof extendedbyJuice, 'function', 'There should be an extendbyjuice extension');
-							start();
-							}, 40);	
-	
-
-});
-
-test("test multi script loading", function(){
-	stop();
-	juice.loadExtensions('AspireList', 'copac');
-	setTimeout(function(){
-						equals(typeof AspireListJuice, 'function', 'There should be an aspire list extension');
-						equals(typeof copacJuice, 'function', 'There should be an copac extension');
-						
-						start();
-						}, 40);
-						
-
-});
