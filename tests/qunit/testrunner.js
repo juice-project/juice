@@ -197,6 +197,7 @@ var QUnit = {
 					if ( toolbar ) {
 						toolbar.style.display = "block";
 						id("qunit-filter-pass").disabled = null;
+						id("qunit-filter-missing").disabled = null;
 					}
 				}
 
@@ -295,7 +296,7 @@ var QUnit = {
 
 	start: function() {
 		// A slight delay, to avoid any current callbacks
-		if ( defined.setTimeout ) {
+	        if ( defined.setTimeout ) {
 			window.setTimeout(function() {
 				if ( config.timeout ) {
 					clearTimeout(config.timeout);
@@ -493,19 +494,10 @@ extend(QUnit, {
 		message = '<span class="test-message">' + message + "</span>";
 		expected = escapeHtml(QUnit.jsDump.parse(expected));
 		actual = escapeHtml(QUnit.jsDump.parse(actual));
-		var output = message + '<table><tr class="test-expected"><th>Expected: </th><td><pre>' + expected + '</pre></td></tr>';
+		var output = message + ', expected: <span class="test-expected">' + expected + '</span>';
 		if (actual != expected) {
-			output += '<tr class="test-actual"><th>Result: </th><td><pre>' + actual + '</pre></td></tr>';
-			output += '<tr class="test-diff"><th>Diff: </th><td><pre>' + QUnit.diff(expected, actual) +'</pre></td></tr>';
+			output += ' result: <span class="test-actual">' + actual + '</span>, diff: ' + QUnit.diff(expected, actual);
 		}
-		if (!result) {
-			var source = sourceFromStacktrace();
-			if (source) {
-				details.source = source;
-				output += '<tr class="test-source"><th>Source: </th><td><pre>' + source +'</pre></td></tr>';
-			}
-		}
-		output += "</table>";
 		
 		QUnit.log(result, message, details);
 		
@@ -579,6 +571,25 @@ addEvent(window, "load", function() {
 		label.setAttribute("for", "qunit-filter-pass");
 		label.innerHTML = "Hide passed tests";
 		toolbar.appendChild( label );
+
+		var missing = document.createElement("input");
+		missing.type = "checkbox";
+		missing.id = "qunit-filter-missing";
+		missing.disabled = true;
+		addEvent( missing, "click", function() {
+			var li = document.getElementsByTagName("li");
+			for ( var i = 0; i < li.length; i++ ) {
+				if ( li[i].className.indexOf("fail") > -1 && li[i].innerHTML.indexOf('missing test - untested code is broken code') > - 1 ) {
+					li[i].parentNode.parentNode.style.display = missing.checked ? "none" : "block";
+				}
+			}
+		});
+		toolbar.appendChild( missing );
+
+		label = document.createElement("label");
+		label.setAttribute("for", "qunit-filter-missing");
+		label.innerHTML = "Hide missing tests (untested code is broken code)";
+		toolbar.appendChild( label );
 	}
 
 	var main = id('main') || id('qunit-fixture');
@@ -597,18 +608,18 @@ function done() {
 		config.doneTimer = null;
 	}
 
-	if ( config.queue.length ) {
-		if ( defined.setTimeout ) {
-			config.doneTimer = window.setTimeout(function(){
-				if ( !config.queue.length ) {
-					done();
-				} else {
-					synchronize( done );
-				}
-			}, 13);
-		}
+        if ( config.queue.length ) {
+	    if( defined.setTimeout ) {
+		config.doneTimer = window.setTimeout(function(){
+		    if ( !config.queue.length ) {
+			done();
+		    } else {
+			synchronize( done );
+		    }
+		}, 13);
+	    }
 
-		return;
+	    return;
 	}
 
 	config.autorun = true;
@@ -672,22 +683,6 @@ function validTest( name ) {
 	return run;
 }
 
-// so far supports only Firefox, Chrome and Opera (buggy)
-// could be extended in the future to use something like https://github.com/csnover/TraceKit
-function sourceFromStacktrace() {
-	try {
-		throw new Error();
-	} catch ( e ) {
-		if (e.stacktrace) {
-			// Opera
-			return e.stacktrace.split("\n")[6];
-		} else if (e.stack) {
-			// Firefox, Chrome
-			return e.stack.split("\n")[4];
-		}
-	}
-}
-
 function resultDisplayStyle(passed) {
 	return passed && id("qunit-filter-pass") && id("qunit-filter-pass").checked ? 'none' : '';
 }
@@ -723,6 +718,7 @@ function process() {
 	while ( config.queue.length && !config.blocking ) {
 		if ( config.updateRate <= 0 || (((new Date()).getTime() - start) < config.updateRate) ) {
 			config.queue.shift()();
+
 		} else {
 			window.setTimeout( process, 13 );
 			break;
@@ -1136,8 +1132,8 @@ QUnit.jsDump = (function() {
 			'class':'className'
 		},
 		HTML:false,//if true, entities are escaped ( <, >, \t, space and \n )
-		indentChar:'  ',//indentation unit
-		multiline:true //if true, items in a collection, are separated by a \n, else just a space.
+		indentChar:'   ',//indentation unit
+		multiline:false //if true, items in a collection, are separated by a \n, else just a space.
 	};
 
 	return jsDump;
@@ -1301,3 +1297,13 @@ QUnit.diff = (function() {
 })();
 
 })(this);
+
+var current_object_parser = QUnit.jsDump.parsers.object;
+QUnit.jsDump.setParser('object', function(obj) {
+  if(typeof obj.rhinoException !== 'undefined') {
+    return obj.name + " { message: '" + obj.message + "', fileName: '" + obj.fileName + "', lineNumber: " + obj.lineNumber + " }";
+  }
+  else {
+    return current_object_parser(obj);
+  }
+});
