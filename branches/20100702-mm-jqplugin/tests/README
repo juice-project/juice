@@ -14,3 +14,5 @@ http://www.mozilla.org/rhino - Rhino
 http://github.com/thatcher/env-js - current Env.js repository
 http://groups.google.com/group/envjs - Env.js discussion group
 
+Currently uses latest version of Rhino, Envjs v 1.2 and Qunit
+
