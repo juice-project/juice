@@ -9,7 +9,7 @@ load("build/env-js/env.rhino.js");
 window.onload = function(){
 
     // Load jquery, juice and the test runner
-    load("jquery-1.4.3.js");
+    load("jquery-1.4.4.js");
     load("juice.js");
     load("build/env-js/testrunner.js");
 

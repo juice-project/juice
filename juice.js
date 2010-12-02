@@ -252,7 +252,7 @@ _Juice.prototype.launchWin = function(uri,type,arg1,arg2){
 			var target  = this.launchOverlayWin(arg1,arg2);
 			this.launchIframeWin(uri,target);
 			break;
-		//TODO openeing in a new window is bad practive shoudl we remove?
+		//TODO opening in a new window is bad practive should we remove?
 		case "new":
 		default:
 			this.launchExternalWin(uri);
@@ -356,9 +356,8 @@ _Juice.prototype.ready = _Juice.prototype.onAllLoaded =  function(func){
 //args: extension strings ('x','y',etc)
 
 _Juice.prototype.loadExtensions = function(){
-	var path=$jq('script[src~="/juice.js"').first().attr('src');
-	path.replace('/juice.js','/');
-	
+	var path=$jq('script[src*=/juice.js]').first().attr('src');
+	path=path.replace('/juice.js','/');
 	for (var i = 0; i < arguments.length; i++){
 		if(arguments[i].indexOf('.js')==-1) {
 			arguments[i]=arguments[i]+'.js';
@@ -434,7 +433,7 @@ _Juice.prototype._loadFile = function (file,type,onLoadEvent){
 
 _Juice.prototype._absoluteUri = function(file, pathPrefix){
 	
-	if(this._strBeginsWith(file,"http://") || this._strBeginsWith(file,"https://")){
+	if(this._strBeginsWith(file,"http://") || this._strBeginsWith(file,"https://") || this._strBeginsWith(window.location.protocol,"file:") ){
 		return file;
 	}
 	if(this._strBeginsWith(file,"/")){
