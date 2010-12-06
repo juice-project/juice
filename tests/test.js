@@ -21,9 +21,10 @@ window.onload = function(){
     QUnit.config.autorun = true;
     QUnit.config.updateRate = 0;
     
+    
     var count = 0, module;
     // track test modules so we can include them in logs
-    QUnit.moduleStart = function(name, settings) {
+    QUnit.testStart = function(name, settings) {
         module = name;
     };
     // hookinto QUnit log so we can log test results 
@@ -41,13 +42,14 @@ window.onload = function(){
     };
     
     
-    // Load the tests
+    // Load the tests    
     load(
         "tests/unit/demo.js",
         "tests/unit/juice-core-tests.js",
         "tests/unit/juice-meta-tests.js",
         "tests/unit/loading.js"
     );
+
     
 };
 

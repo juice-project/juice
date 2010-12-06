@@ -356,13 +356,16 @@ _Juice.prototype.ready = _Juice.prototype.onAllLoaded =  function(func){
 //args: extension strings ('x','y',etc)
 
 _Juice.prototype.loadExtensions = function(){
-	var path=$jq('script[src*=/juice.js]').first().attr('src');
-	path=path.replace('/juice.js','/');
-	for (var i = 0; i < arguments.length; i++){
-		if(arguments[i].indexOf('.js')==-1) {
-			arguments[i]=arguments[i]+'.js';
+	var path=$jq('script[src*=/juice.js]').first().attr('src').replace('/juice.js','/');
+
+	var args = Array.prototype.slice.call(arguments);
+	args = args.slice(0, args.length);
+
+	for (var i = 0; i < args.length; i++){
+		if(args[i].indexOf('.js')==-1) {
+			args[i]=args[i]+'.js';
 		}
-	    this.loadJs(path+'extensions/'+arguments[i]);
+	    this.loadJs(path+'extensions/'+args[i],'');
 	    }
 }
 
@@ -373,7 +376,6 @@ _Juice.prototype.loadExtensions = function(){
 //arg: onLoadEvent - function to call when loaded
 _Juice.prototype.loadJs = function (target,pathPrefix,onLoadEvent){
 	var file = this._absoluteUri(target,pathPrefix);
-	
 	if(this.findJs(file)){
 		if(onLoadEvent){
 			onLoadEvent();
@@ -392,47 +394,38 @@ _Juice.prototype.loadCss = function (target,pathPrefix){
 		
 //_loadFile - internl function to append file elements to document header
 //arg: type - "function to call when loaded "css" | "js"
-//arg: onLoadEvent - function to call when loaded - only relevant for type "js"
-_Juice.prototype._loadFile = function (file,type,onLoadEvent){
-	var This = this;
-	var evnt = onLoadEvent;
-    var head = document.getElementsByTagName('head')[0]; 
-    var ins = null;
-	if(type == "js"){
-	 	ins = document.createElement('script'); 
-	    ins.type = 'text/javascript'; 
-	    ins.src = file; 
-	}else if(type == "css"){
-	 	ins = document.createElement('link'); 
-	    ins.type = 'text/css'; 
-	    ins.rel = 'stylesheet'; 		
-	    ins.href = file; 		
-	}
-
-	if(type == "js"){
-		This.JsLoadFlags[this.JsLoadFlags.length] = {'name':file, 'loaded':false}
-		
-		ins.onreadystatechange = function () {
-	        if (ins.readyState == 'loaded' || ins.readyState == 'complete') {
-				if(evnt){
-					evnt();
-				}
-	            This.jsOnLoadEvent(file);
+//arg: evnt - function to call when loaded - only relevant for type "js"
+_Juice.prototype._loadFile = function (file,type,evnt){
+	
+	        if(type == "js"){
+	        		var This = this;
+	           		var head = document.getElementsByTagName('head')[0]; 
+	            	var ins = document.createElement('script'); 
+	            	evnt = evnt || $jq.noop;
+	            	ins.type = 'text/javascript'; 
+	            	ins.src = file; 
+	            	this.JsLoadFlags[this.JsLoadFlags.length] = {'name':file, 'loaded':false};
+	            	ins.onreadystatechange = function () {
+	            	    if (ins.readyState == 'loaded' || ins.readyState == 'complete') {        
+	            	        evnt();      
+	            	        This.jsOnLoadEvent(file);
+	            	    }
+	            	}
+	            	ins.onload = function () {    
+	            	   evnt();       
+	            	   This.jsOnLoadEvent(file);
+	            	}
+	            	head.insertBefore(ins, head.firstChild );
+	            	
+	        }else if(type == "css"){
+	            $('head').prepend('<link type="text/css" rel="stylesheet" href="'+file+'" />');   
 	        }
-	    }
-	    ins.onload = function () {
-			if(evnt){
-				evnt();
-			}
-	       This.jsOnLoadEvent(file);
-	    }
-	}
-	//Copy of jQuery fix for IE6 - insert at top of head 
-	head.insertBefore( ins, head.firstChild );
+	
+
+	       	
 }
 
 _Juice.prototype._absoluteUri = function(file, pathPrefix){
-	
 	if(this._strBeginsWith(file,"http://") || this._strBeginsWith(file,"https://") || this._strBeginsWith(window.location.protocol,"file:") ){
 		return file;
 	}
