@@ -1297,13 +1297,3 @@ QUnit.diff = (function() {
 })();
 
 })(this);
-
-var current_object_parser = QUnit.jsDump.parsers.object;
-QUnit.jsDump.setParser('object', function(obj) {
-  if(typeof obj.rhinoException !== 'undefined') {
-    return obj.name + " { message: '" + obj.message + "', fileName: '" + obj.fileName + "', lineNumber: " + obj.lineNumber + " }";
-  }
-  else {
-    return current_object_parser(obj);
-  }
-});
