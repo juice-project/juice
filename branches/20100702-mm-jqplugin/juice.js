@@ -17,28 +17,28 @@ var $jq = jQuery; //TODO replace with closure param
 //============== Juice Plugin Definition ==============	
 (function($jq, window, undefined){
  
-    /** @exports _Juice as juice */ 
-function _Juice(opts){ 
-	$jq.extend(this, {
-	_debugEnabled : false,
-	_ready : false,
-	_panels : [],
-	_meta : [],
-	version : "0.7",
-	protocol:("https:" == document.location.protocol) ? 'https://' : 'http://',
-	JsLoadFlags : [],
-	popup_win : null,
-	launchWinH : 600,
-	launchWinW : 800,
-	gapLoadFlags : [],
-	googleApiKey : "",
-	_googleLoadFlag : false	
-	}, opts);
-}
-
+ 
+ //main juice, one only per app
+ 
+var juice = {
+_debugEnabled : false,
+_ready : false,
+_panels : [],
+_meta : [],
+version : "0.7",
+protocol:("https:" == document.location.protocol) ? 'https://' : 'http://',
+JsLoadFlags : [],
+popup_win : null,
+launchWinH : 600,
+launchWinW : 800,
+gapLoadFlags : [],
+googleApiKey : "",
+_googleLoadFlag : false	
+};
+    
 //setDebug - Set Debug output state
-_Juice.prototype.setDebug = function(state){
-	this._debugEnabled = state;
+juice.setDebug = function(state){
+	juice._debugEnabled = state;
 }
 
 /**
@@ -49,7 +49,7 @@ _Juice.prototype.setDebug = function(state){
  * @param {String} [attribute] Attribute name if attribute values are wanted
  * @param {Function} [filter] Function used to process retrieved data before storage
  */
-_Juice.prototype.findMeta = function(id, selector, attribute, filter){
+juice.findMeta = function(id, selector, attribute, filter){
 	
 	if ( $jq.isFunction(attribute) ) {
 		filter = attribute;
@@ -79,7 +79,7 @@ _Juice.prototype.findMeta = function(id, selector, attribute, filter){
 		}
 	});
 	if(values.length > 0){
-		this.setMeta(id,values);
+		juice.setMeta(id,values);
 	}
 	
 }
@@ -91,7 +91,7 @@ _Juice.prototype.findMeta = function(id, selector, attribute, filter){
  * @param {String} id The id of meta definition to create
  * @param arg Value(s) to store, or function that returns value(s) to store
  */
-_Juice.prototype.setMeta = function(id, arg){
+juice.setMeta = function(id, arg){
 	var val;
 	if ( $jq.isFunction(arg) ) {
 		val = arg(id);
@@ -100,7 +100,7 @@ _Juice.prototype.setMeta = function(id, arg){
 	}
 	if(val){
 		var values= $jq.juice.toArray(val);
-		this._meta[id] = {'values':values};	
+		juice._meta[id] = {'values':values};	
 	}
 }
 
@@ -109,15 +109,15 @@ _Juice.prototype.setMeta = function(id, arg){
  * @param {String} [id] The id of meta definition to check - optional, defaults to any/all meta values
  * @return true | false
  */
-_Juice.prototype.hasMeta = function(id){
+juice.hasMeta = function(id){
 	if(id){
-		var meta = this._meta[id];
+		var meta = juice._meta[id];
 		if(meta != null){
 			return meta.values.length>0;
 		}
 	}else{
-		for(var i in this._meta){
-			if(this._meta[i] != null){
+		for(var i in juice._meta){
+			if(juice._meta[i] != null){
 				return true;
 			}
 		}
@@ -131,8 +131,8 @@ _Juice.prototype.hasMeta = function(id){
  * @param {int} index element in array of values - optional, defauts to 0.
  * @return value
  */
-_Juice.prototype.getMeta = function(id,index){
-	var meta = this._meta[id];
+juice.getMeta = function(id,index){
+	var meta = juice._meta[id];
 	if(meta != null){
 		return meta.values[ index == null ? 0 : index ];
 	}
@@ -143,9 +143,9 @@ _Juice.prototype.getMeta = function(id,index){
  * Delete stored value
  * @param {String} id The id of meta 
  */
-_Juice.prototype.deleteMeta = function(id){
-	if(this._meta[id]){
-		this._meta[id] = null;
+juice.deleteMeta = function(id){
+	if(juice._meta[id]){
+		juice._meta[id] = null;
 	}
 }
 
@@ -154,8 +154,8 @@ _Juice.prototype.deleteMeta = function(id){
  * @param {String} id The id of meta 
  * @return {Array} values.
  */
-_Juice.prototype.getMetaValues = function(id){
-	var meta = this._meta[id]
+juice.getMetaValues = function(id){
+	var meta = juice._meta[id]
 	if(meta != null){
 		return meta.values;
 	}
@@ -168,32 +168,32 @@ _Juice.prototype.getMetaValues = function(id){
  * @see #debugOutln
  */
 //debugMeta - Ouput via debug all metadefinions and their values if set.
-_Juice.prototype.debugMeta = function(){
-	for(var i in this._meta){
-		var meta = this._meta[i];
+juice.debugMeta = function(){
+	for(var i in juice._meta){
+		var meta = juice._meta[i];
 		if(meta.values.length>0){
 			if (meta.values.length>1) {
-				_Juice.prototype.debugOutln(i+": ["+meta.values.join(",")+"]");
+				juice.debugOutln(i+": ["+meta.values.join(",")+"]");
 			} else { 
 				// TODO: value may be undefined - is this purpose?
-				_Juice.prototype.debugOutln(i+": "+meta.values[ index == null ? 0 : index ]);
+				juice.debugOutln(i+": "+meta.values[ index == null ? 0 : index ]);
 			}
 		}else{
-			_Juice.prototype.debugOutln("Meta "+i+": not set");
+			juice.debugOutln("Meta "+i+": not set");
 		}
 	}	
 }
 
 //addPanel - Store panel description
 //arg: panel - Description - type JuicePanel
-_Juice.prototype.addPanel = function(panel){
-	this._panels[this._panels.length] = panel;
+juice.addPanel = function(panel){
+	juice._panels[juice._panels.length] = panel;
 }
 
 //debugOutln - append text to debug window
 //arg: text
-_Juice.prototype.debugOutln = function(text){
-	if(this._debugEnabled){
+juice.debugOutln = function(text){
+	if(juice._debugEnabled){
 		if($jq("#JuiceDebug").length==0){
 			$jq("body").append('<div id="JuiceDebug" style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"</div>');
 		}
@@ -205,9 +205,9 @@ _Juice.prototype.debugOutln = function(text){
 //arg: sel - selector to add - type JuiceSelectProcess
 //If selector defines a default panel - only add to that, otherwise all panels
 //See also: JuiceSelectProcess, JucePanel
-_Juice.prototype.addToPanel = function(sel){
-	for(var i=0;i < this._panels.length;i++){
-		var panel = this._panels[i];
+juice.addToPanel = function(sel){
+	for(var i=0;i < juice._panels.length;i++){
+		var panel = juice._panels[i];
 		if(( sel.defPanel == null && !panel.shared) ||
 		  ( sel.defPanel != null && panel.panelId !=  sel.defPanel)){
 			continue;
@@ -220,9 +220,9 @@ _Juice.prototype.addToPanel = function(sel){
 //enableOnPanel - enable selector on panel(s) 
 //arg: sel - selector to enable - type JuiceSelectProcess
 //See also: JuiceSelectProcess, JucePanel
-_Juice.prototype.enableOnPanel = function(sel,pos){
-	for(var i=0;i < this._panels.length;i++){
-		var panel = this._panels[i];
+juice.enableOnPanel = function(sel,pos){
+	for(var i=0;i < juice._panels.length;i++){
+		var panel = juice._panels[i];
 		if(( sel.defPanel == null && !panel.shared) ||
 		  ( sel.defPanel != null && panel.panelId !=  sel.defPanel)){
 			continue;
@@ -237,32 +237,32 @@ _Juice.prototype.enableOnPanel = function(sel,pos){
 //arg: type - "new"(default) | "overlay" | "iframe" | "current"
 //arg: arg1 - type dependant extra agrument
 //arg: arg2 - type dependant extra agrument
-_Juice.prototype.launchWin = function(uri,type,arg1,arg2){
+juice.launchWin = function(uri,type,arg1,arg2){
 	switch(type){
 		case "current":
 			location.href = uri
 			break;
 		case "overlay":
-			this.launchOverlayWin(arg1,arg2);
+			juice.launchOverlayWin(arg1,arg2);
 			break;
 		case "iframe":
-			this.launchIframeWin(uri,arg1);
+			juice.launchIframeWin(uri,arg1);
 			break;
 		case "iframe-overlay":
-			var target  = this.launchOverlayWin(arg1,arg2);
-			this.launchIframeWin(uri,target);
+			var target  = juice.launchOverlayWin(arg1,arg2);
+			juice.launchIframeWin(uri,target);
 			break;
 		//TODO opening in a new window is bad practive should we remove?
 		case "new":
 		default:
-			this.launchExternalWin(uri);
+			juice.launchExternalWin(uri);
 			break;
 	}
 }
 
 //launchOverlayWin - called by 'launchWin' for type 'overlay' 
 
-_Juice.prototype.launchOverlayWin  = function (content,hdrContent){
+juice.launchOverlayWin  = function (content,hdrContent){
 	
 	if(content instanceof JuiceInsert){
 		content = content._container;
@@ -293,13 +293,13 @@ _Juice.prototype.launchOverlayWin  = function (content,hdrContent){
 
 //launchExternalWin - create and launch new browser window  - called by 'launchWin' for type "new"
 //arg: uri - target uri for window
-_Juice.prototype.launchExternalWin = function(uri){
-	if(this.popup_win && !this.popup_win.closed){
-		this.popup_win.close();
+juice.launchExternalWin = function(uri){
+	if(juice.popup_win && !juice.popup_win.closed){
+		juice.popup_win.close();
 	}
-	this.popup_win = window.open(uri,"Juice",'width='+this.launchWinW+',height='+this.launchWinH+',toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+	juice.popup_win = window.open(uri,"Juice",'width='+juice.launchWinW+',height='+juice.launchWinH+',toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
 	if(window.focus){
-		this.popup_win.focus();
+		juice.popup_win.focus();
 	}
 }
 
@@ -307,7 +307,7 @@ _Juice.prototype.launchExternalWin = function(uri){
 //arg: uri - ifram target
 //arg: insert - insert to carry iframe
 //See also JuiceInsert
-_Juice.prototype.launchIframeWin = function(uri,insert){
+juice.launchIframeWin = function(uri,insert){
 	var target = insert;
 	if(insert instanceof JuiceInsert){
 		insert.show();
@@ -331,7 +331,7 @@ _Juice.prototype.launchIframeWin = function(uri,insert){
  * @param {string} id script id - used to identify & remove any previous instaces in document
  * @param {uri} src uri of script to insert
  */
-_Juice.prototype.runscript = function(id,src){
+juice.runscript = function(id,src){
 	$jq("#"+id).remove();
 	var cont = '<script id="' + id + '" src="' + src +'" type="text/javascript"></script>';
 	$jq(document).prepend(cont);
@@ -343,19 +343,18 @@ _Juice.prototype.runscript = function(id,src){
  * @param func Function to call when ready
  * Also maps to deprecated onAllReady
  */
-_Juice.prototype.ready = _Juice.prototype.onAllLoaded =  function(func){
-	var This = this;
-	if(this.isGoogleApiLoaded() && this.isJsLoaded()){
+juice.ready = juice.onAllLoaded =  function(func){
+	if(juice.isGoogleApiLoaded() && juice.isJsLoaded()){
 		func();
 	}else{
-		setTimeout(function(){This.ready(func);},5);
+		setTimeout(function(){juice.ready(func);},5);
 	}
 }
 
 //Quick and easy loading of extensions in standard folder structure 
 //args: extension strings ('x','y',etc)
 
-_Juice.prototype.loadExtensions = function(){
+juice.loadExtensions = function(){
 	var path=$jq('script[src*=/juice.js]').first().attr('src').replace('/juice.js','/');
 
 	var args = Array.prototype.slice.call(arguments);
@@ -365,7 +364,7 @@ _Juice.prototype.loadExtensions = function(){
 		if(args[i].indexOf('.js')==-1) {
 			args[i]=args[i]+'.js';
 		}
-	    this.loadJs(path+'extensions/'+args[i],'');
+	    juice.loadJs(path+'extensions/'+args[i],'');
 	    }
 }
 
@@ -374,62 +373,59 @@ _Juice.prototype.loadExtensions = function(){
 //arg: target - append to head of of document - ONLY if not previously loaded anywhere in document
 //arg: pathPrefix - path to prefixed to relative and absolute paths
 //arg: onLoadEvent - function to call when loaded
-_Juice.prototype.loadJs = function (target,pathPrefix,onLoadEvent){
-	var file = this._absoluteUri(target,pathPrefix);
-	if(this.findJs(file)){
+juice.loadJs = function (target,pathPrefix,onLoadEvent){
+	var file = juice._absoluteUri(target,pathPrefix);
+	if(juice.findJs(file)){
 		if(onLoadEvent){
 			onLoadEvent();
 		}
 		return;
 	}
-	this._loadFile(file,"js",onLoadEvent);
+	juice._loadFile(file,"js",onLoadEvent);
 }
 		
 //Load css 
 //arg: target - append to head of of document
 //arg: pathPrefix - path to prefixed to relative and absolute paths
-_Juice.prototype.loadCss = function (target,pathPrefix){
-	this._loadFile(this._absoluteUri(target,pathPrefix),"css");
+juice.loadCss = function (target,pathPrefix){
+	juice._loadFile(juice._absoluteUri(target,pathPrefix),"css");
 }
 		
 //_loadFile - internl function to append file elements to document header
 //arg: type - "function to call when loaded "css" | "js"
 //arg: evnt - function to call when loaded - only relevant for type "js"
-_Juice.prototype._loadFile = function (file,type,evnt){
+juice._loadFile = function (file,type,evnt){
 	
 	        if(type == "js"){
-	        		var This = this;
 	           		var head = document.getElementsByTagName('head')[0]; 
 	            	var ins = document.createElement('script'); 
 	            	evnt = evnt || $jq.noop;
 	            	ins.type = 'text/javascript'; 
 	            	ins.src = file; 
-	            	this.JsLoadFlags[this.JsLoadFlags.length] = {'name':file, 'loaded':false};
+	            	juice.JsLoadFlags[juice.JsLoadFlags.length] = {'name':file, 'loaded':false};
 	            	ins.onreadystatechange = function () {
 	            	    if (ins.readyState == 'loaded' || ins.readyState == 'complete') {        
 	            	        evnt();      
-	            	        This.jsOnLoadEvent(file);
+	            	        juice.jsOnLoadEvent(file);
 	            	    }
 	            	}
 	            	ins.onload = function () {    
 	            	   evnt();       
-	            	   This.jsOnLoadEvent(file);
+	            	   juice.jsOnLoadEvent(file);
 	            	}
 	            	head.insertBefore(ins, head.firstChild );
 	            	
 	        }else if(type == "css"){
 	            $('head').prepend('<link type="text/css" rel="stylesheet" href="'+file+'" />');   
 	        }
-	
-
 	       	
 }
 
-_Juice.prototype._absoluteUri = function(file, pathPrefix){
-	if(this._strBeginsWith(file,"http://") || this._strBeginsWith(file,"https://") || this._strBeginsWith(window.location.protocol,"file:") ){
+juice._absoluteUri = function(file, pathPrefix){
+	if(juice._strBeginsWith(file,"http://") || juice._strBeginsWith(file,"https://") || juice._strBeginsWith(window.location.protocol,"file:") ){
 		return file;
 	}
-	if(this._strBeginsWith(file,"/")){
+	if(juice._strBeginsWith(file,"/")){
 		if(!pathPrefix){
 			pathPrefix = "";
 		}else{
@@ -444,7 +440,7 @@ _Juice.prototype._absoluteUri = function(file, pathPrefix){
 		}
 		var ret =  window.location.protocol + "//" + window.location.host;
 		var path = document.location.pathname;
-		if(this._strEndsWith(path,"/")){
+		if(juice._strEndsWith(path,"/")){
 			path = path.substr(0,path.length -1);
 		}
 		
@@ -457,14 +453,14 @@ _Juice.prototype._absoluteUri = function(file, pathPrefix){
 }
 
 //findJs - return true if script element already loaded in document
-_Juice.prototype.findJs = function (file){
-	var script=$jq('script[src*='+this.urlRoot(file)+']');
+juice.findJs = function (file){
+	var script=$jq('script[src*='+juice.urlRoot(file)+']');
 	if(script.length>0) return true;
 	return false;
 }
 
 //Remove everything after and including '#' and/or '?' from a string
-_Juice.prototype.urlRoot = function(url){
+juice.urlRoot = function(url){
 	if(url.indexOf('#') != -1){
 		url = url.substring(0,url.indexOf('#'));
 	}
@@ -476,8 +472,8 @@ _Juice.prototype.urlRoot = function(url){
 
 //jsOnLoadEvent - called by browser script load - flags file as loaded
 //arg: name - id of script lodd
-_Juice.prototype.jsOnLoadEvent = function(name){
-	var loadFlags = this.JsLoadFlags;
+juice.jsOnLoadEvent = function(name){
+	var loadFlags = juice.JsLoadFlags;
 	for(var i=0;i < loadFlags.length; i++ ){
 		if(name == loadFlags[i].name){
 			loadFlags[i].loaded = true;
@@ -488,24 +484,23 @@ _Juice.prototype.jsOnLoadEvent = function(name){
 
 //onJsLoaded - call function when all loading scripts are loaded
 //Waits on setTimeout of 5ms before trying again
-_Juice.prototype.onJsLoaded = function(func){
-	var This = this;
-	if(this.isJsLoaded()){
+juice.onJsLoaded = function(func){
+	if(juice.isJsLoaded()){
 		func();
 	}else{
-		setTimeout(function(){This.onJsLoaded(func);},10);
+		setTimeout(function(){juice.onJsLoaded(func);},10);
 	}
 }
 
 //isJsLoaded - returns true if all scripts loaded
-_Juice.prototype.isJsLoaded = function(){
-	!this.JsNotLoaded().length;
+juice.isJsLoaded = function(){
+	!juice.JsNotLoaded().length;
 }
 
 //JsNotLoaded - returns array of script names not yet loaded
-_Juice.prototype.JsNotLoaded = function(){
+juice.JsNotLoaded = function(){
 	var ret = [];
-	var loadFlags = this.JsLoadFlags;
+	var loadFlags = juice.JsLoadFlags;
 	for(var i = 0;i < loadFlags.length; i++ ){
 		if(!loadFlags[i].loaded){
 			ret[ret.length] = loadFlags[i].name;
@@ -514,41 +509,42 @@ _Juice.prototype.JsNotLoaded = function(){
 	return ret;
 }	
 
-_Juice.prototype.loadGoogle_jsapi = function(){
-	if(!this._googleLoadFlag){
-		var key = this.googleApiKey;
+//Google API Loading utils ----------
+
+juice.loadGoogle_jsapi = function(){
+	if(!juice._googleLoadFlag){
+		var key = juice.googleApiKey;
 		if(key != ""){
 			key = "key=" + key + "&";
 		}
-		this.loadJs("http://www.google.com/jsapi?" + key, "", function(){
+		juice.loadJs("http://www.google.com/jsapi?" + key, "", function(){
 			juice._googleLoadFlag = true;
 		});
 	}
 }
 
-_Juice.prototype.loadGoogleApi = function(api,ver,args){
-	if(!this.googleApiLoaded(api)){
-		this.gapLoadFlags[this.gapLoadFlags.length] = {'name':api, 'loaded':false};
-		this._loadGoogleApi(api,ver,args);
+juice.loadGoogleApi = function(api,ver,args){
+	if(!juice.googleApiLoaded(api)){
+		juice.gapLoadFlags[juice.gapLoadFlags.length] = {'name':api, 'loaded':false};
+		juice._loadGoogleApi(api,ver,args);
 	}
 }	
 
-_Juice.prototype._loadGoogleApi = function(api,ver,args){
-	var This = this;
+juice._loadGoogleApi = function(api,ver,args){
 	
-	this.loadGoogle_jsapi();	//Check we have loaded the master api
+	juice.loadGoogle_jsapi();	//Check we have loaded the master api
 
-	if(this._googleLoadFlag){
+	if(juice._googleLoadFlag){
 		google.load(api, ver,{callback:function(){juice.gapOnLoadEvent(api);}})
 	}else{
-		setTimeout(function(){This._loadGoogleApi(api,ver,args);},20);
+		setTimeout(function(){juice._loadGoogleApi(api,ver,args);},20);
 	}
 }
 
 //gapOnLoadEvent - called by browser Google API load - flags api as loaded
 //arg: name - id of api loaded
-_Juice.prototype.gapOnLoadEvent = function(name){
-	var loadFlags = this.gapLoadFlags;
+juice.gapOnLoadEvent = function(name){
+	var loadFlags = juice.gapLoadFlags;
 	for(var i=0;i < loadFlags.length; i++ ){
 		if(name == loadFlags[i].name){
 			loadFlags[i].loaded = true;
@@ -557,32 +553,28 @@ _Juice.prototype.gapOnLoadEvent = function(name){
 	}
 }
 
-
-//Google API Loading utils ----------
-
 //onGoogleApiLoaded - call function when all loading Google APIs are loaded
 //Waits on setTimeout of 5ms before trying again
-_Juice.prototype.onGoogleApiLoaded = function(func){
-	var This = this;
-	if(this.isGoogleApiLoaded()){
+juice.onGoogleApiLoaded = function(func){
+	if(juice.isGoogleApiLoaded()){
 		func();
 	}else{
-		setTimeout(function(){This.onGoogleApiLoaded(func);},5);
+		setTimeout(function(){juice.onGoogleApiLoaded(func);},5);
 	}
 }
 
 //isGoogleApiLoaded - returns true if all Google APis  loaded
-_Juice.prototype.isGoogleApiLoaded = function(){
-	if(this.googleApiNotLoaded().length){
+juice.isGoogleApiLoaded = function(){
+	if(juice.googleApiNotLoaded().length){
 		return false;
 	}
 	return true;
 }
 
 //googleApiNotLoaded - returns array of Google APis names not yet loaded
-_Juice.prototype.googleApiNotLoaded = function(){
+juice.googleApiNotLoaded = function(){
 	var ret = [];
-	var loadFlags = this.gapLoadFlags;
+	var loadFlags = juice.gapLoadFlags;
 	for(var i = 0;i < loadFlags.length; i++ ){
 		if(!loadFlags[i].loaded){
 			ret[ret.length] = loadFlags[i].name;
@@ -591,9 +583,9 @@ _Juice.prototype.googleApiNotLoaded = function(){
 	return ret;
 }	
 //googleApiLoaded - returns true if Google APi loading or loaded
-_Juice.prototype.googleApiLoaded = function(api){
+juice.googleApiLoaded = function(api){
 	var ret = [];
-	var loadFlags = this.gapLoadFlags;
+	var loadFlags = juice.gapLoadFlags;
 	for(var i = 0;i < loadFlags.length; i++ ){
 		if(loadFlags[i].name == api){
 			return true;
@@ -604,12 +596,12 @@ _Juice.prototype.googleApiLoaded = function(api){
 
 //Text handling utils ----------
 
-_Juice.prototype.nums = '0123456789';
-_Juice.prototype.lc = 'abcdefghijklmnopqrstuvwxyz';
-_Juice.prototype.uc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+juice.nums = '0123456789';
+juice.lc = 'abcdefghijklmnopqrstuvwxyz';
+juice.uc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 //isVal return true if all chars in 'value' string can be found in 'val' string
-_Juice.prototype.isVal = function(value,val) {
+juice.isVal = function(value,val) {
 	if (value == "") return true;
 	for (i=0; i<value.length; i++) {
 		if (val.indexOf(value.charAt(i),0) == -1) return false;
@@ -617,15 +609,15 @@ _Juice.prototype.isVal = function(value,val) {
 	return true;
 }
 
-_Juice.prototype.isnumser = function(value) {return $jq.juice.isVal(value,$jq.juice.nums);}
-_Juice.prototype.isLower = function(value) {return $jq.juice.isVal(value,j$jq.juice.lc);}
-_Juice.prototype.isUpper = function(value) {return $jq.juice.isVal(value,$jq.juice.uc);}
-_Juice.prototype.isAlpha = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc);}
-_Juice.prototype.isAlphanum = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc+$jq.juice.nums);}
+juice.isnumser = function(value) {return $jq.juice.isVal(value,$jq.juice.nums);}
+juice.isLower = function(value) {return $jq.juice.isVal(value,j$jq.juice.lc);}
+juice.isUpper = function(value) {return $jq.juice.isVal(value,$jq.juice.uc);}
+juice.isAlpha = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc);}
+juice.isAlphanum = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc+$jq.juice.nums);}
 
 //Converts string of words in to an array of strings - word only included if it only conains alphanum chars
 //arg: str - string to parse
-_Juice.prototype.stringToAlphnumAray = function(str){
+juice.stringToAlphnumAray = function(str){
 	var items = [];
 	var count = 0;
 	var raw = $jq.juice.stringToArray(str,",.:;");
@@ -637,7 +629,7 @@ _Juice.prototype.stringToAlphnumAray = function(str){
 	return items;
 }
 
-_Juice.prototype.stringToArray = function(str,extras)
+juice.stringToArray = function(str,extras)
 // Assumes: str is a sequence of words, separated by whitespace
 // Other seperator chars can be added from string extras
 // Returns: an array containing the individual words
@@ -654,7 +646,7 @@ _Juice.prototype.stringToArray = function(str,extras)
 //toArray ensures return is an array of the data.
 //If data is single value returns a single element array
 //Handles a string as a single value
-_Juice.prototype.toArray = function(data){
+juice.toArray = function(data){
 	var items = [];
 
 	if(!data){
@@ -679,7 +671,7 @@ _Juice.prototype.toArray = function(data){
  * @param second array to merg in to first
  * @returns merged array
  */
-_Juice.prototype.updateArray = function(first,second){
+juice.updateArray = function(first,second){
 	var ret = first;
 	if(second){
 		for(var i in second){
@@ -703,7 +695,7 @@ _Juice.prototype.updateArray = function(first,second){
  * @param {boolean} secure
  */
 
-_Juice.prototype.setCookie = function(name,value,minutes,hours,days,path,domain,secure ){
+juice.setCookie = function(name,value,minutes,hours,days,path,domain,secure ){
 	var cookie_string = name + "=" + escape ( value );
 
 	if(minutes){
@@ -738,7 +730,7 @@ _Juice.prototype.setCookie = function(name,value,minutes,hours,days,path,domain,
  * @param {string} name
  * @return {string} cookie value or null
  */
-_Juice.prototype.getCookie = function(name){
+juice.getCookie = function(name){
 	var results = document.cookie.match ( '(^|;) ?' + name + '=([^;]*)(;|$)' );
 	if ( results ){
 		return ( unescape ( results[2] ) );	
@@ -749,23 +741,23 @@ _Juice.prototype.getCookie = function(name){
  * Delete browser coookie
  * @param {string} name
  */
-_Juice.prototype.deleteCookie = function(name){
+juice.deleteCookie = function(name){
 	var cookie_date = new Date();  // current date & time
 	cookie_date.setTime(cookie_date.getTime() - 1);
 	document.cookie = name += "=; expires=" + cookie_date.toGMTString();
 }
 
-_Juice.prototype._strBeginsWith = function(str,target){
+juice._strBeginsWith = function(str,target){
 	return (str.match("^"+target)==target)
 }
 
-_Juice.prototype._strEndsWith = function(str,target){
+juice._strEndsWith = function(str,target){
 	return (str.match(target+"$")==target)
 }
 
 //map _Juice to jQuery plugin and window object TODO deprecate global juice object
 
-window.juice=jQuery.juice=new _Juice();
+window.juice=jQuery.juice=juice;
 
 //============== Class JuiceInsert ==============	
 //Definition of insert in to document body
