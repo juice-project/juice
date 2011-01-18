@@ -1,4 +1,4 @@
-This directory contains regression tests based on QUinit, Rhino and Env.js.
+This directory contains regression tests based on QUnit, Rhino and Env.js.
 The tests are grouped in units in the test/unit/ directory.
 
 You can run tests either in any web browser just by opening index.html

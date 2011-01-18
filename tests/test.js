@@ -36,9 +36,14 @@ window.onload = function(){
              result ? 'PASS' : 'FAIL', 
              raw.message
         );
+        //if in Rhino exit and fail
+        if(java!=undefined && !result){
+         java.lang.System.exit(1);
+        }
     };
-    QUnit.done = function(fail, pass){
-        console.log('PASSED: %s FAILED: %s', pass, fail);
+    QUnit.done = function(fail, total){
+        console.log('TOTAL: %s FAILED: %s', total, fail);
+     
     };
     
     
@@ -46,10 +51,16 @@ window.onload = function(){
     load(
         "tests/unit/demo.js",
         "tests/unit/juice-core-tests.js",
-        "tests/unit/juice-meta-tests.js",
-        "tests/unit/loading.js"
-    );
-
+        "tests/unit/juice-meta-tests.js");
+        
+    //if we're in a browser load the remote laoding tests    
+    if(java==undefined){
+   		 load("tests/unit/loading.js");
+    }
+    else{
+    	console.log('***Remember to run the tests in browser to handle remote loading tests***');
+    }
+	
     
 };
 

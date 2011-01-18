@@ -1,7 +1,5 @@
 module("juice.scriptloading");
 
-
-
 test("test multi script loading", function(){
 	
 	stop(600);
@@ -17,6 +15,16 @@ test("test multi script loading", function(){
 
 });
 
+test("test Google API loader", function(){
+	stop();
+	juice.loadGoogle_jsapi();
+	setTimeout(function(){
+							equal(juice._googleLoadFlag, true, 'Google API should load');
+							start();
+							}, 500);
+
+});
+
 test("test script loading", function(){
 	stop();
 	juice.loadJs('../extensions/delicious.js','', function(){
@@ -26,3 +34,5 @@ test("test script loading", function(){
 													start();
 													});
 });
+
+
