@@ -402,7 +402,7 @@ juice._loadFile = function (file,type,evnt){
 	            	evnt = evnt || $jq.noop;
 	            	ins.type = 'text/javascript'; 
 	            	ins.src = file; 
-	            	juice.JsLoadFlags[juice.JsLoadFlags.length] = {'name':file, 'loaded':false};
+	            	juice.JsLoadFlags[juice.JsLoadFlags.length] = {'name':file, 'loaded':false, 'type':'script'};
 	            	ins.onreadystatechange = function () {
 	            	    if (ins.readyState == 'loaded' || ins.readyState == 'complete') {        
 	            	        evnt();      
@@ -525,7 +525,7 @@ juice.loadGoogle_jsapi = function(){
 
 juice.loadGoogleApi = function(api,ver,args){
 	if(!juice.googleApiLoaded(api)){
-		juice.gapLoadFlags[juice.gapLoadFlags.length] = {'name':api, 'loaded':false};
+		juice.JsLoadFlags[juice.JsLoadFlags.length] = {'name':api, 'loaded':false, 'type':'google'};
 		juice._loadGoogleApi(api,ver,args);
 	}
 }	
@@ -533,23 +533,10 @@ juice.loadGoogleApi = function(api,ver,args){
 juice._loadGoogleApi = function(api,ver,args){
 	
 	juice.loadGoogle_jsapi();	//Check we have loaded the master api
-
 	if(juice._googleLoadFlag){
-		google.load(api, ver,{callback:function(){juice.gapOnLoadEvent(api);}})
+		google.load(api, ver,{callback:function(){juice.jsOnLoadEvent(api);}})
 	}else{
 		setTimeout(function(){juice._loadGoogleApi(api,ver,args);},20);
-	}
-}
-
-//gapOnLoadEvent - called by browser Google API load - flags api as loaded
-//arg: name - id of api loaded
-juice.gapOnLoadEvent = function(name){
-	var loadFlags = juice.gapLoadFlags;
-	for(var i=0;i < loadFlags.length; i++ ){
-		if(name == loadFlags[i].name){
-			loadFlags[i].loaded = true;
-			break;
-		}
 	}
 }
 
@@ -565,29 +552,23 @@ juice.onGoogleApiLoaded = function(func){
 
 //isGoogleApiLoaded - returns true if all Google APis  loaded
 juice.isGoogleApiLoaded = function(){
-	if(juice.googleApiNotLoaded().length){
-		return false;
+	
+	var loadFlags = juice.JsLoadFlags;
+	for(var i = 0;i < loadFlags.length; i++ ){
+		if(loadFlags[i].type=='google' && !loadFlags[i].loaded){
+			return false;
+		}
 	}
+	
 	return true;
 }
 
-//googleApiNotLoaded - returns array of Google APis names not yet loaded
-juice.googleApiNotLoaded = function(){
-	var ret = [];
-	var loadFlags = juice.gapLoadFlags;
-	for(var i = 0;i < loadFlags.length; i++ ){
-		if(!loadFlags[i].loaded){
-			ret[ret.length] = loadFlags[i].name;
-		}
-	}
-	return ret;
-}	
 //googleApiLoaded - returns true if Google APi loading or loaded
 juice.googleApiLoaded = function(api){
 	var ret = [];
-	var loadFlags = juice.gapLoadFlags;
+	var loadFlags = juice.JsLoadFlags;
 	for(var i = 0;i < loadFlags.length; i++ ){
-		if(loadFlags[i].name == api){
+		if(loadFlags[i].type=='google' && loadFlags[i].name == api){
 			return true;
 		}
 	}
