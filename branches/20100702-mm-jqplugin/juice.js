@@ -31,7 +31,6 @@ JsLoadFlags : [],
 popup_win : null,
 launchWinH : 600,
 launchWinW : 800,
-gapLoadFlags : [],
 googleApiKey : "",
 _googleLoadFlag : false	
 };
@@ -494,7 +493,7 @@ juice.onJsLoaded = function(func){
 
 //isJsLoaded - returns true if all scripts loaded
 juice.isJsLoaded = function(){
-	!juice.JsNotLoaded().length;
+	return !juice.JsNotLoaded().length;
 }
 
 //JsNotLoaded - returns array of script names not yet loaded
