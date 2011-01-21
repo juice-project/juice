@@ -340,7 +340,7 @@ juice.runscript = function(id,src){
  * Call user function when all loading Google APIs and JavaScripts are loaded
  * Waits on setTimeout of 5ms before trying again
  * @param func Function to call when ready
- * Also maps to deprecated onAllReady
+ * Also maps to deprecated onAlloaded
  */
 juice.ready = juice.onAllLoaded =  function(func){
 	if(juice.isGoogleApiLoaded() && juice.isJsLoaded()){
