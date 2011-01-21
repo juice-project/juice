@@ -2,23 +2,23 @@
  * Juice 0.7 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
- * Copyright (c) 2009 Talis (talis.com)
+ * Copyright (c) 2010 Talis (talis.com)
  * Originator: Richard Wallis
- * Under GPL (gpl-2.0.txt) license.
+ * Dual licensed under the MIT (mit-license.txt) and GPL licenses (gpl-2.0.txt).
  *
  * $Author: richard.wallis@talis.com $
  * $Date: 2009-03-23 18:15:18 +0000 (Mon, 23 Mar 2009) $
  * $Rev: 39 $
  */
+ 
 //============== Remap jQuery ==============
-// Isolates Juice from use of jQuery compatability mode whilst retailing a short-ish cut 
+// Isolates Juice from use of jQuery compatability mode whilst retaining a short-ish cut 
 var $jq = jQuery; //TODO replace with closure param
 
 //============== Juice Plugin Definition ==============	
 (function($jq, window, undefined){
  
- 
- //main juice, one only per app
+//main juice, one only per app
  
 var juice = {
 _debugEnabled : false,
