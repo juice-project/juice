@@ -1,0 +1,26 @@
+#Release notice 0.7beta
+
+= Release notice 0.7beta =
+
+This release is beta due to the large number of changes and the need to test in the wild against a variety of browsers and extension setups.
+
+= Details =
+
+==Major Changes==
+
+ * *Renaming* - juice is now available under $.juice or jQuery.juice. JuiceInsert, JuiceProcess, JuiceSelectProcess and JuicePanel is now available under $.juice.insert, $.juice.process, $.juice.selectProcess and $.juice.panel. Eventually this will keep global namespace pollution down, for now the old versions are still available.
+ * *JuiceOverlay* - overlay css and js are now part of the main files
+ * juice.loadExtensions - a new way to load extensions if you are using the standard filesystem setup. 
+ * *bundling jQuery 1.4.4* -  juice has now been updated to use the latest release of jQuery. 
+ * *Dual licensed* - Juice is no dual licensed under GPL and MIT, much like jQuery itself.
+
+==Minor changes ==
+
+ * *many minor changes* - move towards a coding style more in line with jQuery and avoid duplicating functionality where possible.
+ * *single juice object* - since only one copy of juice exists on a page, it is no longer a prototype
+ * *removal of many getters/setters* - this is to reduce deployment overhead. Getter/setters that were rarely used have been removed and where appropriate the pseudo-private vars made public. i.e. _googleApiKey and googleApiKey() replaced with juice.googleApiKey="".
+ * *ARIA* - added aria roles to overlay for enhanced assistive technology support.
+ * removal of Meta and JSLoadFlag prototypes 
+
+
+ 
