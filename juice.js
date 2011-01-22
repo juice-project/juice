@@ -16,7 +16,7 @@
 var $jq = jQuery; //TODO deprecate, replace with closure param. Currently required for metadefs.
 
 //============== Juice Plugin Definition ==============	
-(function($jq, window, undefined){
+(function($, window, undefined){
  
 //main juice, one only per app
 /**
@@ -26,18 +26,18 @@ var $jq = jQuery; //TODO deprecate, replace with closure param. Currently requir
  */   
   
 var juice = {
-_debugEnabled : false,
-_ready : false,
-_panels : [],
-_meta : [],
-version : "0.7",
-protocol:("https:" == document.location.protocol) ? 'https://' : 'http://',
-JsLoadFlags : [],
-popup_win : null,
-launchWinH : 600,
-launchWinW : 800,
-googleApiKey : "",
-_googleLoadFlag : false	
+	_debugEnabled : false,
+	_ready : false,
+	_panels : [],
+	_meta : [],
+	version : "0.7",
+	protocol:("https:" == document.location.protocol) ? 'https://' : 'http://',
+	JsLoadFlags : [],
+	popup_win : null,
+	launchWinH : 600,
+	launchWinW : 800,
+	googleApiKey : "",
+	_googleLoadFlag : false	
 };
     
 /**
@@ -60,27 +60,27 @@ juice.setDebug = function(state){
  */
 juice.findMeta = function(id, selector, attribute, filter){
 	
-	if ( $jq.isFunction(attribute) ) {
+	if ( $.isFunction(attribute) ) {
 		filter = attribute;
 		attribute = null;
     }
 	var i = 0;
 	var values = [];
-	$jq(selector).each(function(){
+	$(selector).each(function(){
 		var val;
 		if(attribute){
-			val = $jq(this).attr(attribute);
+			val = $(this).attr(attribute);
 		}else{
-			if ($jq(this).size() > 0) {
+			if ($(this).size() > 0) {
 				//Only want the text of this node - not child nodes 
 				// TODO: better save a jQuery object and filter filter nodes?
 				val = "";
-				var contents = $jq(this).contents();
+				var contents = $(this).contents();
 				contents.each(function(){if(this.nodeType == 3 ) val += this.nodeValue;});
                 // TODO: should we normalize space here?
 			}
 		}
-		if($jq.isFunction(filter) && val !== undefined ){
+		if($.isFunction(filter) && val !== undefined ){
 			val = filter(val,id); // TODO: why was THIS given as second parameter to filter?
 		}
 		if (val !== undefined) {
@@ -103,13 +103,13 @@ juice.findMeta = function(id, selector, attribute, filter){
  */
 juice.setMeta = function(id, arg){
 	var val;
-	if ( $jq.isFunction(arg) ) {
+	if ( $.isFunction(arg) ) {
 		val = arg(id);
     }else{
 		val = arg;
 	}
 	if(val){
-		var values= $jq.juice.toArray(val);
+		var values= $.juice.toArray(val);
 		juice._meta[id] = {'values':values};	
 	}
 }
@@ -209,10 +209,10 @@ juice.addPanel = function(panel){
 //arg: text
 juice.debugOutln = function(text){
 	if(juice._debugEnabled){
-		if($jq("#JuiceDebug").length==0){
-			$jq("body").append('<div id="JuiceDebug" style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"</div>');
+		if($("#JuiceDebug").length==0){
+			$("body").append('<div id="JuiceDebug" style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"</div>');
 		}
-		$jq("#JuiceDebug").append(text+ "<br/>");
+		$("#JuiceDebug").append(text+ "<br/>");
 	}
 }
 
@@ -283,20 +283,20 @@ juice.launchOverlayWin  = function (content,hdrContent){
 		content = content._container;
 	}
 	
-	$jq('body').append('<div id="juiceOverlayMask" class="juiceOverlayMask"></div>');
-	$jq('body').append('<div id="juiceOverlay" class="juiceOverlay" role="dialog" aria-labelledby="juiceovTitle" />');
-	$jq('#juiceOverlay').append('<h2 id="juiceovTitle" class="juiceOverlayTitle" tabindex="0" />'+content);
+	$('body').append('<div id="juiceOverlayMask" class="juiceOverlayMask"></div>');
+	$('body').append('<div id="juiceOverlay" class="juiceOverlay" role="dialog" aria-labelledby="juiceovTitle" />');
+	$('#juiceOverlay').append('<h2 id="juiceovTitle" class="juiceOverlayTitle" tabindex="0" />'+content);
 	if(hdrContent){
-		$jq("#juiceOverlay h2").append(hdrContent);
+		$("#juiceOverlay h2").append(hdrContent);
 	}
-	$jq("#juiceOverlay h2").append('<a href="javascript:void()" id="juiceovExitClick"><img alt="close lightbox" src="http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png" class="juiceovOverlayExitClick" /></a>');	
+	$("#juiceOverlay h2").append('<a href="javascript:void()" id="juiceovExitClick"><img alt="close lightbox" src="http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png" class="juiceovOverlayExitClick" /></a>');	
 	var overlayRemove = function(){
-		$jq('#juiceOverlay').remove();
-		$jq('#juiceOverlayMask').remove();
+		$('#juiceOverlay').remove();
+		$('#juiceOverlayMask').remove();
 	}
 	
-	$jq("#juiceovExitClick").click(overlayRemove);
-	$jq(document).keydown(function(e){
+	$("#juiceovExitClick").click(overlayRemove);
+	$(document).keydown(function(e){
 		if(e.keyCode==27){
 			overlayRemove();
 		}
@@ -348,9 +348,9 @@ juice.launchIframeWin = function(uri,insert){
  * @param {uri} src uri of script to insert
  */
 juice.runscript = function(id,src){
-	$jq("#"+id).remove();
+	$("#"+id).remove();
 	var cont = '<script id="' + id + '" src="' + src +'" type="text/javascript"></script>';
-	$jq(document).prepend(cont);
+	$(document).prepend(cont);
 }   
 
 /**
@@ -374,7 +374,7 @@ juice.ready = juice.onAllLoaded =  function(func){
 */
 
 juice.loadExtensions = function(){
-	var path=$jq('script[src*=/juice.js]').first().attr('src').replace('/juice.js','/');
+	var path=$('script[src*=/juice.js]').first().attr('src').replace('/juice.js','/');
 
 	var args = Array.prototype.slice.call(arguments);
 	args = args.slice(0, args.length);
@@ -422,7 +422,7 @@ juice._loadFile = function (file,type,evnt){
 	        if(type == "js"){
 	           		var head = document.getElementsByTagName('head')[0]; 
 	            	var ins = document.createElement('script'); 
-	            	evnt = evnt || $jq.noop;
+	            	evnt = evnt || $.noop;
 	            	ins.type = 'text/javascript'; 
 	            	ins.src = file; 
 	            	juice.JsLoadFlags[juice.JsLoadFlags.length] = {'name':file, 'loaded':false, 'type':'script'};
@@ -477,7 +477,7 @@ juice._absoluteUri = function(file, pathPrefix){
 
 //findJs - return true if script element already loaded in document
 juice.findJs = function (file){
-	var script=$jq('script[src*='+juice.urlRoot(file)+']');
+	var script=$('script[src*='+juice.urlRoot(file)+']');
 	if(script.length>0) return true;
 	return false;
 }
@@ -613,20 +613,20 @@ juice.isVal = function(value,val) {
 	return true;
 }
 
-juice.isnumser = function(value) {return $jq.juice.isVal(value,$jq.juice.nums);}
-juice.isLower = function(value) {return $jq.juice.isVal(value,j$jq.juice.lc);}
-juice.isUpper = function(value) {return $jq.juice.isVal(value,$jq.juice.uc);}
-juice.isAlpha = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc);}
-juice.isAlphanum = function(value) {return $jq.juice.isVal(value,$jq.juice.lc+$jq.juice.uc+$jq.juice.nums);}
+juice.isnumser = function(value) {return $.juice.isVal(value,$.juice.nums);}
+juice.isLower = function(value) {return $.juice.isVal(value,j$.juice.lc);}
+juice.isUpper = function(value) {return $.juice.isVal(value,$.juice.uc);}
+juice.isAlpha = function(value) {return $.juice.isVal(value,$.juice.lc+$.juice.uc);}
+juice.isAlphanum = function(value) {return $.juice.isVal(value,$.juice.lc+$.juice.uc+$.juice.nums);}
 
 //Converts string of words in to an array of strings - word only included if it only conains alphanum chars
 //arg: str - string to parse
 juice.stringToAlphnumAray = function(str){
 	var items = [];
 	var count = 0;
-	var raw = $jq.juice.stringToArray(str,",.:;");
+	var raw = $.juice.stringToArray(str,",.:;");
  	for(j=0;j < raw.length;j++){
-		if($jq.juice.isAlphanum(raw[j])){
+		if($.juice.isAlphanum(raw[j])){
 			items[count++] = raw[j];
 		}
 	}
@@ -655,7 +655,7 @@ juice.toArray = function(data){
 
 	if(!data){
 		return items;
-	}else if($jq.isArray(data)){
+	}else if($.isArray(data)){
 		return data; 		
 	}else if(typeof data == "string"){
 		items[0] = data; 		
@@ -797,7 +797,7 @@ function JuiceInsert(container,insertPoint,insertType){
 	//JQuery/Dom elements created on insertion
 	this.insertObjects = [];
 	//Number of matching insert points
-	this.inserts = $jq(this._insertPoint).length;
+	this.inserts = $(this._insertPoint).length;
 
 	for(var i=0;i< this.inserts; i++){
 		this.shown[i] = false;
@@ -818,7 +818,7 @@ JuiceInsert.prototype.showAll = function(){
 JuiceInsert.prototype.show = function(pos){
 	pos = pos || 0;
 	var This = this;
-	$jq(this._insertPoint).each(function(i){
+	$(this._insertPoint).each(function(i){
 		if(i == pos && !This.shown[i]){
 			var ins = jQuery(This._container);
 			var target = jQuery(this);
@@ -1177,13 +1177,13 @@ JuicePanel.prototype.enable = function(sel,pos){
 	var id = this.makeId(sel,pos);
 	var classes = this.startClass.split(" ");
 	for(var i=0;i < classes.length;i++){
-		$jq("#"+id).removeClass(classes[i]);
+		$("#"+id).removeClass(classes[i]);
 	}
 	classes = this.liveClass.split(" ");
 	for(var i=0;i < classes.length;i++){
-		$jq("#"+id).addClass(classes[i]);
+		$("#"+id).addClass(classes[i]);
 	}
-	$jq("#"+id).click(func);
+	$("#"+id).click(func);
 }
 
 //makeID - construct a uniquie id for selections added to this panel
