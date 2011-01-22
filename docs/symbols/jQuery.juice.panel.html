@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - JuiceInsert</title>
+		<title>JsDoc Reference - jQuery.juice.panel</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -191,15 +191,15 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/juice.html">juice</a></li>
+	<li><a href="../symbols/jQuery.juice.html">jQuery.juice</a></li>
 	
-	<li><a href="../symbols/JuiceInsert.html">JuiceInsert</a></li>
+	<li><a href="../symbols/jQuery.juice.insert.html">jQuery.juice.insert</a></li>
 	
-	<li><a href="../symbols/JuicePanel.html">JuicePanel</a></li>
+	<li><a href="../symbols/jQuery.juice.panel.html">jQuery.juice.panel</a></li>
 	
-	<li><a href="../symbols/JuiceProcess.html">JuiceProcess</a></li>
+	<li><a href="../symbols/jQuery.juice.process.html">jQuery.juice.process</a></li>
 	
-	<li><a href="../symbols/JuiceSelectProcess.html">JuiceSelectProcess</a></li>
+	<li><a href="../symbols/jQuery.juice.selectProcess.html">jQuery.juice.selectProcess</a></li>
 	
 </ul>
 <hr />
@@ -210,7 +210,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Namespace JuiceInsert
+				Namespace jQuery.juice.panel
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -226,7 +226,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class JuiceInsert.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jQuery.juice.panel.">
 				<caption>Namespace Summary</caption>
 				<thead>
 					<tr>
@@ -239,12 +239,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/JuiceInsert.html#constructor">JuiceInsert</a></b>
+								<b><a href="../symbols/jQuery.juice.panel.html#constructor">jQuery.juice.panel</a></b>
 							</div>
-							<div class="description">Definition of insert into document body
-InsertPoint could result in multiple instances of insert on a single page - this is supported
-methods such as show(), getInsertObject(), and remove() default to a zero position in any
-array of instances to simplify operation of a single insert instance.</div>
+							<div class="description">Base/Controlling class for selection panels.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -267,14 +264,11 @@ array of instances to simplify operation of a single insert instance.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>JuiceInsert</b>
+						<b>jQuery.juice.panel</b>
 				</div>
 				
 				<div class="description">
-					Definition of insert into document body
-InsertPoint could result in multiple instances of insert on a single page - this is supported
-methods such as show(), getInsertObject(), and remove() default to a zero position in any
-array of instances to simplify operation of a single insert instance.
+					Base/Controlling class for selection panels.
 					
 				</div>
 				
@@ -286,22 +280,34 @@ array of instances to simplify operation of a single insert instance.
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{String}</span>  <b>container</b>
+								<span class="light fixedFont">{String}</span>  <b>insertDiv</b>
 								
 							</dt>
-								<dd>html to be inserted in to document</dd>
+								<dd>JuiceInsert defining panel insert in document</dd>
 						
 							<dt>
-								<span class="light fixedFont">{String}</span>  <b>insertPoint</b>
+								<span class="light fixedFont">{String}</span>  <b>pannelId</b>
 								
 							</dt>
-								<dd>location within document</dd>
+								<dd>Id of panel</dd>
 						
 							<dt>
-								<span class="light fixedFont">{String}</span>  <b>insertType</b>
+								<span class="light fixedFont">{String}</span>  <b>startClass</b>
 								
 							</dt>
-								<dd>How to insert at insert point: before | after | append | prepend | replace</dd>
+								<dd>css classes to be applied to inserted icons before selector is enabled</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>liveClass</b>
+								
+							</dt>
+								<dd>css classes to be applied to inserted icons after selector is enabled</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Function}</span>  <b>showFunc</b>
+								<i>Optional</i>
+							</dt>
+								<dd>Function to be called as panel is shown - optional (isert show function may be sufficient)</dd>
 						
 						</dl>
 					
@@ -331,7 +337,7 @@ array of instances to simplify operation of a single insert instance.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Fri Nov 05 2010 10:46:16 GMT-0000 (GMT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Sat Jan 22 2011 18:35:29 GMT-0000 (GMT)
 		</div>
 	</body>
 </html>

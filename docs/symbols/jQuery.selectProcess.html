@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - JuiceProcess</title>
+		<title>JsDoc Reference - jQuery.selectProcess</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -191,15 +191,15 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/juice.html">juice</a></li>
+	<li><a href="../symbols/jQuery.insert.html">jQuery.insert</a></li>
 	
-	<li><a href="../symbols/JuiceInsert.html">JuiceInsert</a></li>
+	<li><a href="../symbols/jQuery.juice.html">jQuery.juice</a></li>
 	
-	<li><a href="../symbols/JuicePanel.html">JuicePanel</a></li>
+	<li><a href="../symbols/jQuery.panel.html">jQuery.panel</a></li>
 	
-	<li><a href="../symbols/JuiceProcess.html">JuiceProcess</a></li>
+	<li><a href="../symbols/jQuery.process.html">jQuery.process</a></li>
 	
-	<li><a href="../symbols/JuiceSelectProcess.html">JuiceSelectProcess</a></li>
+	<li><a href="../symbols/jQuery.selectProcess.html">jQuery.selectProcess</a></li>
 	
 </ul>
 <hr />
@@ -210,11 +210,13 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Namespace JuiceProcess
+				Namespace jQuery.selectProcess
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
+				<br />Extends
+					JuiceProcess.<br />
 				
 			
 				
@@ -226,7 +228,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class JuiceProcess.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class jQuery.selectProcess.">
 				<caption>Namespace Summary</caption>
 				<thead>
 					<tr>
@@ -239,9 +241,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/JuiceProcess.html#constructor">JuiceProcess</a></b>
+								<b><a href="../symbols/jQuery.selectProcess.html#constructor">jQuery.selectProcess</a></b>
 							</div>
-							<div class="description">Base class for extensions.</div>
+							<div class="description">Base class for selection style extensions.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -252,33 +254,6 @@ ul.inheritsList
 			
 
 <!-- ============================== methods summary ======================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class JuiceProcess.">
-					<caption>Method Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Method Attributes</th>
-							<th scope="col">Method Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/JuiceProcess.html#initAndStartup">initAndStartup</a></b>(id, initFunc, selectFunc, insert, controlling)
-								</div>
-								<div class="description">Set vlues in class - then call start</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -291,11 +266,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>JuiceProcess</b>
+						<b>jQuery.selectProcess</b>
 				</div>
 				
 				<div class="description">
-					Base class for extensions.
+					Base class for selection style extensions.
 					
 				</div>
 				
@@ -313,6 +288,18 @@ ul.inheritsList
 								<dd>of extension - should be unique in current document</dd>
 						
 							<dt>
+								<span class="light fixedFont">{String}</span>  <b>iconSrc</b>
+								
+							</dt>
+								<dd>uri of icon to display in selection panel</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>selText</b>
+								
+							</dt>
+								<dd>text to display</dd>
+						
+							<dt>
 								<span class="light fixedFont">{Function}</span>  <b>initFunc</b>
 								
 							</dt>
@@ -325,16 +312,22 @@ ul.inheritsList
 								<dd>function to call when extension activated</dd>
 						
 							<dt>
-								<span class="light fixedFont">{<a href="../symbols/JuiceInsert.html">JuiceInsert</a>}</span>  <b>insert</b>
+								<span class="light fixedFont">{JuiceInsert}</span>  <b>insert</b>
 								<i>Optional</i>
 							</dt>
 								<dd>definition to contain extention output embeded in document - optional</dd>
 						
 							<dt>
-								<span class="light fixedFont">{<a href="../symbols/juice.html">juice</a>}</span>  <b>controlling</b>
+								<span class="light fixedFont">{juice}</span>  <b>controlling</b>
 								
 							</dt>
 								<dd>Juice class</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>defPanel</b>
+								<i>Optional</i>
+							</dt>
+								<dd>panel this extention is restricted to - optional</dd>
 						
 						</dl>
 					
@@ -353,71 +346,6 @@ ul.inheritsList
 
 <!-- ============================== method details ========================= -->		
 			
-				<div class="sectionTitle">
-					Method Detail
-				</div>
-				
-					<a name="initAndStartup"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>initAndStartup</b>(id, initFunc, selectFunc, insert, controlling)
-					
-					</div>
-					<div class="description">
-						Set vlues in class - then call start
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>id</b>
-									
-								</dt>
-								<dd>of extension - should be unique in current document</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>initFunc</b>
-									
-								</dt>
-								<dd>function to call when extention ready</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>selectFunc</b>
-									
-								</dt>
-								<dd>function to call when extension activated</dd>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/JuiceInsert.html">JuiceInsert</a>}</span> <b>insert</b>
-									<i>Optional</i>
-								</dt>
-								<dd>definition to contain extention output embeded in document - optional</dd>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/juice.html">juice</a>}</span> <b>controlling</b>
-									
-								</dt>
-								<dd>Juice class</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					
-				
-			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -429,7 +357,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Fri Nov 05 2010 10:46:16 GMT-0000 (GMT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Sat Jan 22 2011 17:34:36 GMT-0000 (GMT)
 		</div>
 	</body>
 </html>

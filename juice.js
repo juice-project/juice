@@ -13,13 +13,18 @@
  
 //============== Remap jQuery ==============
 // Isolates Juice from use of jQuery compatability mode whilst retaining a short-ish cut 
-var $jq = jQuery; //TODO replace with closure param
+var $jq = jQuery; //TODO deprecate, replace with closure param. Currently required for metadefs.
 
 //============== Juice Plugin Definition ==============	
 (function($jq, window, undefined){
  
 //main juice, one only per app
- 
+/**
+ * Master juice object
+ * @namespace
+ * @name jQuery.juice
+ */   
+  
 var juice = {
 _debugEnabled : false,
 _ready : false,
@@ -35,7 +40,11 @@ googleApiKey : "",
 _googleLoadFlag : false	
 };
     
-//setDebug - Set Debug output state
+/**
+ * Set Debug output state
+ * @name jQuery.juice.setDebug
+ * @param {bool} state to set
+ */
 juice.setDebug = function(state){
 	juice._debugEnabled = state;
 }
@@ -43,6 +52,7 @@ juice.setDebug = function(state){
 /**
  * Create and store meta reference from DOM elements or element attributes using jQuery selectors.
  * @see #setMeta
+ * @name jQuery.juice.findMeta
  * @param {String} id The id of meta definition to create
  * @param {String} selector JQuery selection string for element within page
  * @param {String} [attribute] Attribute name if attribute values are wanted
@@ -87,6 +97,7 @@ juice.findMeta = function(id, selector, attribute, filter){
  * Create and store meta reference from function or data passed.
  * If argument is a function, it should return a value or array of values to store
  * the function will be called with a single argument - the id.
+ * @name jQuery.juice.setMeta
  * @param {String} id The id of meta definition to create
  * @param arg Value(s) to store, or function that returns value(s) to store
  */
@@ -105,6 +116,7 @@ juice.setMeta = function(id, arg){
 
 /**
  * Have meta value(s) been stored.
+ * @name jQuery.juice.hasMeta
  * @param {String} [id] The id of meta definition to check - optional, defaults to any/all meta values
  * @return true | false
  */
@@ -126,6 +138,7 @@ juice.hasMeta = function(id){
 
 /**
  * Return stored value
+ * @name jQuery.juice.getMeta
  * @param {String} id The id of meta 
  * @param {int} index element in array of values - optional, defauts to 0.
  * @return value
@@ -140,6 +153,7 @@ juice.getMeta = function(id,index){
 
 /**
  * Delete stored value
+ * @name jQuery.juice.deleteMeta
  * @param {String} id The id of meta 
  */
 juice.deleteMeta = function(id){
@@ -150,6 +164,7 @@ juice.deleteMeta = function(id){
 
 /**
  * Return array of stored value(s)
+ * @name jQuery.juice.getMetaValues
  * @param {String} id The id of meta 
  * @return {Array} values.
  */
@@ -164,6 +179,7 @@ juice.getMetaValues = function(id){
 /**
  * Step through all set meta values
  * Output id and value(s) for each via debugOutln
+ * @name jQuery.juice.debugMeta
  * @see #debugOutln
  */
 //debugMeta - Ouput via debug all metadefinions and their values if set.
@@ -327,6 +343,7 @@ juice.launchIframeWin = function(uri,insert){
 
 /**
  * Add script element to document
+ * @name jQuery.juice.runscript
  * @param {string} id script id - used to identify & remove any previous instaces in document
  * @param {uri} src uri of script to insert
  */
@@ -339,6 +356,7 @@ juice.runscript = function(id,src){
 /**
  * Call user function when all loading Google APIs and JavaScripts are loaded
  * Waits on setTimeout of 5ms before trying again
+ * @name jQuery.juice.onAllLoaded
  * @param func Function to call when ready
  * Also maps to deprecated onAlloaded
  */
@@ -350,8 +368,10 @@ juice.ready = juice.onAllLoaded =  function(func){
 	}
 }
 
-//Quick and easy loading of extensions in standard folder structure 
-//args: extension strings ('x','y',etc)
+/**Quick and easy loading of extensions in standard folder structure 
+* @name jQuery.juice.loadExtensions
+* @params extension string ('x','y',etc)
+*/
 
 juice.loadExtensions = function(){
 	var path=$jq('script[src*=/juice.js]').first().attr('src').replace('/juice.js','/');
@@ -368,10 +388,12 @@ juice.loadExtensions = function(){
 }
 
 
-//Load script 
-//arg: target - append to head of of document - ONLY if not previously loaded anywhere in document
-//arg: pathPrefix - path to prefixed to relative and absolute paths
-//arg: onLoadEvent - function to call when loaded
+/**Load script 
+* @name jQuery.juice.loadJs
+* @param target - append to head of of document - ONLY if not previously loaded anywhere in document
+* @param pathPrefix - path to prefixed to relative and absolute paths
+* @param onLoadEvent - function to call when loaded
+*/
 juice.loadJs = function (target,pathPrefix,onLoadEvent){
 	var file = juice._absoluteUri(target,pathPrefix);
 	if(juice.findJs(file)){
@@ -383,9 +405,11 @@ juice.loadJs = function (target,pathPrefix,onLoadEvent){
 	juice._loadFile(file,"js",onLoadEvent);
 }
 		
-//Load css 
-//arg: target - append to head of of document
-//arg: pathPrefix - path to prefixed to relative and absolute paths
+/**Load css 
+* @name jQuery.juice.loadCss
+* @param target - append to head of of document
+* @param pathPrefix - path to prefixed to relative and absolute paths
+*/
 juice.loadCss = function (target,pathPrefix){
 	juice._loadFile(juice._absoluteUri(target,pathPrefix),"css");
 }
@@ -665,6 +689,7 @@ juice.updateArray = function(first,second){
 
 /**
  * Set browser coookie
+ * @name jQuery.juice.setCookie
  * @param {string} name
  * @param {string} value
  * @param {int} [minutes]
@@ -706,7 +731,8 @@ juice.setCookie = function(name,value,minutes,hours,days,path,domain,secure ){
 	document.cookie = cookie_string;
 }
 /**
- * Get browser coookie
+ * Get browser cookie
+ * @name jQuery.juice.getCookie
  * @param {string} name
  * @return {string} cookie value or null
  */
@@ -719,6 +745,7 @@ juice.getCookie = function(name){
 }
 /**
  * Delete browser coookie
+ * @name jQuery.juice.deleteCookie
  * @param {string} name
  */
 juice.deleteCookie = function(name){
@@ -735,7 +762,7 @@ juice._strEndsWith = function(str,target){
 	return (str.match(target+"$")==target)
 }
 
-//map _Juice to jQuery plugin and window object TODO deprecate global juice object
+//map _Juice to jQuery plugin and window object (only main instance so not on prototype) TODO deprecate global juice object
 
 window.juice=jQuery.juice=juice;
 
@@ -743,15 +770,16 @@ window.juice=jQuery.juice=juice;
 //Definition of insert in to document body
 //InsertPoint could result in multiple instances of insert on a single page - this is supported
 //methods such asa show(), getInsertObject(), and remove() default to a zero position in any
-//aray of instances to simplify operation of a single insert instance.
+//array of instances to simplify operation of a single insert instance.
 
 /**
- * Definition of insert in to document body
+ * Definition of insert into document body
  * InsertPoint could result in multiple instances of insert on a single page - this is supported
  * methods such as show(), getInsertObject(), and remove() default to a zero position in any
  * array of instances to simplify operation of a single insert instance.
  * @namespace
  * @constructor
+ * @name jQuery.juice.insert
  * @param {String} container html to be inserted in to document
  * @param {String} insertPoint location within document
  * @param {String} insertType How to insert at insert point: before | after | append | prepend | replace
@@ -835,19 +863,22 @@ JuiceInsert.prototype.remove = function(pos){
 	}
 }
 
-window.JuiceInsert= $jq.juice.insert = JuiceInsert;
+window.JuiceInsert= jQuery.juice.insert = JuiceInsert;
 
 //============== Class JuiceProcess ==============
 
-//Base controlling class for extentions
-//See also:	JuiceSelectProcess
-	
-//arg: id - id of extension - should be unique in current document
-//arg: initFunc - function to call when extention ready
-//arg: selectFunc - function to call when extension activated
-//arg: insert - insert definition to contain extention output embeded in document - optional
-//arg: ju - controlling Juice class
-
+/**
+ * Base class for extensions.
+ * See also:	JuiceSelectProcess
+ * @namespace
+ * @constructor
+ * @name jQuery.juice.process
+ * @param {String} id of extension - should be unique in current document
+ * @param {Function} initFunc function to call when extention ready
+ * @param {Function} selectFunc function to call when extension activated
+ * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
+ * @param {juice} controlling Juice class
+ */
 
 function JuiceProcess(id,initFunc,selectFunc,insert,ju){
 	this._ready = false;
@@ -995,15 +1026,26 @@ JuiceProcess.prototype.enable = function(){
 //Dummy func
 }
 
-window.JuiceProcess=$jq.juice.process = JuiceProcess;
+window.JuiceProcess=jQuery.juice.process = JuiceProcess;
 
 //============== Class JuiceSelectProcess ==============	
 	
 //TODO fix to use the DOM rather than internals
 
 /**
+ * Base class for selection style extensions.
+ * @namespace
  * @constructor
- * @augments JuiceProcess
+ * @extends JuiceProcess
+ * @name jQuery.juice.selectProcess
+ * @param {String} id of extension - should be unique in current document
+ * @param {String} iconSrc uri of icon to display in selection panel
+ * @param {String} selText text to display
+ * @param {Function} initFunc function to call when extention ready
+ * @param {Function} selectFunc function to call when extension activated
+ * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
+ * @param {juice} controlling Juice class
+ * @param {String} [defPanel] panel this extention is restricted to - optional
  */
 function JuiceSelectProcess(id,iconSrc,selText,initFunc,selectFunc,insert,ju,defPanel){
 	this._ready = false;
@@ -1057,26 +1099,31 @@ JuiceSelectProcess.prototype.getSelectFunction = function(i){
 	return(function(){_JXSPA[pos]._selectFunc[i];});
 }
 
-window.JuiceSelectProcess = $jq.juice.selectProcess = JuiceSelectProcess;
+window.JuiceSelectProcess = jQuery.juice.selectProcess = JuiceSelectProcess;
 	
 //============== Class JuicePanel ==============	
 	
-//Base/Controlling class for selection panels
-
-//arg: insertDiv - JuiceInsert defining panel insert in document
-//arg: pannelId - Id of panel
-//arg: startClass - css classes to be applied to inserted icons before selector is enabled
-//arg: liveClass - css classes to be applied to inserted icons when selector is enabled
-//arg: showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
+/**
+ * Base/Controlling class for selection panels.
+ * @namespace
+ * @constructor
+ * @name jQuery.juice.panel
+ * @param {String} insertDiv JuiceInsert defining panel insert in document
+ * @param {String} pannelId Id of panel
+ * @param {String} startClass css classes to be applied to inserted icons before selector is enabled
+ * @param {String} liveClass css classes to be applied to inserted icons after selector is enabled
+ * @param {Function} [showFunc] Function to be called as panel is shown - optional (isert show function may be sufficient)
+ */
 function JuicePanel(insertDiv, panelId, startClass, liveClass, showFunc){
 	this.init(insertDiv, panelId, startClass, liveClass, showFunc);
 }
-
-//arg: insertDiv - JuiceInsert defining panel insert in document
-//arg: pannelId - Id of panel
-//arg: startClass - css classes to be applied to inserted icons before selector is enabled
-//arg: liveClass - css classes to be applied to inserted icons when selector is enabled
-//arg: showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
+/**
+* @param insertDiv - JuiceInsert defining panel insert in document
+* @param pannelId - Id of panel
+* @param startClass - css classes to be applied to inserted icons before selector is enabled
+* @param liveClass - css classes to be applied to inserted icons when selector is enabled
+* @param showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
+*/
 JuicePanel.prototype.init = function(insertDiv, panelId, startClass, liveClass, showFunc){
 	this.liveClass = liveClass;
 	this.startClass = startClass;
@@ -1146,7 +1193,7 @@ JuicePanel.prototype.makeId = function(sel,pos){
 	return this.panelId + "-" + sel.processId + "-" + pos;
 }
 
-window.JuicePanel = $jq.juice.panel = JuicePanel;
+window.JuicePanel = jQuery.juice.panel = JuicePanel;
 
 })(jQuery, window);
 
