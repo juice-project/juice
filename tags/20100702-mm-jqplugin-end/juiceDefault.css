@@ -1,0 +1,82 @@
+.juiceXInactiveText , .juiceXInactiveIcon {
+	opacity:0.4;
+}	
+
+.juiceXActiveText , .juiceXActiveIcon {
+	cursor: pointer;
+}
+
+.juiceXMediumPaddedIcon{
+	height: 40px;
+	padding: 10px;	
+}
+
+.juiceMapInfoTitle {
+	text-align: center;
+	font-weight: bold;
+	width: 210px;
+	line-height: 1;
+}
+
+.juiceMapInfoBody {
+	text-align: left;
+	font-style: normal;
+	width: 210px;
+	line-height: 1;
+}
+
+/* overlay styles */
+
+#juiceOverlayMask {
+	background-color:#555555;
+	display:block;
+	height:100%;
+	left:0;
+	opacity:0.75;
+	position:fixed;
+	top:0;
+	visibility:visible;
+	width:100%;
+	z-index:5000;
+}
+
+.juiceOverlay{
+	background-color:#ffffff;
+	display:block;
+	visibility:visible;
+	height:622px;
+	width: 802px;
+	top: 50px;
+	left: 50%;
+    margin-left: -400px;
+	position: absolute;
+	border: 1px solid #222222;
+	z-index:5002;
+}
+	
+.juiceOverlayTitle {
+	padding: 1px;
+	height: 20px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	margin:0 !important;
+}
+
+.juiceovOverlayExitClick {
+	position:absolute;
+	right:0;
+	top:0;
+	padding: 2px;
+	margin: 1px;
+	cursor: pointer;
+}
+
+.juiceoverlayTable{
+	text-align: left;
+}
+.juiceoverlayTable td{
+	vertical-align: top;
+}
+
+
