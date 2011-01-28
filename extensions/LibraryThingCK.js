@@ -69,7 +69,7 @@ LibraryThingCKJuice.prototype.runLibraryThingCK = function(){
 		}
 	}
 	content += "</tbody></table>";
-	var titleCont = '<img src="' + this.iconSrc() + '" height="20px"/>';
+	var titleCont = '<img src="' + this.iconSrc + '" height="20px"/>';
 	juice.launchWin(this._targetUrl,"overlay",content,titleCont);
 	var THIS = this;
 	$jq(".iframeLaunch").click(LibraryThingCKSelect);

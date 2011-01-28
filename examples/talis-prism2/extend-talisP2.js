@@ -5,8 +5,6 @@
 jQuery(document).ready(function () {
         juice.setDebug(false);
 //      juice.loadCss("http://{mySite}/js/juiceDefault.css");
-//      juice.loadJs("http://{mySite}/js/juiceOverlay-0.3.js");
-//      juice.loadCss("http://{mySite}/juiceOverlay.css");
         
         
         juice.loadJs("/TalisPrism/Views/Javascript/juice/metadefs/talis_prism2_metadef.js");
