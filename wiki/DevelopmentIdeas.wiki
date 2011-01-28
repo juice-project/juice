@@ -1,21 +1,5 @@
 #summary Some ideas for further developement of Juice
 
-Rename onJsLoaded to ready (like known from jQuery).
-
-{{{
-juice.ready(runExtensions);
-}}}
-
-instead of 
-
-{{{
-juice.onJsLoaded(runExtensions);
-}}}
-
-*RJW* - A good suggestion - will need to be applied to `juice.onAllLoaded()` to account for Googlre library integration
-
-----
-
 Let juice method return the juice object to allow
 
 {{{
