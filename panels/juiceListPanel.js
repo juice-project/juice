@@ -15,27 +15,22 @@ function JuiceListPanel(insertDiv, panelId, startClass, liveClass, showFunc){
 	this.added = false;
 }
 
-JuiceListPanel.prototype = new JuicePanel();
+JuiceListPanel.prototype = new juice.panel();
 JuiceListPanel.prototype.constructor = JuiceListPanel;
-JuiceListPanel.superclass = JuicePanel.prototype;
+JuiceListPanel.superclass = juice.panel.prototype;
 
 JuiceListPanel.prototype.add = function(sel){
 	this.insert();
 	this.show();
 	if(!this.added){
-		this.buildlist();
+		$jq("#"+this.getPanelId).append('<ul class="JuiceList"></ul>');
 		this.added = true;
 	}
 	var id = this.makeId(sel);
-	var htm = '<li title="'+ sel.selText() + '" id="' + id +  '" class="' + this.startClass() + '" >';
-	htm += '<a href="javascript:void(0)" title="'+ sel.selText() + '">';
-	htm += sel.selText() + '</a></li>';
+	var htm = '<li title="'+ sel.selText + '" id="' + id +  '" class="' + this.startClass + '" >';
+	htm += '<a href="javascript:void(0)" title="'+ sel.selText + '">';
+	htm += sel.selText + '</a></li>';
 	
 	
-	$jq("#"+this.getPanelId()+" ul").append(htm);
-}
-
-JuiceListPanel.prototype.buildlist = function(){
-	var htm = '<ul class="JuiceList"></ul>';
-	$jq("#"+this.getPanelId()).append(htm);
+	$jq("#"+this.panelId+" ul").append(htm);
 }
