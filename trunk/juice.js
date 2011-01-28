@@ -1,5 +1,5 @@
 /*
- * Juice 0.6.4 - Javascript User Interface Framework for Extension
+ * Juice 0.7 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2010 Talis (talis.com)
@@ -13,176 +13,74 @@
  
 //============== Remap jQuery ==============
 // Isolates Juice from use of jQuery compatability mode whilst retaining a short-ish cut 
-var $jq = jQuery;
+var $jq = jQuery; //TODO deprecate, replace with closure param. Currently required for metadefs.
 
-/**
- * Master juice class
- * @constructor
- * @namespace
- */	
-var juice = {}; 
-
-/**
- * Definition of insert into document body
- * InsertPoint could result in multiple instances of insert on a single page - this is supported
- * methods such as show(), getInsertObject(), and remove() default to a zero position in any
- * array of instances to simplify operation of a single insert instance.
- * @namespace
- * @constructor
- * @param {String} container html to be inserted in to document
- * @param {String} insertPoint location within document
- * @param {String} insertType How to insert at insert point: before | after | append | prepend | replace
- */
-var JuiceInsert = {};
-
-/**
- * Base class for extensions.
- * @namespace
- * @constructor
- * @param {String} id of extension - should be unique in current document
- * @param {Function} initFunc function to call when extention ready
- * @param {Function} selectFunc function to call when extension activated
- * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
- * @param {juice} controlling Juice class
- */
+//============== Juice Plugin Definition ==============	
+(function($, window, undefined){
  
-var JuiceProcess = {};
+//main juice, one only per app
 /**
- * Base class for selection style extensions.
+ * Master juice object
  * @namespace
- * @constructor
- * @extends JuiceProcess
- * @param {String} id of extension - should be unique in current document
- * @param {String} iconSrc uri of icon to display in selection panel
- * @param {String} selText text to display
- * @param {Function} initFunc function to call when extention ready
- * @param {Function} selectFunc function to call when extension activated
- * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
- * @param {juice} controlling Juice class
- * @param {String} [defPanel] panel this extention is restricted to - optional
- */
-var JuiceSelectProcess = {};
-
+ * @name jQuery.juice
+ */   
+  
+var juice = {
+	_debugEnabled : false,
+	_ready : false,
+	_panels : [],
+	_meta : [],
+	version : "0.7",
+	protocol:("https:" == document.location.protocol) ? 'https://' : 'http://',
+	JsLoadFlags : [],
+	popup_win : null,
+	launchWinH : 600,
+	launchWinW : 800,
+	googleApiKey : "",
+	_googleLoadFlag : false	
+};
+    
 /**
- * Base/Controlling class for selection panels.
- * @namespace
- * @constructor
- * @param {String} insertDiv JuiceInsert defining panel insert in document
- * @param {String} pannelId Id of panel
- * @param {String} startClass css classes to be applied to inserted icons before selector is enabled
- * @param {Function} [showFunc] Function to be called as panel is shown - optional (isert show function may be sufficient)
+ * Set Debug output state
+ * @name jQuery.juice.setDebug
+ * @param {bool} state to set
  */
-var JuicePanel = {};
-	
-//============== Class _Juice ==============	
-(function(){
-var window = this;
- 
-//Master Juice Class - global instance created as 'juice'
-    /** @exports _Juice as juice */ 
-function _Juice(){
-	this._debugEnabled = false;
-	this._debugWinId = "JuiceDebug";
-	this._debugWinSel = "#"+this._debugWinId;
-	this._ready = false;
-	this._panels = [];
-	this._meta = [];
-	this._overlayFunc = null;
-	$jq(document).ready(this._setReady);
-}
-
-//Version of Juice
-_Juice.prototype.version = "0.6.1";
-
-_Juice.prototype._setReady = function(){
-	this._ready = true;
-}
-
-//setDebug - Set Debug output state
-_Juice.prototype.setDebug = function(state){
-	this._debugEnabled = state;
-}
-
-//overlayFunc - Set/get function used to load lightbox overlay
-//arg: v - new value - optional
-_Juice.prototype.overlayFunc = function(v){
-	if(v != null){
-		this._overlayFunc = v;
-	}
-	if(this._overlayFunc == null){
-		try{
-			this._overlayFunc = juiceOverlayDisplay;
-		}catch(msg){
-			//catch undefined juiceOverlayDisplay - the default function JavasSript not loaded. 
-			juice.debugOutln("juiceOverlayDisplay not defined");
-		}
-	}
-	return this._overlayFunc;
+juice.setDebug = function(state){
+	juice._debugEnabled = state;
 }
 
 /**
  * Create and store meta reference from DOM elements or element attributes using jQuery selectors.
  * @see #setMeta
+ * @name jQuery.juice.findMeta
  * @param {String} id The id of meta definition to create
  * @param {String} selector JQuery selection string for element within page
  * @param {String} [attribute] Attribute name if attribute values are wanted
  * @param {Function} [filter] Function used to process retrieved data before storage
  */
-_Juice.prototype.findMeta = function(id, selector, attribute, filter){
-	this.setMeta(id,this._selectMeta(id, selector, attribute, filter));
-}
-
-/**
- * Create and store meta reference from function or data passed.
- * If argument is a function, it should return a value or array of values to store
- * the function will be called with a single argument - the id.
- * @param {String} id The id of meta definition to create
- * @param arg Value(s) to store, or function that returns value(s) to store
- */
-_Juice.prototype.setMeta = function(id, arg){
-	var val;
-	if ( $jq.isFunction(arg) ) {
-		val = arg(id);
-    }else{
-		val = arg;
-	}
-	if(val){
-		this._meta[id] = new Meta(val);
-	}
-}
-
-/**
- * @private
- * Identify data from DOM elements or element attributes using jQuery selectors.
- * @param {String} id The id of meta definition to create
- * @param {String} selector JQuery selection string for element within page
- * @param {String} [attribute] Attribute name if attribute values are wanted
- * @param {Function} [filter] Function used to process retrieved data before storage
- * @return Value or array of values.
- */
-
-_Juice.prototype._selectMeta = function(id, selector, attribute, filter){
-	if ( $jq.isFunction(attribute) ) {
+juice.findMeta = function(id, selector, attribute, filter){
+	
+	if ( $.isFunction(attribute) ) {
 		filter = attribute;
 		attribute = null;
     }
 	var i = 0;
 	var values = [];
-	$jq(selector).each(function(){
+	$(selector).each(function(){
 		var val;
 		if(attribute){
-			val = $jq(this).attr(attribute);
+			val = $(this).attr(attribute);
 		}else{
-			if ($jq(this).size() > 0) {
+			if ($(this).size() > 0) {
 				//Only want the text of this node - not child nodes 
 				// TODO: better save a jQuery object and filter filter nodes?
 				val = "";
-				var contents = $jq(this).contents();
+				var contents = $(this).contents();
 				contents.each(function(){if(this.nodeType == 3 ) val += this.nodeValue;});
                 // TODO: should we normalize space here?
 			}
 		}
-		if(jQuery.isFunction(filter) && val !== undefined ){
+		if($.isFunction(filter) && val !== undefined ){
 			val = filter(val,id); // TODO: why was THIS given as second parameter to filter?
 		}
 		if (val !== undefined) {
@@ -190,25 +88,47 @@ _Juice.prototype._selectMeta = function(id, selector, attribute, filter){
 		}
 	});
 	if(values.length > 0){
-		return values;
+		juice.setMeta(id,values);
 	}
-	return null;
+	
 }
 
 /**
- * Have mata value(s) been stored.
+ * Create and store meta reference from function or data passed.
+ * If argument is a function, it should return a value or array of values to store
+ * the function will be called with a single argument - the id.
+ * @name jQuery.juice.setMeta
+ * @param {String} id The id of meta definition to create
+ * @param arg Value(s) to store, or function that returns value(s) to store
+ */
+juice.setMeta = function(id, arg){
+	var val;
+	if ( $.isFunction(arg) ) {
+		val = arg(id);
+    }else{
+		val = arg;
+	}
+	if(val){
+		var values= $.juice.toArray(val);
+		juice._meta[id] = {'values':values};	
+	}
+}
+
+/**
+ * Have meta value(s) been stored.
+ * @name jQuery.juice.hasMeta
  * @param {String} [id] The id of meta definition to check - optional, defaults to any/all meta values
  * @return true | false
  */
-_Juice.prototype.hasMeta = function(id){
+juice.hasMeta = function(id){
 	if(id){
-		var meta = this._getMetaInstance(id);
+		var meta = juice._meta[id];
 		if(meta != null){
-			return meta.hasMeta();
+			return meta.values.length>0;
 		}
 	}else{
-		for(var i in this._meta){
-			if(this._meta[i] != null){
+		for(var i in juice._meta){
+			if(juice._meta[i] != null){
 				return true;
 			}
 		}
@@ -218,75 +138,60 @@ _Juice.prototype.hasMeta = function(id){
 
 /**
  * Return stored value
+ * @name jQuery.juice.getMeta
  * @param {String} id The id of meta 
  * @param {int} index element in array of values - optional, defauts to 0.
  * @return value
  */
-_Juice.prototype.getMeta = function(id,index){
-	var meta = this._getMetaInstance(id);
+juice.getMeta = function(id,index){
+	var meta = juice._meta[id];
 	if(meta != null){
-		return meta.get(index);
+		return meta.values[ index == null ? 0 : index ];
 	}
 	return null;
 }
 
 /**
  * Delete stored value
+ * @name jQuery.juice.deleteMeta
  * @param {String} id The id of meta 
  */
-_Juice.prototype.deleteMeta = function(id){
-	if(this._meta[id]){
-		this._meta[id] = null;
+juice.deleteMeta = function(id){
+	if(juice._meta[id]){
+		juice._meta[id] = null;
 	}
 }
 
 /**
  * Return array of stored value(s)
- * @deprecated by #getMetaValues
+ * @name jQuery.juice.getMetaValues
  * @param {String} id The id of meta 
  * @return {Array} values.
  */
-_Juice.prototype.getValues = function(id){
-	return this.getMetaValues(id);
-}
-/**
- * Return array of stored value(s)
- * @param {String} id The id of meta 
- * @return {Array} values.
- */
-_Juice.prototype.getMetaValues = function(id){
-	var meta = this._getMetaInstance(id);
+juice.getMetaValues = function(id){
+	var meta = juice._meta[id]
 	if(meta != null){
-		return meta.getValues();
+		return meta.values;
 	}
 	return null;
 }
 
 /**
- * @private
- * Return internal instance of Meta Class for id
- * @param {String} id The id of meta instance
- * @return {Meta}
- */
-_Juice.prototype._getMetaInstance = function(id){
-		return this._meta[id];
-}
-
-/**
  * Step through all set meta values
  * Output id and value(s) for each via debugOutln
+ * @name jQuery.juice.debugMeta
  * @see #debugOutln
  */
 //debugMeta - Ouput via debug all metadefinions and their values if set.
-_Juice.prototype.debugMeta = function(){
-	for(var i in this._meta){
-		var meta = this._meta[i];
-		if(meta.hasMeta()){
-			if (meta.getLength()>1) {
-				juice.debugOutln(i+": ["+meta.getValues().join(",")+"]");
+juice.debugMeta = function(){
+	for(var i in juice._meta){
+		var meta = juice._meta[i];
+		if(meta.values.length>0){
+			if (meta.values.length>1) {
+				juice.debugOutln(i+": ["+meta.values.join(",")+"]");
 			} else { 
 				// TODO: value may be undefined - is this purpose?
-				juice.debugOutln(i+": "+meta.get());
+				juice.debugOutln(i+": "+meta.values[ index == null ? 0 : index ]);
 			}
 		}else{
 			juice.debugOutln("Meta "+i+": not set");
@@ -296,64 +201,30 @@ _Juice.prototype.debugMeta = function(){
 
 //addPanel - Store panel description
 //arg: panel - Description - type JuicePanel
-_Juice.prototype.addPanel = function(panel){
-	this._panels[this._panels.length] = panel;
-}
-
-//hasDebugWin - Returns true if page contains debug win
-_Juice.prototype.hasDebugWin = function(){
-	if($jq(this._debugWinSel).length){
-		return true
-	}
-	return false;
-}
-
-//debugOutln - append text plus '<br/>' to debug window
-//arg: text
-_Juice.prototype.debugOutln = function(text){
-	this.debugOut(text + "<br/>");
+juice.addPanel = function(panel){
+	juice._panels[juice._panels.length] = panel;
 }
 
 //debugOutln - append text to debug window
 //arg: text
-_Juice.prototype.debugOut = function(text){
-	if(this._debugEnabled){
-		if(!this.hasDebugWin()){
-			this.createDebugWin();
+juice.debugOutln = function(text){
+	if(juice._debugEnabled){
+		if($("#JuiceDebug").length==0){
+			$("body").append('<div id="JuiceDebug" style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"</div>');
 		}
-		$jq(this._debugWinSel).append(text);
+		$("#JuiceDebug").append(text+ "<br/>");
 	}
-}
-
-//createDebugWin - append debug window to document body
-_Juice.prototype.createDebugWin = function(){
-	this.appendElement("body","div",this._debugWinId,'style="clear: both; z-index: 5000; position: relative; text-align: left; color: #000000; background: #ffffff; font-size: 1.25em;"');
-}
-
-//appendElement - append element 
-//arg: selector - JQuery select for append point
-//arg: type - element type to create
-//arg: id - id of element
-_Juice.prototype.appendElement = function(selector,type,id,attribString){
-	var atts = "";
-	if(attribString){
-		atts = " " + attribString + " ";
-	}
-	
-	var html = '<' + type + ' id="' + id + '"' + atts + '></' + type + '>';
-	$jq(selector).append(html);
 }
 
 //addToPanel - add selector to panel(s)
 //arg: sel - selector to add - type JuiceSelectProcess
 //If selector defines a default panel - only add to that, otherwise all panels
 //See also: JuiceSelectProcess, JucePanel
-_Juice.prototype.addToPanel = function(sel){
-	for(var i=0;i < this._panels.length;i++){
-		var defPanel = sel.defPanel();
-		var panel = this._panels[i];
-		if((defPanel == null && !panel.shared()) ||
-		  (defPanel != null && panel.getPanelId() != defPanel)){
+juice.addToPanel = function(sel){
+	for(var i=0;i < juice._panels.length;i++){
+		var panel = juice._panels[i];
+		if(( sel.defPanel == null && !panel.shared) ||
+		  ( sel.defPanel != null && panel.panelId !=  sel.defPanel)){
 			continue;
 		}
 		panel.add(sel);
@@ -361,15 +232,14 @@ _Juice.prototype.addToPanel = function(sel){
 	
 }
 
-//enableOnPanel - enaple selector on panel(s) 
+//enableOnPanel - enable selector on panel(s) 
 //arg: sel - selector to enable - type JuiceSelectProcess
 //See also: JuiceSelectProcess, JucePanel
-_Juice.prototype.enableOnPanel = function(sel,pos){
-	for(var i=0;i < this._panels.length;i++){
-		var defPanel = sel.defPanel();
-		var panel = this._panels[i];
-		if((defPanel == null && !panel.shared()) ||
-		  (defPanel != null && panel.getPanelId() != defPanel)){
+juice.enableOnPanel = function(sel,pos){
+	for(var i=0;i < juice._panels.length;i++){
+		var panel = juice._panels[i];
+		if(( sel.defPanel == null && !panel.shared) ||
+		  ( sel.defPanel != null && panel.panelId !=  sel.defPanel)){
 			continue;
 		}
 		panel.enable(sel,pos);
@@ -377,96 +247,82 @@ _Juice.prototype.enableOnPanel = function(sel,pos){
 	
 }
 
-//Global separate browser launch window
-_Juice.prototype.popup_win = null;
-//Defaut launch window height
-_Juice.prototype.launchWinH = 600;
-//Defaut launch window width
-_Juice.prototype.launchWinW = 800;
-
-//launchWinHieght - set/get defaut launch window height
-//arg: v - new value - optional
-_Juice.prototype.launchWinHieght = function(v){
-	if(v != null){
-		this.launchWinH = v;
-	}
-	return this.launchWinH;
-}
-
-//launchWinWidth - set/get defaut launch window width
-//arg: v - new value - optional
-_Juice.prototype.launchWinWidth = function(v){
-	if(v != null){
-		this.launchWinW = v;
-	}
-	return this.launchWinW;
-}
-
 //launchWin - Launch a new win of type type.
 //arg: uri - target of win
 //arg: type - "new"(default) | "overlay" | "iframe" | "current"
 //arg: arg1 - type dependant extra agrument
 //arg: arg2 - type dependant extra agrument
-_Juice.prototype.launchWin = function(uri,type,arg1,arg2){
+juice.launchWin = function(uri,type,arg1,arg2){
 	switch(type){
 		case "current":
-			this.launch(uri);
+			location.href = uri
 			break;
 		case "overlay":
-			this.launchOverlayWin(arg1,arg2);
+			juice.launchOverlayWin(arg1,arg2);
 			break;
 		case "iframe":
-			this.launchIframeWin(uri,arg1);
+			juice.launchIframeWin(uri,arg1);
 			break;
 		case "iframe-overlay":
-			var target  = this.launchOverlayWin(arg1,arg2);
-			this.launchIframeWin(uri,target);
+			var target  = juice.launchOverlayWin(arg1,arg2);
+			juice.launchIframeWin(uri,target);
 			break;
+		//TODO opening in a new window is bad practive should we remove?
 		case "new":
 		default:
-			this.launchExternalWin(uri);
+			juice.launchExternalWin(uri);
 			break;
 	}
 }
 
-//launch - Go to uri in current browser window - called by 'launchWin' for type "current"
-//arg: uri
-_Juice.prototype.launch = function(uri){
-	location.href = uri;
+//launchOverlayWin - called by 'launchWin' for type 'overlay' 
+
+juice.launchOverlayWin  = function (content,hdrContent){
+	
+	if(content instanceof JuiceInsert){
+		content = content._container;
+	}
+	
+	$('body').append('<div id="juiceOverlayMask" class="juiceOverlayMask"></div>');
+	$('body').append('<div id="juiceOverlay" class="juiceOverlay" role="dialog" aria-labelledby="juiceovTitle" />');
+	$('#juiceOverlay').append('<h2 id="juiceovTitle" class="juiceOverlayTitle" tabindex="0" />'+content);
+	if(hdrContent){
+		$("#juiceOverlay h2").append(hdrContent);
+	}
+	$("#juiceOverlay h2").append('<a href="javascript:void()" id="juiceovExitClick"><img alt="close lightbox" src="http://talis-rjw.s3.amazonaws.com/PrismDev/close_icon.png" class="juiceovOverlayExitClick" /></a>');	
+	var overlayRemove = function(){
+		$('#juiceOverlay').remove();
+		$('#juiceOverlayMask').remove();
+	}
+	
+	$("#juiceovExitClick").click(overlayRemove);
+	$(document).keydown(function(e){
+		if(e.keyCode==27){
+			overlayRemove();
+		}
+	});
+
+	
 }
 
-//launchOverlayWin - call Overlay function. - called by 'launchWin' for type "overlay"
-//arg: content - html/dom to append to overlay - arg1 from 'launchWin'
-//arg: hdrContent - html/dom to append to overlay header  - arg2 from 'launchWin'
-_Juice.prototype.launchOverlayWin = function(content,hdrContent){
-	var target = null;
-	if(this.overlayFunc()){
-		if(content instanceof JuiceInsert)
-		{
-			content = content.container();
-		}
-		target = this.overlayFunc()(content,hdrContent);
-	}
-	return target;
-}
 
 //launchExternalWin - create and launch new browser window  - called by 'launchWin' for type "new"
 //arg: uri - target uri for window
-_Juice.prototype.launchExternalWin = function(uri){
-	if(this.popup_win && !this.popup_win.closed){
-		this.popup_win.close();
+juice.launchExternalWin = function(uri){
+	if(juice.popup_win && !juice.popup_win.closed){
+		juice.popup_win.close();
 	}
-	this.popup_win = window.open(uri,"Juice",'width='+this.launchWinW+',height='+this.launchWinH+',toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+	juice.popup_win = window.open(uri,"Juice",'width='+juice.launchWinW+',height='+juice.launchWinH+',toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
 	if(window.focus){
-		this.popup_win.focus();
+		juice.popup_win.focus();
 	}
 }
 
 //launchIframeWin - create and launch iframe in current browser window  - called by 'launchWin' for type "iframe"
 //arg: uri - ifram target
 //arg: insert - insert to carry iframe
-//See also JiuceInsert
-_Juice.prototype.launchIframeWin = function(uri,insert){
+//See also JuiceInsert
+juice.launchIframeWin = function(uri,insert){
 	var target = insert;
 	if(insert instanceof JuiceInsert){
 		insert.show();
@@ -487,126 +343,112 @@ _Juice.prototype.launchIframeWin = function(uri,insert){
 
 /**
  * Add script element to document
+ * @name jQuery.juice.runscript
  * @param {string} id script id - used to identify & remove any previous instaces in document
  * @param {uri} src uri of script to insert
  */
-_Juice.prototype.runscript = function(id,src){
-	$jq("#"+id).remove();
+juice.runscript = function(id,src){
+	$("#"+id).remove();
 	var cont = '<script id="' + id + '" src="' + src +'" type="text/javascript"></script>';
-	$jq(document).prepend(cont);
+	$(document).prepend(cont);
+}   
+
+/**
+ * Call user function when all loading Google APIs and JavaScripts are loaded
+ * Waits on setTimeout of 5ms before trying again
+ * @name jQuery.juice.onAllLoaded
+ * @param func Function to call when ready
+ * Also maps to deprecated onAlloaded
+ */
+juice.ready = juice.onAllLoaded =  function(func){
+	if(juice.isGoogleApiLoaded() && juice.isJsLoaded()){
+		func();
+	}else{
+		setTimeout(function(){juice.ready(func);},5);
+	}
 }
 
-//Script &  CSS Loading Utilities ----------
+/**Quick and easy loading of extensions in standard folder structure 
+* @name jQuery.juice.loadExtensions
+* @params extension string ('x','y',etc)
+*/
 
-                  
-    /**
-     * Call user function when all loading Google APIs and JavaScripts are loaded
-     * Waits on setTimeout of 5ms before trying again
-     * @param func Function to call when ready
-	 * @deprecated Depricated by juice.ready()
-     */
-	_Juice.prototype.onAllLoaded = function(func){
-		this.ready(func);
-	}
+juice.loadExtensions = function(){
+	var path=$('script[src*=/juice.js]').first().attr('src').replace('/juice.js','/');
 
-    /**
-     * Call user function when all loading Google APIs and JavaScripts are loaded
-     * Waits on setTimeout of 5ms before trying again
-     * @param func Function to call when ready
-     */
-	_Juice.prototype.ready = function(func){
-		var This = this;
-		if(this.isGoogleApiLoaded() && this.isJsLoaded()){
-			func();
-		}else{
-			setTimeout(function(){This.ready(func);},5);
+	var args = Array.prototype.slice.call(arguments);
+	args = args.slice(0, args.length);
+
+	for (var i = 0; i < args.length; i++){
+		if(args[i].indexOf('.js')==-1) {
+			args[i]=args[i]+'.js';
 		}
-	}
-
-
-    /**
-     * utility class to track script loading ready states
-     * @constructor
-     * @param {string} file File being loded
-     */
-function JsLoadFlag(file){
-	this.name = file;
-	this.loaded = false;
+	    juice.loadJs(path+'extensions/'+args[i],'');
+	    }
 }
 
-//JsLoadFlags - Array to track script/css file loadings
-_Juice.prototype.JsLoadFlags = [];
 
-//Load script 
-//arg: target - append to head of of document - ONLY if not previously loaded anywhere in document
-//arg: pathPrefix - path to prefixed to relative and absolute paths
-//arg: onLoadEvent - function to call when loaded
-_Juice.prototype.loadJs = function (target,pathPrefix,onLoadEvent){
-	var file = this._absoluteUri(target,pathPrefix);
-	
-	if(this.findJs(file)){
+/**Load script 
+* @name jQuery.juice.loadJs
+* @param target - append to head of of document - ONLY if not previously loaded anywhere in document
+* @param pathPrefix - path to prefixed to relative and absolute paths
+* @param onLoadEvent - function to call when loaded
+*/
+juice.loadJs = function (target,pathPrefix,onLoadEvent){
+	var file = juice._absoluteUri(target,pathPrefix);
+	if(juice.findJs(file)){
 		if(onLoadEvent){
 			onLoadEvent();
 		}
 		return;
 	}
-	this._loadFile(file,"js",onLoadEvent);
+	juice._loadFile(file,"js",onLoadEvent);
 }
 		
-//Load css 
-//arg: target - append to head of of document
-//arg: pathPrefix - path to prefixed to relative and absolute paths
-_Juice.prototype.loadCss = function (target,pathPrefix){
-	this._loadFile(this._absoluteUri(target,pathPrefix),"css");
+/**Load css 
+* @name jQuery.juice.loadCss
+* @param target - append to head of of document
+* @param pathPrefix - path to prefixed to relative and absolute paths
+*/
+juice.loadCss = function (target,pathPrefix){
+	juice._loadFile(juice._absoluteUri(target,pathPrefix),"css");
 }
 		
 //_loadFile - internl function to append file elements to document header
 //arg: type - "function to call when loaded "css" | "js"
-//arg: onLoadEvent - function to call when loaded - only relevant for type "js"
-_Juice.prototype._loadFile = function (file,type,onLoadEvent){
-	var This = this;
-	var evnt = onLoadEvent;
-    var head = document.getElementsByTagName('head')[0]; 
-    var ins = null;
-	if(type == "js"){
-	 	ins = document.createElement('script'); 
-	    ins.type = 'text/javascript'; 
-	    ins.src = file; 
-	}else if(type == "css"){
-	 	ins = document.createElement('link'); 
-	    ins.type = 'text/css'; 
-	    ins.rel = 'stylesheet'; 		
-	    ins.href = file; 		
-	}
-
-	if(type == "js"){
-		This.JsLoadFlags[this.JsLoadFlags.length] = new JsLoadFlag(file);
-		
-		ins.onreadystatechange = function () {
-	        if (ins.readyState == 'loaded' || ins.readyState == 'complete') {
-				if(evnt){
-					evnt();
-				}
-	            This.jsOnLoadEvent(file);
+//arg: evnt - function to call when loaded - only relevant for type "js"
+juice._loadFile = function (file,type,evnt){
+	
+	        if(type == "js"){
+	           		var head = document.getElementsByTagName('head')[0]; 
+	            	var ins = document.createElement('script'); 
+	            	evnt = evnt || $.noop;
+	            	ins.type = 'text/javascript'; 
+	            	ins.src = file; 
+	            	juice.JsLoadFlags[juice.JsLoadFlags.length] = {'name':file, 'loaded':false, 'type':'script'};
+	            	ins.onreadystatechange = function () {
+	            	    if (ins.readyState == 'loaded' || ins.readyState == 'complete') {        
+	            	        evnt();      
+	            	        juice.jsOnLoadEvent(file);
+	            	    }
+	            	}
+	            	ins.onload = function () {    
+	            	   evnt();       
+	            	   juice.jsOnLoadEvent(file);
+	            	}
+	            	head.insertBefore(ins, head.firstChild );
+	            	
+	        }else if(type == "css"){
+	            $('head').prepend('<link type="text/css" rel="stylesheet" href="'+file+'" />');   
 	        }
-	    }
-	    ins.onload = function () {
-			if(evnt){
-				evnt();
-			}
-	       This.jsOnLoadEvent(file);
-	    }
-	}
-	//Copy of jQuery fix for IE6 - insert at top of head 
-	head.insertBefore( ins, head.firstChild );
+	       	
 }
 
-_Juice.prototype._absoluteUri = function(file, pathPrefix){
-
-	if(this._strBeginsWith(file,"http://") || this._strBeginsWith(file,"https://")){
+juice._absoluteUri = function(file, pathPrefix){
+	if(juice._strBeginsWith(file,"http://") || juice._strBeginsWith(file,"https://") || juice._strBeginsWith(window.location.protocol,"file:") ){
 		return file;
 	}
-	if(this._strBeginsWith(file,"/")){
+	if(juice._strBeginsWith(file,"/")){
 		if(!pathPrefix){
 			pathPrefix = "";
 		}else{
@@ -621,7 +463,7 @@ _Juice.prototype._absoluteUri = function(file, pathPrefix){
 		}
 		var ret =  window.location.protocol + "//" + window.location.host;
 		var path = document.location.pathname;
-		if(this._strEndsWith(path,"/")){
+		if(juice._strEndsWith(path,"/")){
 			path = path.substr(0,path.length -1);
 		}
 		
@@ -634,34 +476,27 @@ _Juice.prototype._absoluteUri = function(file, pathPrefix){
 }
 
 //findJs - return true if script element already loaded in document
-_Juice.prototype.findJs = function (file){
-	var fileString = this.urlRoot(file);
-	var scripts = document.getElementsByTagName('script');
-	
-	for(var i=0;i < scripts.length;i++){
-		if(this.urlRoot(scripts[i].getAttribute("src")) == fileString){
-			return true;
-		}
-	}
+juice.findJs = function (file){
+	var script=$('script[src*='+juice.urlRoot(file)+']');
+	if(script.length>0) return true;
 	return false;
 }
 
 //Remove everything after and including '#' and/or '?' from a string
-_Juice.prototype.urlRoot = function(url){
-	str = new String(url);
-	if(str.indexOf('#') != -1){
-		str = new String(str.substring(0,str.indexOf('#')));
+juice.urlRoot = function(url){
+	if(url.indexOf('#') != -1){
+		url = url.substring(0,url.indexOf('#'));
 	}
-	if(str.indexOf('?') != -1){
-		str = new String(str.substring(0,str.indexOf('?')));
+	if(url.indexOf('?') != -1){
+		url = url.substring(0,url.indexOf('?'));
 	}
-	return str.toString();
+	return url;
 }
 
-//jsOnLoadEvent - clled by browser script load - flags file as loaded
+//jsOnLoadEvent - called by browser script load - flags file as loaded
 //arg: name - id of script lodd
-_Juice.prototype.jsOnLoadEvent = function(name){
-	var loadFlags = this.JsLoadFlags;
+juice.jsOnLoadEvent = function(name){
+	var loadFlags = juice.JsLoadFlags;
 	for(var i=0;i < loadFlags.length; i++ ){
 		if(name == loadFlags[i].name){
 			loadFlags[i].loaded = true;
@@ -672,27 +507,23 @@ _Juice.prototype.jsOnLoadEvent = function(name){
 
 //onJsLoaded - call function when all loading scripts are loaded
 //Waits on setTimeout of 5ms before trying again
-_Juice.prototype.onJsLoaded = function(func){
-	var This = this;
-	if(this.isJsLoaded()){
+juice.onJsLoaded = function(func){
+	if(juice.isJsLoaded()){
 		func();
 	}else{
-		setTimeout(function(){This.onJsLoaded(func);},10);
+		setTimeout(function(){juice.onJsLoaded(func);},10);
 	}
 }
 
 //isJsLoaded - returns true if all scripts loaded
-_Juice.prototype.isJsLoaded = function(){
-	if(this.JsNotLoaded().length){
-		return false;
-	}
-	return true;
+juice.isJsLoaded = function(){
+	return !juice.JsNotLoaded().length;
 }
 
 //JsNotLoaded - returns array of script names not yet loaded
-_Juice.prototype.JsNotLoaded = function(){
+juice.JsNotLoaded = function(){
 	var ret = [];
-	var loadFlags = this.JsLoadFlags;
+	var loadFlags = juice.JsLoadFlags;
 	for(var i = 0;i < loadFlags.length; i++ ){
 		if(!loadFlags[i].loaded){
 			ret[ret.length] = loadFlags[i].name;
@@ -701,128 +532,80 @@ _Juice.prototype.JsNotLoaded = function(){
 	return ret;
 }	
 
-_Juice.prototype._googleApiKey = "";
-_Juice.prototype.googleApiKey = function(v){
-	if(v != null){
-		this._googleApiKey = v;	
-	}
-	return this._googleApiKey;
-}
+//Google API Loading utils ----------
 
-_Juice.prototype._googleLoadFlag = "off";
-_Juice.prototype.loadGoogle_jsapi = function(apiKey){
-	var key = this._googleApiKey;
-	if(apiKey){
-		key = apiKey;
-	}
-	if(key != ""){
-		key = "key=" + key + "&";
-	}
-	if(this._googleLoadFlag == "off"){
-		this._googleLoadFlag = "loading";
-		var google = "http://www.google.com/jsapi?" + key + "callback=juice._googleLoaded";
-		juice.loadJs(google);
+juice.loadGoogle_jsapi = function(){
+	if(!juice._googleLoadFlag){
+		var key = juice.googleApiKey;
+		if(key != ""){
+			key = "key=" + key + "&";
+		}
+		juice.loadJs("http://www.google.com/jsapi?" + key, "", function(){
+			juice._googleLoadFlag = true;
+		});
 	}
 }
 
-
-_Juice.prototype._googleLoaded = function(){
-	this._googleLoadFlag = "loaded";
-}
-
-_Juice.prototype.loadGoogleApi = function(api,ver,args){
-	if(!this.googleApiLoaded(api)){
-		this.gapLoadFlags[this.gapLoadFlags.length] = new JsLoadFlag(api);
-		this._loadGoogleApi(api,ver,args);
+juice.loadGoogleApi = function(api,ver,args){
+	if(!juice.googleApiLoaded(api)){
+		juice.JsLoadFlags[juice.JsLoadFlags.length] = {'name':api, 'loaded':false, 'type':'google'};
+		juice._loadGoogleApi(api,ver,args);
 	}
 }	
 
-_Juice.prototype._loadGoogleApi = function(api,ver,args){
-	var This = this;
+juice._loadGoogleApi = function(api,ver,args){
 	
-	this.loadGoogle_jsapi();	//Check we have loaded the master api
-
-	if(this._googleLoadFlag == "loaded"){
-		this.startLoadGoogleApi(api,ver,args);
+	juice.loadGoogle_jsapi();	//Check we have loaded the master api
+	if(juice._googleLoadFlag){
+		google.load(api, ver,{callback:function(){juice.jsOnLoadEvent(api);}})
 	}else{
-		setTimeout(function(){This._loadGoogleApi(api,ver,args);},20);
+		setTimeout(function(){juice._loadGoogleApi(api,ver,args);},20);
 	}
 }
-
-_Juice.prototype.gapLoadFlags = [];
-
-_Juice.prototype.startLoadGoogleApi = function(api,ver,args){
-//	if(!this.googleApiLoaded(api)){
-//		this.gapLoadFlags[this.gapLoadFlags.length] = new JsLoadFlag(api);
-		google.load(api, ver,{callback:function(){juice.gapOnLoadEvent(api);}})		
-//	}
-}
-
-//gapOnLoadEvent - called by browser Google API load - flags api as loaded
-//arg: name - id of api loaded
-_Juice.prototype.gapOnLoadEvent = function(name){
-	var loadFlags = this.gapLoadFlags;
-	for(var i=0;i < loadFlags.length; i++ ){
-		if(name == loadFlags[i].name){
-			loadFlags[i].loaded = true;
-			break;
-		}
-	}
-}
-
-
-	//Google API Loading utils ----------
 
 //onGoogleApiLoaded - call function when all loading Google APIs are loaded
 //Waits on setTimeout of 5ms before trying again
-_Juice.prototype.onGoogleApiLoaded = function(func){
-	var This = this;
-	if(this.isGoogleApiLoaded()){
+juice.onGoogleApiLoaded = function(func){
+	if(juice.isGoogleApiLoaded()){
 		func();
 	}else{
-		setTimeout(function(){This.onGoogleApiLoaded(func);},5);
+		setTimeout(function(){juice.onGoogleApiLoaded(func);},5);
 	}
 }
 
-//isJsLoaded - returns true if all Google APis  loaded
-_Juice.prototype.isGoogleApiLoaded = function(){
-	if(this.googleApiNotLoaded().length){
-		return false;
+//isGoogleApiLoaded - returns true if all Google APis  loaded
+juice.isGoogleApiLoaded = function(){
+	
+	var loadFlags = juice.JsLoadFlags;
+	for(var i = 0;i < loadFlags.length; i++ ){
+		if(loadFlags[i].type=='google' && !loadFlags[i].loaded){
+			return false;
+		}
 	}
+	
 	return true;
 }
 
-//googleApiNotLoaded - returns array of Google APis names not yet loaded
-_Juice.prototype.googleApiNotLoaded = function(){
-	var ret = [];
-	var loadFlags = this.gapLoadFlags;
-	for(var i = 0;i < loadFlags.length; i++ ){
-		if(!loadFlags[i].loaded){
-			ret[ret.length] = loadFlags[i].name;
-		}
-	}
-	return ret;
-}	
 //googleApiLoaded - returns true if Google APi loading or loaded
-_Juice.prototype.googleApiLoaded = function(api){
+juice.googleApiLoaded = function(api){
 	var ret = [];
-	var loadFlags = this.gapLoadFlags;
+	var loadFlags = juice.JsLoadFlags;
 	for(var i = 0;i < loadFlags.length; i++ ){
-		if(loadFlags[i].name == api){
+		if(loadFlags[i].type=='google' && loadFlags[i].name == api){
 			return true;
 		}
 	}
 	return false;
 }	
 
-	//Text handling utils ----------
+//Text handling utils ----------
 
-_Juice.prototype.nums = '0123456789';
-_Juice.prototype.lc = 'abcdefghijklmnopqrstuvwxyz';
-_Juice.prototype.uc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+juice.nums = '0123456789';
+juice.lc = 'abcdefghijklmnopqrstuvwxyz';
+juice.uc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-//isVal retun true if all chars in 'value' string can be found in 'val' string
-_Juice.prototype.isVal = function(value,val) {
+//isVal return true if all chars in 'value' string can be found in 'val' string
+juice.isVal = function(value,val) {
 	if (value == "") return true;
 	for (i=0; i<value.length; i++) {
 		if (val.indexOf(value.charAt(i),0) == -1) return false;
@@ -830,81 +613,49 @@ _Juice.prototype.isVal = function(value,val) {
 	return true;
 }
 
-_Juice.prototype.isnumser = function(value) {return juice.isVal(value,juice.nums);}
-_Juice.prototype.isLower = function(value) {return juice.isVal(value,juice.lc);}
-_Juice.prototype.isUpper = function(value) {return juice.isVal(value,juice.uc);}
-_Juice.prototype.isAlpha = function(value) {return juice.isVal(value,juice.lc+juice.uc);}
-_Juice.prototype.isAlphanum = function(value) {return juice.isVal(value,juice.lc+juice.uc+juice.nums);}
+juice.isnumser = function(value) {return $.juice.isVal(value,$.juice.nums);}
+juice.isLower = function(value) {return $.juice.isVal(value,j$.juice.lc);}
+juice.isUpper = function(value) {return $.juice.isVal(value,$.juice.uc);}
+juice.isAlpha = function(value) {return $.juice.isVal(value,$.juice.lc+$.juice.uc);}
+juice.isAlphanum = function(value) {return $.juice.isVal(value,$.juice.lc+$.juice.uc+$.juice.nums);}
 
 //Converts string of words in to an array of strings - word only included if it only conains alphanum chars
 //arg: str - string to parse
-_Juice.prototype.stringToAlphnumAray = function(str){
+juice.stringToAlphnumAray = function(str){
 	var items = [];
 	var count = 0;
-	var raw = juice.stringToArray(str,",.:;");
+	var raw = $.juice.stringToArray(str,",.:;");
  	for(j=0;j < raw.length;j++){
-		if(juice.isAlphanum(raw[j])){
+		if($.juice.isAlphanum(raw[j])){
 			items[count++] = raw[j];
 		}
 	}
 	return items;
 }
 
-_Juice.prototype.stringToArray = function(str,extras)
+juice.stringToArray = function(str,extras)
 // Assumes: str is a sequence of words, separated by whitespace
 // Other seperator chars can be added from string extras
 // Returns: an array containing the individual words
 {
-	var seps = " \t\n\r" + extras;
-	var index;
-
-	var items = [];
-	var count = 0;
-
-	while (str != null && str != "") {
-	  index = 0;
-	  while (index < str.length && juice.isSepChar(str.charAt(index),seps)) {
-	    index++;  
-	  }
-	  if (index < str.length) {
-	    var item = "";
-	    while (index < str.length && !juice.isSepChar(str.charAt(index),seps)) {
-	      item += str.charAt(index);
-	      index++;
-	    }
-
-	    items[count++] = item;
-	  }
-	  str = str.substring(index+1, str.length);
-	}
-  return items;
+	var seps = " \t\s\n\f\r" + extras.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); //escapes regex chars
+	var replace=new RegExp('['+seps+']','mg'); //normalises string
+	str.replace(replace, ' ');
+	return str.split(' ');
+	
 }
-
-
-_Juice.prototype.isSepChar = function(ch,chars) 
-// Given   : ch is a character
-// Returns : true if ch is a whitecase letter
-// arg: chars - string containing alternative whitecase characters - optional
-{ 
-	var white = " \t\n\r";
-	if(chars != null || chars != ""){
-		white = chars;
-	}
-
-	return (white.indexOf(ch) != -1);
-}  
 
 //Array handling utils ----------
 
-//toArray ensures retun is an array of the data.
+//toArray ensures return is an array of the data.
 //If data is single value returns a single element array
 //Handles a string as a single value
-_Juice.prototype.toArray = function(data){
+juice.toArray = function(data){
 	var items = [];
 
 	if(!data){
 		return items;
-	}else if($jq.isArray(data)){
+	}else if($.isArray(data)){
 		return data; 		
 	}else if(typeof data == "string"){
 		items[0] = data; 		
@@ -924,7 +675,7 @@ _Juice.prototype.toArray = function(data){
  * @param second array to merg in to first
  * @returns merged array
  */
-_Juice.prototype.updateArray = function(first,second){
+juice.updateArray = function(first,second){
 	var ret = first;
 	if(second){
 		for(var i in second){
@@ -938,6 +689,7 @@ _Juice.prototype.updateArray = function(first,second){
 
 /**
  * Set browser coookie
+ * @name jQuery.juice.setCookie
  * @param {string} name
  * @param {string} value
  * @param {int} [minutes]
@@ -948,7 +700,7 @@ _Juice.prototype.updateArray = function(first,second){
  * @param {boolean} secure
  */
 
-_Juice.prototype.setCookie = function(name,value,minutes,hours,days,path,domain,secure ){
+juice.setCookie = function(name,value,minutes,hours,days,path,domain,secure ){
 	var cookie_string = name + "=" + escape ( value );
 
 	if(minutes){
@@ -979,11 +731,12 @@ _Juice.prototype.setCookie = function(name,value,minutes,hours,days,path,domain,
 	document.cookie = cookie_string;
 }
 /**
- * Get browser coookie
+ * Get browser cookie
+ * @name jQuery.juice.getCookie
  * @param {string} name
  * @return {string} cookie value or null
  */
-_Juice.prototype.getCookie = function(name){
+juice.getCookie = function(name){
 	var results = document.cookie.match ( '(^|;) ?' + name + '=([^;]*)(;|$)' );
 	if ( results ){
 		return ( unescape ( results[2] ) );	
@@ -992,33 +745,45 @@ _Juice.prototype.getCookie = function(name){
 }
 /**
  * Delete browser coookie
+ * @name jQuery.juice.deleteCookie
  * @param {string} name
  */
-_Juice.prototype.deleteCookie = function(name){
+juice.deleteCookie = function(name){
 	var cookie_date = new Date();  // current date & time
 	cookie_date.setTime(cookie_date.getTime() - 1);
 	document.cookie = name += "=; expires=" + cookie_date.toGMTString();
 }
 
-_Juice.prototype._strBeginsWith = function(str,target){
+juice._strBeginsWith = function(str,target){
 	return (str.match("^"+target)==target)
 }
 
-_Juice.prototype._strEndsWith = function(str,target){
+juice._strEndsWith = function(str,target){
 	return (str.match(target+"$")==target)
 }
 
-window.juice = new _Juice();
+//map _Juice to jQuery plugin and window object (only main instance so not on prototype) TODO deprecate global juice object
 
-//Global instance of Juice class created on load
-//var juice = new _Juice();
-
+window.juice=jQuery.juice=juice;
 
 //============== Class JuiceInsert ==============	
 //Definition of insert in to document body
 //InsertPoint could result in multiple instances of insert on a single page - this is supported
 //methods such asa show(), getInsertObject(), and remove() default to a zero position in any
-//aray of instances to simplify operation of a single insert instance.
+//array of instances to simplify operation of a single insert instance.
+
+/**
+ * Definition of insert into document body
+ * InsertPoint could result in multiple instances of insert on a single page - this is supported
+ * methods such as show(), getInsertObject(), and remove() default to a zero position in any
+ * array of instances to simplify operation of a single insert instance.
+ * @namespace
+ * @constructor
+ * @name jQuery.juice.insert
+ * @param {String} container html to be inserted in to document
+ * @param {String} insertPoint location within document
+ * @param {String} insertType How to insert at insert point: before | after | append | prepend | replace
+ */
 
 function JuiceInsert(container,insertPoint,insertType){
 	//html/dom to insert in to page
@@ -1030,51 +795,14 @@ function JuiceInsert(container,insertPoint,insertType){
 	//Shown flags
 	this.shown = [];
 	//JQuery/Dom elements created on insertion
-	this._insertObjects = [];
+	this.insertObjects = [];
 	//Number of matching insert points
-	this.inserts = $jq(this._insertPoint).length;
+	this.inserts = $(this._insertPoint).length;
 
 	for(var i=0;i< this.inserts; i++){
 		this.shown[i] = false;
-		this._insertObjects[i] = null;
+		this.insertObjects[i] = null;
 	}
-}
-
-//container - Set/get function used to load container
-//arg: v - new value - optional
-JuiceInsert.prototype.container = function(v){
-	if(v != null){
-		this._container = v;
-	}
-	return this._container;
-}
-
-//insertPoint - Set/get function used to load insertPoint
-//arg: v - new value - optional
-JuiceInsert.prototype.insertPoint = function(v){
-	if(v != null){
-		this._insertPoint = v;
-	}
-	return this._insertPoint;
-}
-
-//insertType - Set/get function used to load insertType
-//arg: v - new value - optional
-JuiceInsert.prototype.insertType = function(v){
-	if(v != null){
-		this._insertType = v;
-	}
-	return this._insertType;
-}
-
-//insertCount - return count of instances of this insert 
-JuiceInsert.prototype.insertCount = function(){
-	return this.inserts;
-}
-
-//insertObjects - return array of inserted copies of the container from each instance
-JuiceInsert.prototype.insertObjects = function(){
-	return this._insertObjects;
 }
 
 //showAll - Call show() for all instances of this insert
@@ -1088,15 +816,13 @@ JuiceInsert.prototype.showAll = function(){
 //arg: pos - which instance of this insert to show - optional - defaults to 0
 
 JuiceInsert.prototype.show = function(pos){
-	if(!pos){
-		pos = 0;
-	}
+	pos = pos || 0;
 	var This = this;
-	$jq(this._insertPoint).each(function(i){
+	$(this._insertPoint).each(function(i){
 		if(i == pos && !This.shown[i]){
 			var ins = jQuery(This._container);
 			var target = jQuery(this);
-			This._insertObjects[i] = ins;
+			This.insertObjects[i] = ins;
 			switch(This._insertType){
 				case "after":
 					target.after(ins);
@@ -1123,37 +849,37 @@ JuiceInsert.prototype.show = function(pos){
 //getInsertObject - return JQuery/Dom element created on insertion
 //arg: pos - which instance of this insert - optional - defaults to 0
 JuiceInsert.prototype.getInsertObject = function(pos){
-	if(!pos){
-		pos = 0;
-	}
-	return this._insertObjects[pos];
+	return this.insertObjects[pos || 0];
 }
 
 //remove - remove inserted elements from document - sets shown to false
 //arg: pos - which instance of this insert - optional - defaults to 0
 JuiceInsert.prototype.remove = function(pos){
-	if(!pos){
-		pos = 0;
-	}
+	pos = pos || 0;
 	if(this.shown[pos]){
-		this._insertObjects[pos].remove();
-		this._insertObjects[pos] = null;
+		this.insertObjects[pos].remove();
+		this.insertObjects[pos] = null;
 		this.shown[pos] = false;
 	}
 }
 
-window.JuiceInsert = JuiceInsert;
+window.JuiceInsert= jQuery.juice.insert = JuiceInsert;
 
 //============== Class JuiceProcess ==============
 
-//Base controlling class for extentions
-//See also:	JuiceSelectProcess
-	
-//arg: id - id of extension - should be unique in current document
-//arg: initFunc - function to call when extention ready
-//arg: selectFunc - function to call when extension activated
-//arg: insert - insert definition to contain extention output embeded in document - optional
-//arg: ju - controlling Juice class
+/**
+ * Base class for extensions.
+ * See also:	JuiceSelectProcess
+ * @namespace
+ * @constructor
+ * @name jQuery.juice.process
+ * @param {String} id of extension - should be unique in current document
+ * @param {Function} initFunc function to call when extention ready
+ * @param {Function} selectFunc function to call when extension activated
+ * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
+ * @param {juice} controlling Juice class
+ */
+
 function JuiceProcess(id,initFunc,selectFunc,insert,ju){
 	this._ready = false;
 	if( arguments.length ){
@@ -1180,21 +906,12 @@ JuiceProcess.prototype.initAndStartup = function(id,initFunc,selectFunc,insert,j
 //arg: selectFunc - function to call when extension activated
 //arg: ju - controlling Juice class
 JuiceProcess.prototype.init = function(id,initFunc,selectFunc,insert,ju){
-	this._ProcessId = id;
+	this.ProcessId = id;
 	this._startFunc = initFunc;
 	this._selectFunc = selectFunc;
 	this._insert = insert;
 	this._juice = ju;
 	this._ready = true;
-}
-
-//processId - set/get of proceesId
-//arg: v - new value - optional
-JuiceProcess.prototype.processId = function(v){
-	if(v != null){
-		this._ProcessId = v;	
-	}
-	return this._ProcessId;
 }
 
 //initFunc - set/get initFunc
@@ -1204,15 +921,6 @@ JuiceProcess.prototype.initFunc = function(v){
 		this._initFunc = v;	
 	}
 	return this._initFunc;
-}
-
-//selectFunc - set/get selectFunc
-//arg: v - new value - optional
-JuiceProcess.prototype.selectFunc = function(v){
-	if(v != null){
-		this._selectFunc = v;	
-	}
-	return this._selectFunc;
 }
 
 //insert - set/get insert
@@ -1228,7 +936,7 @@ JuiceProcess.prototype.insert = function(v){
 //startupWhenReady - call 'startup' when instance is set ready
 //Wait (using 'setTimeout') 5ms if not ready before retrying
 JuiceProcess.prototype.startupWhenReady = function(){
-	if(this.ready()){
+	if(this._ready){
 		this.startup();
 	}else{
 		var This = this;
@@ -1253,11 +961,6 @@ JuiceProcess.prototype._startup = function(){
 	}else{
 		this.enable();
 	}
-}
-
-//ready - return ready state
-JuiceProcess.prototype.ready = function(){
-	return this._ready;
 }
 
 
@@ -1300,31 +1003,21 @@ JuiceProcess.prototype.showInsert = function(pos){
 }
 
 //getInsertObjects - returns array of insert objects
-//See also: JuiceInsert.insertObjects()
 JuiceProcess.prototype.getInsertObjects = function(){
-	if(this._insert){
-		return this._insert.insertObjects();
-	}
-	return [];
+		return this._insert.insertObjects || [];
 }
 
 //getInsertObject - returns insert object
 //See also: JuiceInsert.getInsertObject()
 //arg: pos - optional position in insert array
 JuiceProcess.prototype.getInsertObject = function(pos){
-	if(this._insert){
-		return this._insert.getInsertObject(pos);
-	}
-	return null;
+	return this._insert.getInsertObject(pos) || null;
 }
 
 //getInsertCount - returns insert object count
 //See also: JuiceInsert.insertCount()
 JuiceProcess.prototype.insertCount = function(){
-	if(this._insert){
-		return this._insert.insertCount();
-	}
-	return 0;
+	return this._insert.inserts || 0;
 }
 
 
@@ -1333,13 +1026,26 @@ JuiceProcess.prototype.enable = function(){
 //Dummy func
 }
 
-window.JuiceProcess = JuiceProcess;
+window.JuiceProcess=jQuery.juice.process = JuiceProcess;
 
 //============== Class JuiceSelectProcess ==============	
 	
+//TODO fix to use the DOM rather than internals
+
 /**
+ * Base class for selection style extensions.
+ * @namespace
  * @constructor
- * @augments JuiceProcess
+ * @extends JuiceProcess
+ * @name jQuery.juice.selectProcess
+ * @param {String} id of extension - should be unique in current document
+ * @param {String} iconSrc uri of icon to display in selection panel
+ * @param {String} selText text to display
+ * @param {Function} initFunc function to call when extention ready
+ * @param {Function} selectFunc function to call when extension activated
+ * @param {JuiceInsert} [insert] definition to contain extention output embeded in document - optional
+ * @param {juice} controlling Juice class
+ * @param {String} [defPanel] panel this extention is restricted to - optional
  */
 function JuiceSelectProcess(id,iconSrc,selText,initFunc,selectFunc,insert,ju,defPanel){
 	this._ready = false;
@@ -1362,39 +1068,12 @@ JuiceSelectProcess.superclass = JuiceProcess.prototype;
 //arg: ju - controlling Juice class
 //arg: defPanel - panel this extention is restrictd to - optional
 JuiceSelectProcess.prototype.init = function(id,iconSrc,selText,initFunc,selectFunc,insert,ju,defPanel){
-	this._iconSrc = iconSrc;
-	this._selText = selText;
-	this._defPanel = defPanel;
+	this.selText = selText;
+	this.iconSrc = iconSrc;
+	this.defPanel = defPanel;
 	JuiceSelectProcess.superclass.init.call(this,id,initFunc,selectFunc,insert,ju);
 	this.addToIconWin();
 	this.startup();
-}
-
-//iconSrc - Set/get iconSrc
-//arg: v - new value - optional
-JuiceSelectProcess.prototype.iconSrc = function(v){
-	if(v != null){
-		this._iconSrc = v;	
-	}
-	return this._iconSrc;
-}
-
-//selText - Set/get selText
-//arg: v - new value - optional
-JuiceSelectProcess.prototype.selText = function(v){
-	if(v != null){
-		this._selText = v;	
-	}
-	return this._selText;
-}
-
-//defPanel - Set/get defPanel
-//arg: v - new value - optional
-JuiceSelectProcess.prototype.defPanel = function(v){
-	if(v != null){
-		this._defPanel = v;	
-	}
-	return this._defPanel;
 }
 
 //addToIconWin - add this extension's selector to panel(s)
@@ -1415,84 +1094,46 @@ JuiceSelectProcess.prototype.enable = function(pos){
 //Used by panels to define click functions on inserted dom elements
 //Arg: i - position in possible array of panels - defaults to 0 - optional
 JuiceSelectProcess.prototype.getSelectFunction = function(i){
-	if(!i){
-		i = 0
-	}
+	i = i || 0;
 	var pos = this.getCallBackPos();
-	return(function(){_JXSPA[pos]._selectFunc(i);});
+	return(function(){_JXSPA[pos]._selectFunc[i];});
 }
 
-window.JuiceSelectProcess = JuiceSelectProcess;
+window.JuiceSelectProcess = jQuery.juice.selectProcess = JuiceSelectProcess;
 	
 //============== Class JuicePanel ==============	
 	
-//Base/Controlling class for selection panels
-
-//arg: insertDiv - JuiceInsert defining panel insert in document
-//arg: pannelId - Id of panel
-//arg: startClass - css classes to be applied to inserted icons before selector is enabled
-//arg: liveClass - css classes to be applied to inserted icons when selector is enabled
-//arg: showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
+/**
+ * Base/Controlling class for selection panels.
+ * @namespace
+ * @constructor
+ * @name jQuery.juice.panel
+ * @param {String} insertDiv JuiceInsert defining panel insert in document
+ * @param {String} pannelId Id of panel
+ * @param {String} startClass css classes to be applied to inserted icons before selector is enabled
+ * @param {String} liveClass css classes to be applied to inserted icons after selector is enabled
+ * @param {Function} [showFunc] Function to be called as panel is shown - optional (isert show function may be sufficient)
+ */
 function JuicePanel(insertDiv, panelId, startClass, liveClass, showFunc){
 	this.init(insertDiv, panelId, startClass, liveClass, showFunc);
 }
-
-//arg: insertDiv - JuiceInsert defining panel insert in document
-//arg: pannelId - Id of panel
-//arg: startClass - css classes to be applied to inserted icons before selector is enabled
-//arg: liveClass - css classes to be applied to inserted icons when selector is enabled
-//arg: showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
+/**
+* @param insertDiv - JuiceInsert defining panel insert in document
+* @param pannelId - Id of panel
+* @param startClass - css classes to be applied to inserted icons before selector is enabled
+* @param liveClass - css classes to be applied to inserted icons when selector is enabled
+* @param showFunc - function to be called as panel is shown - optional (isert show function may be sufficient)
+*/
 JuicePanel.prototype.init = function(insertDiv, panelId, startClass, liveClass, showFunc){
-	this._panelId = panelId;
-	this._insertDiv = insertDiv;
-	this._startClass = startClass;
-	this._liveClass = liveClass;
-	this._showFunc = showFunc;
+	this.liveClass = liveClass;
+	this.startClass = startClass;
 	this.inserted = false;
 	this.shown = false;
-	this._shared = true;
+	this.shared = true;
+	this.panelId = panelId;
+	this._insertDiv = insertDiv;
+	this._showFunc = showFunc;
 } 
-
-//getPanelId - return panelId
-JuicePanel.prototype.getPanelId = function(){
-	return this._panelId;
-}
-
-//startClass - Set/get startClass
-//arg: v - new value - optional
-JuicePanel.prototype.startClass = function(v){
-	if(v != null){
-		this._startClass = v;	
-	}
-	return this._startClass;
-}
-
-//liveClass - Set/get liveClass
-//arg: v - new value - optional
-JuicePanel.prototype.liveClass = function(v){
-	if(v != null){
-		this._liveClass = v;	
-	}
-	return this._liveClass;
-}
-
-//showFunc - Set/get showFunc
-//arg: v - new value - optional
-JuicePanel.prototype.showFunc = function(v){
-	if(v != null){
-		this._showFunc = v;	
-	}
-	return this._showFunc;
-}
-
-//shared - Set/get showFunc
-//arg: v - new value - optional
-JuicePanel.prototype.shared = function(v){
-	if(v != null){
-		this._shared = v;	
-	}
-	return this._shared;
-}
 
 //insert - show the panel containing insert
 //See also: JuiceInsert.show()
@@ -1519,10 +1160,10 @@ JuicePanel.prototype.show = function(){
 JuicePanel.prototype.add = function(sel){
 	this.insert();
 	this.show();
-	var objects = this._insertDiv.insertObjects();
+	var objects = this._insertDiv.insertObjects;
 	for(var i = 0;i < objects.length;i++){
 		var id = this.makeId(sel,i);
-		var htm = '<img title="'+ sel.selText() + '" id="' + id + '" class="' + this.startClass() + '" src="' + sel.iconSrc() + '" />';
+		var htm = '<img title="'+ sel.selText + '" id="' + id + '" class="' + this.startClass + '" src="' + sel.iconSrc + '" />';
 		objects[i].append(htm);
 	}
 	sel.insert(this._insertDiv);
@@ -1534,100 +1175,26 @@ JuicePanel.prototype.add = function(sel){
 JuicePanel.prototype.enable = function(sel,pos){
 	var func = sel.getSelectFunction(pos);
 	var id = this.makeId(sel,pos);
-	var classes = this.startClass().split(" ");
+	var classes = this.startClass.split(" ");
 	for(var i=0;i < classes.length;i++){
-		$jq("#"+id).removeClass(classes[i]);
+		$("#"+id).removeClass(classes[i]);
 	}
-	classes = this.liveClass().split(" ");
+	classes = this.liveClass.split(" ");
 	for(var i=0;i < classes.length;i++){
-		$jq("#"+id).addClass(classes[i]);
+		$("#"+id).addClass(classes[i]);
 	}
-	$jq("#"+id).click(func);
+	$("#"+id).click(func);
 }
 
 //makeID - construct a uniquie id for selections added to this panel
 //combination of panelID, selectorId and position in array of insert instances for this panel
 JuicePanel.prototype.makeId = function(sel,pos){
-	if(!pos){
-		pos = 0;
-	}
-	return this.getPanelId() + "-" + sel.processId() + "-" + pos;
+	pos = pos || 0;
+	return this.panelId + "-" + sel.processId + "-" + pos;
 }
 
-window.JuicePanel = JuicePanel;
+window.JuicePanel = jQuery.juice.panel = JuicePanel;
 
-/**
- * @private
- * Meta definition class.
- * Can store single value or an array of values. A value is always a string.
- * @constructor
- * If argument is a function, it should return a value or array of values to store
- * the function will be called with a single argument - the id.
- * @param arg Value(s) to store, or function that returns value(s) to store
- */
-function Meta(arg){
-	this._values = [];
-	if(arguments.length){
-		this.setValues(arg);
-	}	
-}
-
-
-/**
- * @private
- * Set the array of value(s) stored
- * Uses juice.toArray() to ensure whatever is passed is stored as an array
- * @param val value(s) to be stored
- */
-Meta.prototype.setValues = function(val){
-	this._values = juice.toArray(val);
-}
-
-/**
- * @private
- * Return a value that have been identified and stored. By default the first
- * value is returned (index 0) but you can select any other value by index.
- * @param {Number} [index] The index of a value, starting with 0
- */
-Meta.prototype.get = function(index){
-	return this._values[ index == null ? 0 : index ];
-}
-
-/**
- * @private
- * Return an array of values that have been identified and stored.
- */
-Meta.prototype.getValues = function(){
-	return this._values;
-}
-
-/**
- * @private
- * Return the number of values that have been identified and stored.
- */
-Meta.prototype.getLength = function(){
-	return this._values.length;
-}
-
-/**
- * @private
- * Return whether value(s) have been identified and stored.
- */
-Meta.prototype.hasMeta = function(){
-	return this._values.length > 0;
-}
-
-})();
-
-//============== Stuff ==============	
-
-function testDebug(data){
-	if(this._debugEnabled){
-		div = document.getElementById("pageFooter");
-		if(div){
-			div.innerHTML += " " + data;
-		}
-	}
-}
+})(jQuery, window);
 
 

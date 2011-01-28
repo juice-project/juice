@@ -77,7 +77,7 @@ TwitterFeedJuice.prototype.getTweets = function(){
 TwitterFeedJuice.prototype.displayFeed = function(list){
 	
 	if(list){
-		var cont = '<div id="' + this.processId() + '" ' + 'class="juice_tweet" ' +
+		var cont = '<div id="' + this.processId + '" ' + 'class="juice_tweet" ' +
 			'style="display: block; background-color: transparent; ' +
 			'padding: 0; border: 0; margin-left: auto; margin-right: auto; ' +
 			'width: ' +  this.opts.width + '; ' +

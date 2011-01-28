@@ -2,24 +2,7 @@ jQuery.noConflict();
 
 jQuery(document).ready(function () {
 	juice.setDebug(true)
-	juice.loadJs("http://juice-project.s3.amazonaws.com/metadefs/talis_aspire_metadef.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceBasicPanel.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/panels/juiceListPanel.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBSEmbed.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/GBS.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/WorldCat.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Amzcouk.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Audiblecouk.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/Waterstones.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThing.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/delicious.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/copac.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/OpenLibrary.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/LibraryThingCK.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/extensions/MTAEmbed.js");
-	juice.loadJs("http://juice-project.s3.amazonaws.com/juiceOverlay-0.3.js");
-	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceDefault.css");
-	juice.loadCss("http://juice-project.s3.amazonaws.com/juiceOverlay.css");
+	juice.loadExtensions("talis_aspire_metadef.js","juiceBasicPanel.js", "juiceListPanel.js", "GBSEmbed.js", "GBS.js", "WorldCat.js","Amzcouk.js","Audiblecouk.js","Waterstones.js","LibraryThing.js","delicious.js","copac.js","OpenLibrary.js","LibraryThingCK.js","MTAEmbed.js","juiceOverlay-0.3.js","juiceDefault.css");
 	juice.onJsLoaded(runExtensions);
 //	setTimeout(function(){juice.debugOutln(juice.JsNotLoaded());},5000)
 });

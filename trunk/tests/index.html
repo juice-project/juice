@@ -9,7 +9,7 @@
   </style>
 
   <!-- test framework  -->
-  <script type="text/javascript" src="../jquery-1.3.2.js"></script> 
+  <script type="text/javascript" src="../jquery-1.4.4.min.js"></script> 
   <script type="text/javascript" src="qunit/testrunner.js"></script>
 
   <!-- juice -->
@@ -19,12 +19,12 @@
   <script type="text/javascript" src="unit/demo.js"></script>
   <script type="text/javascript" src="unit/juice-core-tests.js"></script>
   <script type="text/javascript" src="unit/juice-meta-tests.js"></script>
+  <script type="text/javascript" src="unit/loading.js"></script>
 
 </head>
 <body id="body">
-  <h1>Juice test suite</h1>
-  <h2 id="banner"></h2>
-  <h2 id="userAgent"></h2>
+  <h2 id="qunit-header">Juice test suite</h2>
+  <h2 id="qunit-userAgent"></h2>
 
   <div class="juice-meta-tests">
     <!-- not existent --> 
@@ -42,6 +42,6 @@
     <div class="e" style="display:none">content <span>this not</span> test</div>
   </div>
 
-  <ol id="tests"></ol>
+  <ol id="qunit-tests" ></ol>
   <div id="main"></div>
 </body>

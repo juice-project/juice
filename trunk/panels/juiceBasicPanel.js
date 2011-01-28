@@ -14,6 +14,6 @@ function JuiceBasicPanel(insertDiv, panelId, startClass, liveClass, showFunc){
 	JuiceBasicPanel.superclass.init.call(this,insertDiv, panelId, startClass, liveClass, showFunc);
 }
 
-JuiceBasicPanel.prototype = new JuicePanel();
+JuiceBasicPanel.prototype = juice.panel();
 JuiceBasicPanel.prototype.constructor = JuiceBasicPanel;
 JuiceBasicPanel.superclass = JuicePanel.prototype;

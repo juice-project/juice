@@ -9,11 +9,9 @@ test("test the debug function", function(){
     var msg1 = "some test debug";    
     var msg2 = "another debug message";
 
-    // run as a test unit the document alread was ready, so direct call
-    //jQuery(document).ready(function () {
-        juice.setDebug(true);
-        juice.debugOutln(msg1);
-    //});
+
+    juice.setDebug(true);
+    juice.debugOutln(msg1);
     
     // check to see if the div has been injected into the dom
     equals( $("#JuiceDebug").length, 1, "Debug div should have been injected into the dom");
@@ -29,6 +27,6 @@ test("test the debug function", function(){
 
     equals( $("#JuiceDebug").length, 1, "There should still only be one JuiceDebug div in the dom");
     equals(actualMsg, msg1+msg2, "debug message '" + msg1+msg2 + "'" );
-
     
 });
+
