@@ -1,5 +1,5 @@
 //GoogleRssFeed.js
-//Extension to embed a Google in to the page and display points passed on the map.
+//Extension to embed a Google Feed into the page.
 
 //Constructor arguments:
 //arg: ju - instance of juice
@@ -34,8 +34,10 @@ GoogleRSSFeedJuice.prototype.startRSSFeed = function(){
 }
 GoogleRSSFeedJuice.prototype.loadExtras = function(){
 	var This = this;
-	juice.loadJs("http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.js");
-	juice.loadCss("http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css");
+	//TODO retained for compatibility when extensions migrate to 0.7 version, use juice.protocol
+	var protocol=("https:" == document.location.protocol) ? 'https://' : 'http://'
+	juice.loadJs(protocol+"www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.js");
+	juice.loadCss(protocol+"www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css");
 	if(this.css){
 		juice.loadCss(this.css);		
 	}
