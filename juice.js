@@ -540,7 +540,7 @@ juice.loadGoogle_jsapi = function(){
 		if(key != ""){
 			key = "key=" + key + "&";
 		}
-		juice.loadJs("http://www.google.com/jsapi?" + key, "", function(){
+		juice.loadJs(juice.protocol+"www.google.com/jsapi?" + key, "", function(){
 			juice._googleLoadFlag = true;
 		});
 	}
