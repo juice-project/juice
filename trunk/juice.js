@@ -37,7 +37,6 @@ var juice = {
 	launchWinH : 600,
 	launchWinW : 800,
 	googleApiKey : "",
-	_googleLoadFlag : false	
 };
     
 /**
@@ -535,14 +534,12 @@ juice.JsNotLoaded = function(){
 //Google API Loading utils ----------
 
 juice.loadGoogle_jsapi = function(){
-	if(!juice._googleLoadFlag){
+	if(window.google==undefined){
 		var key = juice.googleApiKey;
 		if(key != ""){
 			key = "key=" + key + "&";
 		}
-		juice.loadJs(juice.protocol+"www.google.com/jsapi?" + key, "", function(){
-			juice._googleLoadFlag = true;
-		});
+		juice.loadJs(juice.protocol+"www.google.com/jsapi?" + key, "");
 	}
 }
 
@@ -556,8 +553,8 @@ juice.loadGoogleApi = function(api,ver,args){
 juice._loadGoogleApi = function(api,ver,args){
 	
 	juice.loadGoogle_jsapi();	//Check we have loaded the master api
-	if(juice._googleLoadFlag){
-		google.load(api, ver,{callback:function(){juice.jsOnLoadEvent(api);}})
+	if(window.google!=undefined){
+		window.google.load(api, ver,{callback:function(){juice.jsOnLoadEvent(api);}})
 	}else{
 		setTimeout(function(){juice._loadGoogleApi(api,ver,args);},20);
 	}

@@ -19,7 +19,7 @@ test("test Google API loader", function(){
 	stop();
 	juice.loadGoogle_jsapi();
 	setTimeout(function(){
-							equal(juice._googleLoadFlag, true, 'Google API should load');
+							equal(typeof window.google, 'object', 'Google API should load');
 							start();
 							}, 500);
 
@@ -33,6 +33,15 @@ test("test script loading", function(){
 													
 													start();
 													});
+});
+
+test("test loading of google apis", function(){
+	stop();
+	juice.loadGoogleApi("feeds", "1");
+	setTimeout(function(){
+							equal(typeof google.feeds, 'object', 'There should be a feeds api loaded');
+							start();
+							}, 500);
 });
 
 
