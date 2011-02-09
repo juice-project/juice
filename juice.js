@@ -36,7 +36,7 @@ var juice = {
 	popup_win : null,
 	launchWinH : 600,
 	launchWinW : 800,
-	googleApiKey : "",
+	googleApiKey : ""
 };
     
 /**
