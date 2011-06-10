@@ -1,6 +1,6 @@
-#Release notice 0.7beta
+#Release notice 0.7
 
-= Release notice 0.7beta =
+= Release notice 0.7 =
 
 This release is beta due to the large number of changes and the need to test in the wild against a variety of browsers and extension setups.
 
@@ -10,7 +10,7 @@ This release is beta due to the large number of changes and the need to test in 
 
  * *Renaming* - juice is now available under $.juice or jQuery.juice. JuiceInsert, JuiceProcess, JuiceSelectProcess and JuicePanel are now available under $.juice.insert, $.juice.process, $.juice.selectProcess and $.juice.panel. Eventually this will keep global namespace pollution down, for now the old versions are still available.
  * *JuiceOverlay* - overlay css and js are now part of the main files
- * juice.loadExtensions - a new way to load extensions if you are using the standard filesystem setup. 
+ * *juice.loadExtensions* - a new method for quickly loading extensions if you are using the standard filesystem setup. 
  * *bundling jQuery 1.4.4* -  juice has now been updated to use the latest release of jQuery. 
  * *Dual licensed* - Juice is no dual licensed under GPL and MIT, much like jQuery itself.
 
