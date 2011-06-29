@@ -1,9 +1,10 @@
 /*
- * Juice 0.7 - Javascript User Interface Framework for Extension
+ * Juice 0.71 - Javascript User Interface Framework for Extension
  * http://juice-project.googlecode.com
  *
  * Copyright (c) 2010 Talis (talis.com)
  * Originator: Richard Wallis
+ * Additions: Matt Machell
  * Dual licensed under the MIT (mit-license.txt) and GPL licenses (gpl-2.0.txt).
  *
  * $Author: richard.wallis@talis.com $
@@ -36,8 +37,15 @@ var juice = {
 	popup_win : null,
 	launchWinH : 600,
 	launchWinW : 800,
-	googleApiKey : ""
+	googleApiKey : "",
+	path:''
 };
+
+//work out base path for juice
+
+var base= $('base').attr('href') || '';
+var path= $('script[src*=/juice.js]').attr('src').replace('/juice.js','/') || '';
+juice.path=base+path;
     
 /**
  * Set Debug output state
@@ -373,8 +381,7 @@ juice.ready = juice.onAllLoaded =  function(func){
 */
 
 juice.loadExtensions = function(){
-	var path=$('script[src*=/juice.js]').first().attr('src').replace('/juice.js','/');
-
+	
 	var args = Array.prototype.slice.call(arguments);
 	args = args.slice(0, args.length);
 
@@ -382,7 +389,7 @@ juice.loadExtensions = function(){
 		if(args[i].indexOf('.js')==-1) {
 			args[i]=args[i]+'.js';
 		}
-	    juice.loadJs(path+'extensions/'+args[i],'');
+	    juice.loadJs(juice.path+'extensions/'+args[i],'');
 	    }
 }
 

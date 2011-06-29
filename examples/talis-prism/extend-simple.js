@@ -44,7 +44,7 @@ function runExtensions(){
     }   
     
     //add extended by attribution
-    new extendedbyJuice(juice);
+    new extendedbyJuice(juice, '#pageFooter');
     
 }
 
