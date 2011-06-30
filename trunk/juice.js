@@ -768,7 +768,7 @@ juice._strEndsWith = function(str,target){
 
 //map _Juice to jQuery plugin and window object (only main instance so not on prototype) TODO deprecate global juice object
 
-window.juice=jQuery.juice=juice;
+window.juice=jQuery.juice=$.juice=juice;
 
 //============== Class JuiceInsert ==============	
 //Definition of insert in to document body
