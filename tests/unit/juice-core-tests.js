@@ -30,3 +30,9 @@ test("test the debug function", function(){
     
 });
 
+test("Check aliases", function(){
+	equals(typeof $.juice,'object');
+	equals(typeof jQuery.juice, 'object');
+	equals($.juice.insert,jQuery.juice.insert);
+});
+
