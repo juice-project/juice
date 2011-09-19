@@ -1,6 +1,6 @@
 function talis_prism_metadef(){
-        $jq.juice.findMeta("isbns",".item #details .table .ISBN",$jq.juice.stringToAlphnumAray);
-        $jq.juice.findMeta("isbn",".item #details .table .ISBN");
+        $jq.juice.findMeta("isbns",".item #details .ISBN",$jq.juice.stringToAlphnumAray);
+        $jq.juice.findMeta("isbn",".item #details .ISBN");
         $jq.juice.findMeta("author",".item .summary .author .author");
         $jq.juice.findMeta("title",".item .summary .title");
         
