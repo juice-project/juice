@@ -1,6 +1,10 @@
 //GoogleMap.js
 //Extension to embed a Google in to the page and display points passed on the map.
 
+//NOTE: Google has recently introduced a rate limit for API calls to Google Maps.
+//If you expect to get more than 25,000 map requests a day then you may have to pay for usage.
+//see http://googlegeodevelopers.blogspot.com/2011/10/introduction-of-usage-limits-to-maps.html
+
 //Constructor arguments:
 //arg: ju - instance of juice
 //arg: insert - JuiceInsert for page
