@@ -87,7 +87,7 @@ test("test Meta definitions", function(){
         "d":["","Hello"],
         "d@":["","Hello"],
         "e":"content  test",
-        "n_f_g":["1234","5678"]
+        "n_f_g":[["1234"],["5678","9012"]]
     };
 
 
@@ -102,7 +102,7 @@ test("test Meta definitions", function(){
         var value = is_set[meta];
         if (typeof(value) == "object" && value.length) {
             for(var i=0; i<value.length; i++) {
-                equals( juice.getMeta(meta, i), value[i], "meta has right value: " + meta + "[" + i + "]");
+                same( juice.getMeta(meta, i), value[i], "meta has right value: " + meta + "[" + i + "]");
             }
         } else {
             equals( juice.getMeta(meta), value, "meta has right value: " + meta );
