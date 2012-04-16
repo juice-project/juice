@@ -623,9 +623,9 @@ juice.isUpper = function(value) {return $.juice.isVal(value,$.juice.uc);}
 juice.isAlpha = function(value) {return $.juice.isVal(value,$.juice.lc+$.juice.uc);}
 juice.isAlphanum = function(value) {return $.juice.isVal(value,$.juice.lc+$.juice.uc+$.juice.nums);}
 
-//Converts string of words in to an array of strings - word only included if it only conains alphanum chars
+//Converts string of words in to an array of strings - word only included if it only contains alphanum chars
 //arg: str - string to parse
-juice.stringToAlphnumAray = function(str){
+juice.stringToAlphnumAray = juice.stringToAlphnumArray = function(str){
 	var items = [];
 	var count = 0;
 	var raw = $.juice.stringToArray(str,",.:;");
@@ -645,8 +645,10 @@ juice.stringToArray = function(str,extras)
 	var seps = " \t\s\n\f\r" + extras.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); //escapes regex chars
 	var replace=new RegExp('['+seps+']','mg'); //normalises string
 	str.replace(replace, ' ');
-	return str.split(' ');
-	
+    str.replace("  "," ")
+    str=$.trim(str)
+	var spl=str.split(' ');
+    return spl;
 }
 
 //Array handling utils ----------

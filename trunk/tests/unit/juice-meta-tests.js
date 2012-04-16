@@ -61,6 +61,10 @@ test("test Meta definitions", function(){
     // complex content
     juice.findMeta("e",".e");
 
+    //whitespace issues
+
+    juice.findMeta("n_f_g", ".f .g", $.juice.stringToAlphnumArray);
+
     var is_unset = [
 		"s3","s7",
         "a", "a@", "a_f", "a@f", "a+", // .a does not exist
@@ -82,12 +86,12 @@ test("test Meta definitions", function(){
         "cf":"id: cf found 'Hello'",
         "d":["","Hello"],
         "d@":["","Hello"],
-        "e":"content  test"
+        "e":"content  test",
+        "n_f_g":["1234","5678"]
     };
 
-//    expect(is_unset.length + is_set.length);
-// for some reason above doesn't work in the Rhino version of the tester - RJW 23/07/09
-    expect(50);
+
+    expect(53);
 
     for(var i=0; i<is_unset.length; i++) {
         ok( !juice.hasMeta(is_unset[i]), "meta not set: " + is_unset[i] );
