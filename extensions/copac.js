@@ -31,6 +31,7 @@ copacJuice.prototype.searchcopac = function(){
 		var selString = isbns[0];
 		var cmd = "http://copac.ac.uk/wzgw?form=A%2FT&id=&au=&ti=&pub=&sub=&any=&fs=Search&date=&plp=&isn=" + escape(selString);
 		this._targetUrl = cmd;
+        this.launchType='current';
 		this.enable();
 	}
 }
