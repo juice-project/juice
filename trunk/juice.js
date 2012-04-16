@@ -274,7 +274,7 @@ juice.launchWin = function(uri,type,arg1,arg2){
 			var target  = juice.launchOverlayWin(arg1,arg2);
 			juice.launchIframeWin(uri,target);
 			break;
-		//TODO opening in a new window is bad practive should we remove?
+		//TODO opening in a new window is bad practice should we remove?
 		case "new":
 		default:
 			juice.launchExternalWin(uri);
@@ -642,12 +642,11 @@ juice.stringToArray = function(str,extras)
 // Other seperator chars can be added from string extras
 // Returns: an array containing the individual words
 {
-	var seps = " \t\s\n\f\r" + extras.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); //escapes regex chars
-	var replace=new RegExp('['+seps+']','mg'); //normalises string
-	str.replace(replace, ' ');
-    str.replace("  "," ")
-    str=$.trim(str)
+	var seps = " \s\t\n\f\r" + extras.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); //escapes regex chars
+	var replace=new RegExp('['+seps+']+','mg'); //normalises string
+	str=$.trim(str.replace(replace, ' '));
 	var spl=str.split(' ');
+    console.log(spl);
     return spl;
 }
 
