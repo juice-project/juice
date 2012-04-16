@@ -29,9 +29,7 @@ function AspireListJuice(target, position, service_uri, opt){
 			}
 
 			
-			
-			
-			juice.loadJs(req);
+			$.get(req, AspireCallBack);
 			
 		}
 	
