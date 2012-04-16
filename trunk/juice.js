@@ -646,7 +646,6 @@ juice.stringToArray = function(str,extras)
 	var replace=new RegExp('['+seps+']+','mg'); //normalises string
 	str=$.trim(str.replace(replace, ' '));
 	var spl=str.split(' ');
-    console.log(spl);
     return spl;
 }
 
