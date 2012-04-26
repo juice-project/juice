@@ -29,7 +29,7 @@ function AspireListJuice(target, position, service_uri, opt){
 			}
 
 			
-			$.get(req, AspireCallBack);
+			$.get(req, AspireCallBack, 'jsonp');
 			
 		}
 	
