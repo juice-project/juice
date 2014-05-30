@@ -44,7 +44,7 @@ var juice = {
 //work out base path for juice
 
 var base= $('base').attr('href') || '';
-var path= $('script[src*=/juice.js]').attr('src').replace('/juice.js','/') || '';
+var path= $('script[src*="/juice.js"]').attr('src').replace('/juice.js','/') || '';
 juice.path=base+path;
     
 /**
