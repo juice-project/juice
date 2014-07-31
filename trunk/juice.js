@@ -483,7 +483,7 @@ juice._absoluteUri = function(file, pathPrefix){
 
 //findJs - return true if script element already loaded in document
 juice.findJs = function (file){
-	var script=$('script[src*='+juice.urlRoot(file)+']');
+	var script=$('script[src*="'+juice.urlRoot(file)+'"]');
 	if(script.length>0) return true;
 	return false;
 }
