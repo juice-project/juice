@@ -1,5 +1,9 @@
 module("juice.scriptloading");
 
+test("Get juice path", function(){
+
+});
+
 test("test multi script loading", function(){
 	
 	stop(600);

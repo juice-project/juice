@@ -42,10 +42,20 @@ var juice = {
 };
 
 //work out base path for juice
+/**
+ * get path to current juice from script url
+ * @param str
+ * @returns {string}
+ */
+juice.getPath = function(str){
+    return str.replace(/\/juice(\.min)*\.js/,'/') || '';
+}
 
 var base= $('base').attr('href') || '';
-var path= $('script[src*="/juice.js"]').attr('src').replace('/juice.js','/') || '';
-juice.path=base+path;
+
+var path= juice.getPath($('script[src$="/juice.js"],script[src$="/juice.min.js"] ').attr('src'));
+
+    juice.path=base+path;
     
 /**
  * Set Debug output state
