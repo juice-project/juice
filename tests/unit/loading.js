@@ -1,6 +1,9 @@
 module("juice.scriptloading");
 
 test("Get juice path", function(){
+    equal(juice.getPath('../juice.min.js'),'../');
+    equal(juice.getPath('../juice.js'),'../');
+    equal(juice.getPath('http://localhost/js/somefolder/juice.js'), 'http://localhost/js/somefolder/');
 
 });
 
