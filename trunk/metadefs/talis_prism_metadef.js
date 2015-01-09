@@ -1,13 +1,16 @@
 function talis_prism_metadef(){
-        $jq.juice.findMeta("isbns",".item #details .ISBN",$jq.juice.stringToAlphnumAray);
-        $jq.juice.findMeta("isbn",".item #details .ISBN");
-        $jq.juice.findMeta("author",".item .summary .author .author");
-        $jq.juice.findMeta("title",".item .summary .title");
-        
-        $jq.juice.findMeta("shelfmark","#availability .options table td:nth-child(2)");             
-        $jq.juice.setMeta("location", shelf_location_mapper("#availability .options table td:nth-child(2)"));
-        $jq.juice.findMeta("workids",".item .summary > .title > a","href",talis_prism_items_workids);
-        $jq.juice.setMeta("workid",talis_prism_item_workid);
+        juice.findMeta("isbns",".item .ISBN span:not(.label)");
+        juice.findMeta("isbn",".item .ISBN span:not(.label)");
+	    juice.findMeta("available",".item .available h3 span span");
+	    juice.findMeta("publicationdate",".item .summary .publishedYear");
+	    juice.findMeta("publisher",".item .summary .publisher .publisher");
+        juice.findMeta("author",".item .summary .author .author");
+        juice.findMeta("title",".item .title a", $.trim);
+        juice.setMeta("uri",getFullURI);
+        juice.findMeta("shelfmark","#availability .options td:nth-child(2) span");
+        juice.setMeta("location", shelf_location_mapper("#availability .options td:nth-child(2) span"));
+        juice.findMeta("workids",".item .title > a","href",talis_prism_items_workids);
+        juice.setMeta("workid",talis_prism_item_workid);
 
 //		juice.debugMeta();
 }
@@ -37,7 +40,7 @@ function talis_prism_items_workids(val,id){
                         var id = path[1].split("?");
                         return id[0];
                 }
-                
+
         }
 }
 
@@ -54,4 +57,8 @@ function talis_prism_dedup(a) {
                 }
         }
         return r;
+}
+
+function getFullURI() {
+	return window.location.href;
 }
