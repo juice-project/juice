@@ -1,6 +1,7 @@
 function talis_prism_metadef(){
         juice.findMeta("isbns",".item .ISBN span:not(.label)");
         juice.findMeta("isbn",".item .ISBN span:not(.label)");
+        juice.findMeta("issn",".item #details span[itemprop=issn]");
 	    juice.findMeta("available",".item .available h3 span span");
 	    juice.findMeta("publicationdate",".item .summary .publishedYear");
 	    juice.findMeta("publisher",".item .summary .publisher .publisher");
